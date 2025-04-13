@@ -1,9 +1,14 @@
 :root {
     --bs-body-font-family: Inter, sans-serif;
+
+    --selected-gradient: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 20%, var(--gradient-color) 120%);
+    --gradient-color: black;
+    
+    --selected-background: url("../img/backgrounds/osx_yosemite.webp")
 }
 
 body {
-    background-image: url("../img/backgrounds/osx_yosemite.webp");
+    background: var(--selected-gradient), var(--selected-background);
     background-size: cover;
     background-repeat: no-repeat;
 }
