@@ -1,0 +1,56 @@
+@font-face {
+    font-family: "Azeret Mono";
+    font-style: normal;
+    font-weight: 600;
+    font-display: block;
+    src: url("../fonts/AzeretMono/AzeretMono.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-display: block;
+    src: url("../fonts/Inter/Inter.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-display: block;
+    src: url("../fonts/Lato/Lato-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-display: block;
+    src: url("../fonts/Montserrat/Montserrat.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Nunito";
+    font-style: normal;
+    font-display: block;
+    src: url("../fonts/Nunito/Nunito.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-style: normal;
+    font-display: block;
+    src: url("../fonts/Poppins/Poppins-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Raleway";
+    font-style: normal;
+    font-display: block;
+    src: url("../fonts/Raleway/Raleway.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Rubik";
+    font-style: normal;
+    font-display: block;
+    src: url("../fonts/Rubik/Rubik.woff2") format("woff2");
+}

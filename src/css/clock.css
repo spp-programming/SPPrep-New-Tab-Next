@@ -1,0 +1,14 @@
+#clock {
+    font-weight: bold;
+    font-feature-settings: "tnum";
+}
+
+#letter-day {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#letter-day-spinner {
+    --bs-spinner-width: calc(1.375rem + 1.5vw);
+    --bs-spinner-height: calc(1.375rem + 1.5vw);
+}

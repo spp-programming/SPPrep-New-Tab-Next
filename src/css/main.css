@@ -1,0 +1,9 @@
+:root {
+    --bs-body-font-family: Inter, sans-serif;
+}
+
+body {
+    background-image: url("../img/backgrounds/osx_yosemite.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
