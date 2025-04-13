@@ -1,0 +1,15 @@
+{
+  "name": "make-zip",
+  "version": "1.0.0",
+  "description": "The make-zip tool for SPP New Tab Next",
+  "main": "make-zip.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "adm-zip": "^0.5.16"
+  }
+}
