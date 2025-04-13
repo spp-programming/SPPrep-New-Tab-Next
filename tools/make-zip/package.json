@@ -5,6 +5,7 @@
   "main": "make-zip.js",
   "type": "module",
   "scripts": {
+    "start": "node make-zip.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
