@@ -7,15 +7,27 @@
     <title>New Tab</title>
     <link rel="stylesheet" href="css/thirdparty/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/emblem.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/clock.css">
 </head>
 <body>
-    <div class="d-flex flex-column min-vh-100 min-vw-100 flex-grow-1 justify-content-center align-items-center">
-        <h1 class="display-1" id="clock">12:00:00 AM</h1>
-        <h1 class="display-6" id="letter-day" tabindex="0" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="Loading the letter day. This shouldn't take long.">
-            <div class="spinner-grow" id="letter-day-spinner" role="status"></div> Loading...
-        </h1>
+    <div class="d-flex flex-column min-vh-100 min-vw-100 flex-grow-1 justify-content-center align-items-center user-select-none">
+        <h1 class="display-1" id="clock">__:__:__</h1>
+        <h1 class="display-6" id="letter-day" tabindex="0" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="Loading the letter day. This shouldn't take long.">🤔</h1>
+    </div>
+    <img class="user-select-none" id="emblem" src="./img/resources/emblem.png" alt="Saint Peter's Prep Emblem">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="error-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto">SPP New Tab</strong>
+                <small>just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="error-toast-content">
+                Something went wrong.
+            </div>
+        </div>
     </div>
     <script src="js/thirdparty/bootstrap.bundle.min.js"></script>
     <script type="module" src="js/main.js"></script>

@@ -7,6 +7,10 @@
     --selected-background: url("../img/backgrounds/osx_yosemite.webp")
 }
 
+.popover {
+    user-select: none;
+}
+
 body {
     background: var(--selected-gradient), var(--selected-background);
     background-size: cover;
