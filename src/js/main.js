@@ -50,6 +50,10 @@ function updateTimeHere() {
     updateTime(clockElement)
 }
 
+emblemElement.addEventListener("dblclick", () => {
+    console.log("open secret settings")
+})
+
 loadLetterDay()
 updateTimeHere()
 setInterval(updateTimeHere, 1) // Calling updateTime every 1000 ms causes noticeable lag (many milliseconds) so it is called every millisecond to avoid this problem
