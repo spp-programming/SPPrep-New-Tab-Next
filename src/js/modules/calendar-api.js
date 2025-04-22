@@ -19,6 +19,7 @@ const day = String(currentDateEST.getDate()).padStart(2, "0")
 const timeZoneOffsetISO = convertOffsetToISO(timeZoneOffsetMinutes)
 const timeMin = `${year}-${month}-${day}T00:00:00${timeZoneOffsetISO}` // Start of the day in EST
 const timeMax = `${year}-${month}-${day}T23:59:59${timeZoneOffsetISO}` // End of the day in EST
+export const dateString = `${month}/${day}/${year}` // Date string is used in several places (probably) and is compared against the current date in those places
 
 console.log(`timeMin is ${timeMin}`)
 console.log(`timeMax is ${timeMax}`)
@@ -64,4 +65,22 @@ function convertOffsetToISO(offsetSeconds) {
     minutes = String(minutes).padStart(2, "0")
     newOffset = newOffset.concat(`${hours}:${minutes}`)
     return newOffset
+}
+
+export function getCurrentDateString() {
+    // Get the current date in UTC
+    const currentDateUTC = new Date()
+
+    // Get the time zone offset in minutes for the current date
+    const timeZoneOffsetMinutes = getTimeZoneOffsetFromName(primaryTimeZone)
+
+    // Convert the current date to EST by adjusting according to timezone offset
+    const timeZoneOffset = -timeZoneOffsetMinutes // EST offset in minutes
+    const currentDateEST = new Date(currentDateUTC.getTime() + timeZoneOffset * 60 * 1000)
+
+    // Extract the date parts for the EST Timezone
+    const year = currentDateEST.getFullYear()
+    const month = String(currentDateEST.getMonth()+1).padStart(2, "0") // Months are 0-based in JS
+    const day = String(currentDateEST.getDate()).padStart(2, "0")
+    return `${month}/${day}/${year}`
 }

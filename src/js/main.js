@@ -8,10 +8,13 @@ function setPopoverText(triggerElement, content) {
     popover.setContent()
 }
 
-import { getTodaysEvents } from "./modules/calendar-api.js"
+import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime } from "./modules/clock-manager.js"
 import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent } from "./modules/global-constants.js"
+import { openSecretSettings } from "./modules/secret-settings.js";
+
+let checkLetterDayChangeInterval
 
 async function loadLetterDay() {
     try {
@@ -36,12 +39,24 @@ async function loadLetterDay() {
             letterDay = `${letterDay}-DAY`
         }
         letterDayElement.innerHTML = letterDay
+        checkLetterDayChangeInterval = setInterval(checkLetterDayChange, 1)
     } catch (e) {
         console.log(e)
         letterDayElement.innerHTML = "🤯"
         setPopoverText(letterDayElement, "Woah! Something went wrong. Hit refresh to try again.")
         errorToastContent.innerText = "Couldn't query School Calendar. Refresh the page to try again"
         bootstrap.Toast.getOrCreateInstance(errorToast).show()
+    }
+}
+
+function checkLetterDayChange() {
+    if (getCurrentDateString() !== dateString) {
+        console.log("date changed!")
+        console.log(`start date: ${dateString}`)
+        console.log(`current date: ${getCurrentDateString()}`)
+        letterDayElement.innerHTML = "⚠️"
+        setPopoverText(letterDayElement, "Date changed. Refresh the page to load today's letter day.")
+        clearInterval(checkLetterDayChangeInterval)
     }
 }
 
@@ -52,6 +67,7 @@ function updateTimeHere() {
 
 emblemElement.addEventListener("dblclick", () => {
     console.log("open secret settings")
+    openSecretSettings()
 })
 
 loadLetterDay()
