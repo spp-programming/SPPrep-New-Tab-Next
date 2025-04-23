@@ -23,17 +23,17 @@ async function loadLetterDay() {
         console.log(`Current Letter Day: ${letterDay}`)
         switch (letterDay) {
             case "🤷‍♂️":
-                setPopoverText(letterDayElement, "No letter day found for today. Hit refresh to try again.")
+                setPopoverText(letterDayElement, "No letter day found for today.<br>Hit refresh to try again.")
                 break
             case "😐":
-                setPopoverText(letterDayElement, "Multiple letter days were found for today. This is most probably a bug.")
+                setPopoverText(letterDayElement, "Multiple letter days were found for today.<br>This is most probably a bug.")
                 break
             default:
                 // "US/Eastern" and "EST5EDT" are linked to "America/New_York" so we have to check for them too. This may not be necessary, but I don't care. https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
                     setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY. Last updated on: ${(new Date()).toLocaleString("en-US")} (refresh to update)`)
                 } else {
-                    setPopoverText(letterDayElement, `⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone})\nThe current letter day is ${letterDay}-DAY. Last updated on: ${(new Date()).toLocaleString()} (your local time, refresh to update)`)
+                    setPopoverText(letterDayElement, `⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone})<br>The current letter day is ${letterDay}-DAY.<br>Last updated on: ${(new Date()).toLocaleString()} (your local time, refresh to update)`)
                     letterDay = `⚠️ ${letterDay}`
                 }
             letterDay = `${letterDay}-DAY`
@@ -43,8 +43,8 @@ async function loadLetterDay() {
     } catch (e) {
         console.log(e)
         letterDayElement.innerHTML = "🤯"
-        setPopoverText(letterDayElement, "Woah! Something went wrong. Hit refresh to try again.")
-        errorToastContent.innerText = "Couldn't query School Calendar. Refresh the page to try again"
+        setPopoverText(letterDayElement, "Woah! Something went wrong.<br>Hit refresh to try again.")
+        errorToastContent.innerHTML = "Couldn't query School Calendar.<br>Refresh the page to try again"
         bootstrap.Toast.getOrCreateInstance(errorToast).show()
     }
 }
@@ -55,7 +55,7 @@ function checkLetterDayChange() {
         console.log(`start date: ${dateString}`)
         console.log(`current date: ${getCurrentDateString()}`)
         letterDayElement.innerHTML = "⚠️"
-        setPopoverText(letterDayElement, "Date changed. Refresh the page to load today's letter day.")
+        setPopoverText(letterDayElement, "Date changed.<br>Refresh the page to load today's letter day.")
         clearInterval(checkLetterDayChangeInterval)
     }
 }
