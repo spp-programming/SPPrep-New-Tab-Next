@@ -17,15 +17,21 @@ export function runMigrations() {
     }
     // Run any migrations for migrationVersion 2 here.
     if (localStorage.getItem("secretSettings_fontSelection") !== null) {
-        console.log("secretSettings_fontSelection is NOT null, going to set migrationVersion to 3")
+        console.log("secretSettings_fontSelection is NOT null, running migration: Add secretSettingsVisible")
+        localStorage.setItem("secretSettingsVisible", "true")
+        console.log("secretSettingsVisible is now added, going to get migrationVersion to 3")
         localStorage.setItem("migrationVersion", "3")
     }
     if (localStorage.getItem("secretSettings_gradientSelection") !== null) {
-        console.log("secretSettings_gradientSelection is NOT null, going to set migrationVersion to 3")
+        console.log("secretSettings_gradientSelection is NOT null, running migration: Add secretSettingsVisible")
+        localStorage.setItem("secretSettingsVisible", "true")
+        console.log("secretSettingsVisible is now added, going to get migrationVersion to 3")
         localStorage.setItem("migrationVersion", "3")
     }
     if (localStorage.getItem("secretSettings_backgroundSelection") !== null) {
-        console.log("secretSettings_backgroundSelection is NOT null, going to set migrationVersion to 3")
+        console.log("secretSettings_backgroundSelection is NOT null, running migration: Add secretSettingsVisible")
+        localStorage.setItem("secretSettingsVisible", "true")
+        console.log("secretSettingsVisible is now added, going to get migrationVersion to 3")
         localStorage.setItem("migrationVersion", "3")
     }
     // Run any migrations for migrationVersion 3 here.

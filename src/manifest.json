@@ -8,5 +8,8 @@
       "48": "img/icons/extension/48.png",
       "128": "img/icons/extension/128.png"
     },
+    "action": {
+      "default_popup": "popup.html"
+    },
     "manifest_version": 3
 }
