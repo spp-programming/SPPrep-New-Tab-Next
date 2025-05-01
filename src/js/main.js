@@ -12,6 +12,7 @@ function setPopoverText(triggerElement, content) {
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+//tooltip for the bell schedule
 const bellButton = document.getElementById('bell-schedule-button');
 new bootstrap.Tooltip(bellButton);
 
