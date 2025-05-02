@@ -2,19 +2,14 @@
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerElement => new bootstrap.Popover(popoverTriggerElement))
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 function setPopoverText(triggerElement, content) {
     const popover = bootstrap.Popover.getInstance(triggerElement)
     popover._config.content = content
     popover.setContent()
 }
-
-//tooltips
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
-//tooltip for the bell schedule
-const bellButton = document.getElementById('bell-schedule-button');
-new bootstrap.Tooltip(bellButton);
 
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
