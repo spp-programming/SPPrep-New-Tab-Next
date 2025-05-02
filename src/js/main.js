@@ -12,7 +12,7 @@ import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/cal
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime } from "./modules/clock-manager.js"
 import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent } from "./modules/global-constants.js"
-import { openSecretSettings } from "./modules/secret-settings.js"
+import { openSecretSettings } from "./modules/fake-secret-settings.js"
 import { runMigrations } from "./modules/migrations.js"
 
 let checkLetterDayChangeInterval

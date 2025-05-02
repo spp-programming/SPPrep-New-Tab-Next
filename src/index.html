@@ -84,6 +84,18 @@
             </div>
         </div>
     </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3 user-select-none">
+        <div id="error-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto">SPP New Tab</strong>
+                <small>just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="error-toast-content">
+                Something went wrong.
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="secret-settings-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="secret-settings-modal-title" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -96,6 +108,7 @@
                     <p>That was a lie. The secret settings have moved somewhere else. Good luck finding them.</p>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" title="This will delete all previously set secret settings, without confirmation.">Clear secret settings</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>

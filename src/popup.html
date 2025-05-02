@@ -13,16 +13,14 @@
     <div class="content">
         <h1 id="title-text">SPP New Tab</h1>
         <small>Version 4.0</small>
-        <div id="code-entry-area">
+        <div id="code-entry-area" hidden>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Enter code" aria-label="Enter code" aria-describedby="code-confirm-button">
+                <input type="text" class="form-control" id="code-entry-input" placeholder="Enter code" aria-label="Enter code" aria-describedby="code-confirm-button">
                 <button class="btn btn-outline-success" type="button" id="code-confirm-button"><i class="bi bi-check2" aria-hidden="true"></i><span class="visually-hidden">Continue</span></button>
             </div>
-            <div class="alert alert-danger" role="alert">
-                <i class="bi bi-exclamation-triangle" aria-hidden="true"></i> Invalid code. You can try entering it again.
-            </div>
+            <div id="code-entry-alert"></div>
         </div>
-        <div id="secret-settings-area">
+        <div id="secret-settings-area" hidden>
             <h2>Secret Settings!</h2>
             <p>If you break something using these options, you can reset them by pressing "Clear settings".</p>
             <p>Changes are automatically saved, but only take effect when the New Tab page is reloaded.</p>
@@ -94,5 +92,6 @@
         <button type="button" class="btn btn-danger fixed-bottom rounded-0" id="clear-settings-button">Clear settings</button>
     </div>
     <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./js/popup.js"></script>
 </body>
 </html>

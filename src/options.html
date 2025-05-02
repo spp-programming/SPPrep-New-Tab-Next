@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPP New Tab | Settings</title>
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/options.css">
+</head>
+<body>
+    <h1>Settings</h1>
+    <hr>
+    <h4>Clear extension data</h4>
+    <p>Use this option only as a last resort. It will delete all stored data within the extension, including all settings. This resets the extension to a "factory state."</p>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clear-everything-modal">Clear ALL extension data</button>
+    <div class="modal fade" id="clear-everything-modal" tabindex="-1" aria-labelledby="clear-everything-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="clear-everything-modal-label">Confirm</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    You are about to delete ALL extension data. Please be certain, there is no going back once you continue.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Yes, I want to continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./js/modules/options.js"></script>
+</body>
+</html>
