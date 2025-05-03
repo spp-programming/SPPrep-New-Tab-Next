@@ -1,4 +1,5 @@
 "use strict";
+export const titleTextElement = document.getElementById("title-text")
 export const codeEntryInput = document.getElementById("code-entry-input")
 export const codeEntryActualCode = "upupdowndownleftrightleftrightbastart"
 export const codeEntryAlert = document.getElementById("code-entry-alert")
