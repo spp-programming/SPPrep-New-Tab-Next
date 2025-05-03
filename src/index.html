@@ -69,8 +69,19 @@
             </div>
         </div>        
     </div>
-    <a class="btn btn-dark fixed-bottom rounded-end-pill" style="right: 100%; min-width: min-content;" role="button" href="changelog.html" target="blank" id="changelog-button" title="What's New. This opens in another tab." data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="What's New"><i class="bi bi-megaphone" aria-hidden="true"></i><span class="visually-hidden">What's New</span></a>
-    <button class="btn btn-dark fixed-bottom rounded-start-pill" style="left: unset;" id="bell-schedule-button" title="Bell Schedule" data-bs-toggle="modal" data-bs-target="#bell-schedule-modal" ><i class="bi bi-bell" aria-hidden="true"></i><span class="visually-hidden">Bell Schedule</span></button>
+
+    <a class="btn btn-dark fixed-bottom rounded-end-pill" style="right: 100%; min-width: min-content;" role="button" href="changelog.html" target="blank" id="changelog-button" title="What's New. This opens in another tab." data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="What's New">
+        <i class="bi bi-megaphone" aria-hidden="true"></i>
+        <span class="visually-hidden">What's New</span>
+    </a>
+
+    <span data-bs-toggle="modal" data-bs-target="#bell-schedule-modal">
+        <a class="btn btn-dark fixed-bottom rounded-start-pill fake-link" style="left: unset;" role="button" href="#" id="bell-schedule-button" title="Bell Schedule" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Bell Schedule">
+            <i class="bi bi-bell" aria-hidden="true"></i>
+            <span class="visually-hidden">Bell Schedule</span>
+        </a>
+    </span>
+
     <img class="user-select-none" id="emblem" src="./img/resources/emblem.png" alt="Saint Peter's Prep Emblem">
     <div class="toast-container position-fixed bottom-0 end-0 p-3 user-select-none">
         <div id="error-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">

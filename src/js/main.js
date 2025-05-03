@@ -16,6 +16,7 @@ import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime } from "./modules/clock-manager.js"
 import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent } from "./modules/global-constants.js"
 import { openSecretSettings } from "./modules/fake-secret-settings.js"
+import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 
 let checkLetterDayChangeInterval
@@ -75,6 +76,7 @@ emblemElement.addEventListener("dblclick", () => {
 })
 
 runMigrations()
+handleFakeLinks()
 loadLetterDay()
 updateTimeHere()
 setInterval(updateTimeHere, 1) // Calling updateTime every 1000 ms causes noticeable lag (many milliseconds) so it is called every millisecond to avoid this problem
