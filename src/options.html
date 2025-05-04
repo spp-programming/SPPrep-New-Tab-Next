@@ -9,29 +9,60 @@
     <link rel="stylesheet" href="./css/options.css">
 </head>
 <body>
-    <h1>Settings</h1>
-    <hr>
-    <h4>Clear extension data</h4>
-    <p>Use this option only as a last resort. It will delete all stored data within the extension, including all settings. This resets the extension to a "factory state."</p>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clear-everything-modal">Clear ALL extension data</button>
-    <div class="modal fade" id="clear-everything-modal" tabindex="-1" aria-labelledby="clear-everything-modal-label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="clear-everything-modal-label">Confirm</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    You are about to delete ALL extension data. Please be certain, there is no going back once you continue.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger">Yes, I want to continue</button>
+    <nav class="navbar navbar-expand-sm sticky-top bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand fake-link" href="#">
+                <img src="./img/icons/extension/48.png" alt="SPP New Tab Logo" width="24" height="24" class="d-inline-block align-text-top">
+                SPP New Tab
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-content">
+                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="options.html"><i class="bi bi-gear"></i> Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="changelog.html"><i class="bi bi-megaphone"></i> What's New</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="bi bi-info-circle"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <h1><i class="bi bi-gear"></i> Settings</h1>
+        <hr>
+        <div class="alert alert-success align-items-center alert-dismissible fade show" id="extension-data-cleared-alert" role="alert" hidden>
+            <span><i class="bi bi-check-circle"></i> Cleared extension data! You will need to reload any existing open New Tab pages.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <h4 id="clear-data-heading">Clear extension data</h4>
+        <p>Use this option only as a last resort. It will delete all stored data within the extension, including all settings. This resets the extension to a "factory state."</p>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clear-everything-modal">Clear ALL extension data</button>
+
+        <div class="modal fade" id="clear-everything-modal" tabindex="-1" aria-labelledby="clear-everything-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="clear-everything-modal-label">Confirm</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        You are about to delete ALL extension data. Please be certain, there is no going back once you continue.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="clear-everything-modal-button">Yes, I want to continue</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./js/modules/options.js"></script>
+    <script type="module" src="./js/options.js"></script>
 </body>
 </html>
