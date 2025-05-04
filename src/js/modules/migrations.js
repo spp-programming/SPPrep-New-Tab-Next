@@ -1,4 +1,4 @@
-import { migrationVersion } from "./global-constants.js"
+import { migrationVersion, migrationToast } from "./global-constants.js"
 export function runMigrations() {
     console.log("Running migrations for localStorage")
     if (localStorage.getItem("migrationVersion") == migrationVersion) {
@@ -47,7 +47,8 @@ export function runMigrations() {
         console.log("secretSettings_backgroundSelection is now set to rainbow, going to set migrationVersion to 3.2")
         localStorage.setItem("migrationVersion", "3.2")
     }
-
+    // Migrations for migrationVersion 4 are being run below:
+    bootstrap.Toast.getOrCreateInstance(migrationToast).show()
     localStorage.setItem("migrationVersion", "4")
     
     console.log(`✅ Migrations finished! migrationVersion is ${localStorage.getItem("migrationVersion")}`)
