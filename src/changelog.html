@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPP New Tab | What's New</title>
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/changelog.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm sticky-top bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand fake-link" href="#">
+                <img src="./img/icons/extension/48.png" alt="SPP New Tab Logo" width="24" height="24" class="d-inline-block align-text-top">
+                SPP New Tab
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-content">
+                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="options.html"><i class="bi bi-gear"></i> Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="changelog.html"><i class="bi bi-megaphone"></i> What's New</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="bi bi-info-circle"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <h1><i class="bi bi-megaphone"></i> What's New</h1>
+        <div class="alert alert-info" role="alert">
+            Last updated as of version 4.0. This page reflects all changes made up to the currently installed version, but not newer ones.
+            <br>
+            If you're looking for an update to a newer version, you should wait until your device receives the update automatically. Unfortunately, we can't do anything to expedite this process.
+        </div>
+        <hr>
+        <h3>Version 4.0 (Latest, installed version)</h3>
+        <strong>This is a major release.</strong>
+        <p>🚨 TODO: Finish changelog for version 4.0</p>
+        <h3>Version 3.3 (Previous version)</h3>
+        <strong>This is a minor release because it does not contain any new major features.</strong>
+        <p>🚨 Fixed major bugs:</p>
+        <ul>
+            <li>🏃 Loading times have been significantly improved</li>
+        </ul>
+        <h3>Version 3.2 (Previous previous version)</h3>
+        <strong>This is a minor release because it does not contain any new major features.</strong>
+        <p>🚨 Fixed major bugs:</p>
+        <ul>
+            <li>🌁 Seasonal background actually changes based on the month (for real this time)</li>
+        </ul>
+        <p>🧑‍💻 Behind the scenes:</p>
+        <ul>
+            <li>🪵 Log unknown calendar entries to the console as normal priority instead of an error</li>
+        </ul>
+        <p>🎉 New features:</p>
+        <ul>
+            <li>🔄 There is now a loading spinner (because the page doesn't load instantly)</li>
+        </ul>
+        <hr>
+        <h3>Version 3.1 (Previous previous previous version)</h3>
+        <strong>This is a minor release because it does not contain any new major features.</strong>
+        <p>✅ Fixed small bugs:</p>
+        <ul>
+            <li>🥞 Buttons now stack up more neatly as needed</li>
+            <li>↔️ Added padding to this changelog page.</li>
+        </ul>
+        <p>🧑‍💻 Behind the scenes:</p>
+        <ul>
+            <li>✨ More cleanup</li>
+            <li>📝 Fonts are now compressed using woff2.</li>
+        </ul>
+        <hr>
+        <h3>Version 3.0 (Previous previous previous previous version)</h3>
+        <strong>This is a major release.</strong>
+        <p>🚨 Fixed major bugs:</p>
+        <ul>
+            <li>📅 Letter day lookup now shows the correct day, using a new secret sauce logic (NoLetter-DAY, we won't miss you)</li>
+            <li>🔔 Bell schedule button now works as intended</li>
+            <li>🆕 Bell schedule itself has been updated</li>
+        </ul>
+        <p>✅ Fixed small bugs:</p>
+        <ul>
+            <li>🕒 Time is now accurate down to the millisecond</li>
+            <li>📬 Gmail icon has been updated</li>
+            <li>🔗 Gmail, Drive, and School Calendar links are more generic (better behavior with multiple accounts)</li>
+            <li>⚡️ Minimized flash of unstyled content</li>
+            <li>📝 Better grammar and spelling</li>
+        </ul>
+        <p>🧑‍💻 Behind the scenes:</p>
+        <ul>
+            <li>✨ Refactored, more maintainable codebase</li>
+            <li>🔌 No more remote fonts! Network access is now only used for letter day lookup.</li>
+        </ul>
+        <p>🎉 New features:</p>
+        <ul>
+            <li>📜 This changelog page and its corresponding button</li>
+            <li>🗓️ Added Google Calendar button (separate from school calendar)</li>
+            <li>♿️ Accessibility improvements</li>
+            <li>❄️ New Fall/Winter background</li>
+        </ul>
+        <hr>
+        <h3>Version 2.0 (and below)</h3>
+        <strong>These versions predate the changelog feature.</strong>
+    </div>
+    <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./js/changelog.js"></script>
+</body>
+</html>

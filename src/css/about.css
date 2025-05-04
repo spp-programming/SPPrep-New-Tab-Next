@@ -1,0 +1,8 @@
+.content {
+    margin: 0.5em;
+}
+.github-fork-ribbon {
+    position: sticky !important;
+    float: right !important;
+    top: 56px !important;
+}
