@@ -2,7 +2,11 @@
     margin: 0.5em;
 }
 .github-fork-ribbon {
-    position: sticky !important;
-    float: right !important;
-    top: 56px !important;
+    position: sticky;
+    float: right;
+    top: 56px;
+}
+
+.github-fork-ribbon:after {
+    font-family: var(--bs-body-font-family);
 }
