@@ -1,5 +1,5 @@
-name: Run make-zip on each push
-run-name: Run make-zip
+name: Create zip artifact without make-zip
+run-name: Create zip artifact without make-zip
 on:
   push:
     branches:
@@ -10,18 +10,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Run "npm install"
-        run: npm install
-        working-directory: ./tools/make-zip
-      - name: Run make-zip.js
-        run: node make-zip.js
-        working-directory: ./tools/make-zip
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: out.zip
-          path: ./tools/make-zip/out.zip
+          path: ./src
