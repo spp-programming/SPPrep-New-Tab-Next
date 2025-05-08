@@ -2,6 +2,7 @@
     "name": "SPP New Tab - 2024-25",
     "version": "4.0",
     "description": "A full rewrite of SPP New Tab.",
+    "homepage_url": "https://github.com/spp-programming/SPPrep-New-Tab-Next",
     "icons": {
       "16": "img/icons/extension/16.png",
       "32": "img/icons/extension/32.png",
