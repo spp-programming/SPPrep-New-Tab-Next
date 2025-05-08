@@ -1,12 +1,9 @@
 .content {
     margin: 0.5em;
 }
-.github-fork-ribbon {
+.github-corner {
     position: sticky;
     float: right;
     top: 56px;
-}
-
-.github-fork-ribbon:after {
-    font-family: var(--bs-body-font-family);
+    z-index: 9999;
 }
