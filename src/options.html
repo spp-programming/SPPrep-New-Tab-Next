@@ -50,16 +50,20 @@
         </div>
 
         <h4>Buttons</h4>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="hide-school-calendar-check" aria-describedby="hide-school-calendar-help">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" value="" id="hide-school-calendar-check" aria-describedby="hide-school-calendar-help">
             <label class="form-check-label" for="hide-school-calendar-check">Hide School Calendar button</label>
             <p class="form-text" id="hide-school-calendar-help">If you are <a href="https://calendar.google.com/calendar/r?cid=144grand@gmail.com&cid=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&cid=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&cid=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com">subscribed to the School Calendar in your Google Calendar</a>, the dedicated School Calendar button becomes redundant. So you can disable it here if you want.</p>
         </div>
         <hr>
-        <h2 class="text-danger">Danger zone</h2>
-        <h4 id="clear-data-heading">Clear extension data</h4>
-        <p>Use this option only as a last resort. It will delete all stored data within the extension, including all settings. This resets the extension to a "factory state."</p>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clear-everything-modal">Clear ALL extension data</button>
+        <div class="card border-danger">
+            <div class="card-body">
+                <h2 class="text-danger">Danger zone</h2>
+                <h4 id="clear-data-heading">Clear extension data</h4>
+                <p>Use this option only as a last resort. It will delete all stored data within the extension, including all settings. This resets the extension to a "factory state."</p>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clear-everything-modal">Clear ALL extension data</button>
+            </div>
+        </div>
 
         <div class="modal fade" id="clear-everything-modal" tabindex="-1" aria-labelledby="clear-everything-modal-label" aria-hidden="true">
             <div class="modal-dialog">
