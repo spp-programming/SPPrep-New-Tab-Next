@@ -3,3 +3,13 @@
     height: 45px;
     object-fit: cover;
 }
+
+#button-container {
+    display: flex;
+    align-items: center;
+    align-content: flex-start;
+    justify-content: center;
+    row-gap: 1.5rem;
+    width: 95vw;
+    flex-wrap: wrap;
+}
