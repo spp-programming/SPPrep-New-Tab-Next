@@ -12,6 +12,6 @@
     "action": {
       "default_popup": "popup.html"
     },
-    "options_page": "options.html",
+    "options_page": "settings.html",
     "manifest_version": 3
 }
