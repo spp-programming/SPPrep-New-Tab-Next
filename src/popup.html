@@ -13,83 +13,9 @@
     <div class="content">
         <h1 class="user-select-none" id="title-text">SPP New Tab</h1>
         <small>Version 4.0</small>
-        <div id="code-entry-area" hidden>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" id="code-entry-input" placeholder="Enter code" aria-label="Enter code" aria-describedby="code-confirm-button">
-                <button class="btn btn-outline-success" type="button" id="code-confirm-button"><i class="bi bi-check2" aria-hidden="true"></i><span class="visually-hidden">Continue</span></button>
-            </div>
-            <div id="code-entry-alert"></div>
-        </div>
-        <div id="secret-settings-area" hidden>
-            <h2>Secret Settings!</h2>
-            <div class="alert alert-info" role="alert">
-                Changes are automatically saved, but only take effect when the New Tab page is reloaded.
-            </div>              
-            
-            <div class="mb-3">
-                <label for="secret-changelog" class="form-label">Secret changelog</label>
-                <br>
-                <div class="d-grid gap-2">
-                    <a class="btn btn-outline-secondary" id="secret-changelog" href="secret-changelog.html" target="_blank" role="button" title="Secret changelog page. This opens in a new tab."><i class="bi bi-book"></i> Open secret changelog</a>
-                </div>
-                <div class="form-text" id="secret-changelog-help">The secret changelog contains information on new secret features and bug fixes.</div>
-            </div>
-            <div class="mb-3">
-                <label for="font-selection" class="form-label">Font family</label>
-                <select class="form-select" id="font-selection" aria-label="Font selection">
-                    <option value="azeret-mono" selected>Azeret Mono (default)</option>
-                    <option value="sans-serif">sans-serif (System)</option>
-                    <option value="inter">Inter</option>
-                    <option value="lato">Lato</option>
-                    <option value="montserrat">Montserrat</option>
-                    <option value="nunito">Nunito</option>
-                    <option value="poppins">Poppins</option>
-                    <option value="raleway">Raleway</option>
-                    <option value="rubik">Rubik</option>
-                </select>
-                <div class="form-text" id="font-selection-help">This option changes the font used on the New Tab page.</div>
-                <div class="alert alert-light" id="font-preview" role="alert">
-                    This is the font you have selected.
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="background-selection" class="form-label">Background image</label>
-                <select class="form-select" id="background-selection" aria-label="Background selection">
-                    <option value="seasonal" selected>Seasonal backgrounds (default)</option>
-                    <hr>
-                    <optgroup label="Manually select a seasonal background (kept indefinitely):">
-                        <option value="msc-building">MSC Building (default for Spring and Summer)</option>
-                        <option value="snow">Snow (default for Fall and Winter)</option>
-                    </optgroup>
-                    <hr>
-                    <optgroup label="Or, pick a secret background:">
-                        <option value="bliss">Bliss - Windows XP</option>
-                        <option value="osx-tiger">OS X 10.4 "Tiger"</option>
-                        <option value="osx-leopard">OS X 10.5 "Leopard"</option>
-                        <option value="osx-lion">OS X 10.7 "Lion"</option>
-                        <option value="osx-yosemite">OS X 10.10 "Yosemite"</option>
-                        <option value="snow-low-quality">Snow (Low quality)</option>
-                        <option value="original-fall-winter">Original Fall/Winter</option>
-                        <option value="street-view">Street View</option>
-                        <option value="street-view-better">Street View (better)</option>
-                        <option value="rainbow">Rainbow</option>
-                    </optgroup>
-                </select>
-                <div class="form-text" id="background-selection-help">This option changes the background used on the New Tab page. There was supposed to be some meme options here, but it probably wouldn't have gotten approved.</div>
-                <img src="img/spring_summer.webp" class="img-fluid rounded" id="background-preview" alt="Your selected background image" hidden>
-                <div class="form-text" id="background-preview-notes" hidden>There's nothing to say about this background.</div>
-            </div>
-            <div class="mb-3">
-                <label for="gradient-selection" class="form-label">Gradient color</label>
-                <div class="input-group">
-                    <input type="color" class="form-control form-control-color" id="gradient-selection" value="#9b042a" title="Choose your preferred color.">
-                    <button type="button" class="btn btn-outline-secondary" id="gradient-selection-reset"><i class="bi bi-arrow-left"></i> Use default: #9b042a</button>
-                </div>
-                <div class="form-text" id="gradient-selection-help">This option changes the gradient color used on the New Tab page. You can't configure transparency.</div>
-            </div>
-        </div>
+        <br>
+        <a href="settings.html" target="_blank">Open settings...</a>
     </div>
     <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./js/popup.js"></script>
 </body>
 </html>
