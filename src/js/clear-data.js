@@ -1,4 +1,5 @@
 import { clearEverythingModalButton } from "./modules/clear-data-constants.js"
+import { handleFakeLinks } from "./modules/fake-links.js"
 
 function clearExtensionData() {
     localStorage.clear()
@@ -6,7 +7,8 @@ function clearExtensionData() {
     chrome.runtime.reload()
 }
 
-
 clearEverythingModalButton.addEventListener("click", () => {
     clearExtensionData()
 })
+
+handleFakeLinks()
