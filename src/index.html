@@ -91,20 +91,36 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="secret-settings-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="secret-settings-modal-title" aria-hidden="true">
+    <div class="modal fade" id="passcode-modal" tabindex="-1" aria-labelledby="passcode-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="secret-settings-modal-title">Secret settings</h1>
+                    <h1 class="modal-title fs-5" id="passcode-modal-label">Enter passcode</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h1>You found it!</h1>
-                    <p>That was a lie. The secret settings have moved somewhere else. Good luck finding them.</p>
+                    <p>Enter the passcode using the controls below, then press "Check passcode"</p>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control has-icons" id="passcode-modal-input" placeholder="Use these controls 👇" minlength="10" maxlength="10" aria-hidden="true" disabled>
+                        <button class="btn btn-outline-secondary" type="button" id="passcode-modal-input-clear" title="Clear the passcode entry box."><i class="bi bi-x-lg"></i> Clear passcode</button>
+                    </div>
+                    <img src="img/resources/nes_controller.svg" class="user-select-none img-fluid" id="controller-image" alt="Nintendo NES controller" draggable="false" usemap="#controller-image-map">
+                    <map name="controller-image-map">
+                        <area target="_self" alt="Button A" href="#" title="Button A" id="controller-button-a" coords="509,179,28" shape="circle">
+                        <area target="_self" alt="Button B" href="#" title="Button B" id="controller-button-b" coords="430,179,29" shape="circle">
+                        <area target="_self" alt="Start" href="#" title="Start" id="controller-button-start" coords="300,170,349,190" shape="rect">
+                        <area target="_self" alt="Select" href="#" title="Select" id="controller-button-select" coords="216,170,265,190" shape="rect">
+                        <area target="_self" alt="Up" href="#" title="Up" id="controller-button-up" coords="81,90,121,131" shape="rect">
+                        <area target="_self" alt="Right" href="#" title="Right" id="controller-button-right" coords="119,129,160,169" shape="rect">
+                        <area target="_self" alt="Down" href="#" title="Down" id="controller-button-down" coords="81,167,121,208" shape="rect">
+                        <area target="_self" alt="Left" href="#" title="Left" id="controller-button-left" coords="43,129,83,169" shape="rect">
+                    </map>
+                    <span class="form-text">Image by <a href="https://commons.wikimedia.org/w/index.php?title=User:Fant0men" target="_blank">User:Fant0men on Wikimedia Commons</a>, CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=2378328" target="_blank">https://commons.wikimedia.org/w/index.php?curid=2378328</a></span>
+                    <div id="passcode-modal-alert"></div>
                 </div>
                 <div class="modal-footer">
-                    <a role="button" href="settings.html#clear-data-heading" target="_blank" class="btn btn-warning" title="This will delete all previously set secret settings, without confirmation.">Clear secret settings...</a>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger me-auto" id="passcode-modal-settings-clear" title="Clear all secret settings, then refresh the page."><i class="bi bi-stars"></i> Clear settings</button>
+                    <button type="button" class="btn btn-primary" id="passcode-modal-verify" title="Check the passcode, and continue if it is correct."><i class="bi bi-key"></i> Check passcode</button>
                 </div>
             </div>
         </div>
@@ -129,6 +145,7 @@
         </div>
     </div>
     <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
+    <script src="./js/thirdparty/imageMapResizer.min.js"></script>
     <script type="module" src="./js/main.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/cal
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime } from "./modules/clock-manager.js"
 import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent } from "./modules/global-constants.js"
-import { openSecretSettings } from "./modules/fake-secret-settings.js"
+import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 
@@ -71,8 +71,8 @@ function updateTimeHere() {
 }
 
 emblemElement.addEventListener("dblclick", () => {
-    console.log("open secret settings")
-    openSecretSettings()
+    console.log("open passcode modal")
+    openPasscodeModal()
 })
 
 runMigrations()
