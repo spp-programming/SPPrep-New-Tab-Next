@@ -22,13 +22,13 @@
             <div class="collapse navbar-collapse" id="navbar-content">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active fake-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle active fake-link" aria-current="page" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-gear"></i> Settings
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="settings.html" aria-current="page"><i class="bi bi-gear"></i> Settings</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
                             <li><a class="dropdown-item" href="secret-settings.html"><i class="bi bi-file-lock"></i> Secret Settings</a></li>
-                            <li><a class="dropdown-item" href="clear-data.html"><i class="bi bi-trash3"></i> Clear extension data</a></li>
+                            <li><a class="dropdown-item" href="clear-data.html" aria-current="page"><i class="bi bi-trash3"></i> Clear extension data</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -47,21 +47,31 @@
         </div>
     </nav>
     <div class="content">
-        <h1><i class="bi bi-gear"></i> Settings</h1>
-        <div class="alert alert-warning" role="alert">
-            <h3>Remember</h3>
-            Don't forget to save your changes by pressing the Save button at the bottom of the page.
-        </div>
-        <hr>
+        <h1><i class="bi bi-trash3"></i> Clear extension data</a></h1>
+        <p>This option will delete all stored data within the extension, including all settings, so use this with care.</p>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clear-everything-modal"><i class="bi bi-trash3"></i> Clear ALL extension data</button>
 
-        <h4>Buttons</h4>
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" value="" id="hide-school-calendar-check" aria-describedby="hide-school-calendar-help">
-            <label class="form-check-label" for="hide-school-calendar-check">Hide School Calendar button</label>
-            <p class="form-text" id="hide-school-calendar-help">If you are <a href="https://calendar.google.com/calendar/r?cid=144grand@gmail.com&cid=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&cid=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&cid=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com">subscribed to the School Calendar in your Google Calendar</a>, the dedicated School Calendar button becomes redundant. So you can disable it here if you want.</p>
+        <div class="modal fade" id="clear-everything-modal" tabindex="-1" aria-labelledby="clear-everything-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="clear-everything-modal-label"><i class="bi bi-trash3"></i> Confirm</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <span class="text-danger">You are about to delete <strong>ALL extension data</strong>. Please be certain, there is <strong>no going back</strong> once you continue.</span>
+                        <br>
+                        As part of this process, the extension will be reloaded, closing all extension pages.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i> Cancel</button>
+                        <button type="button" class="btn btn-danger" id="clear-everything-modal-button"><i class="bi bi-check-lg"></i> Yes, I want to continue</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./js/settings.js"></script>
+    <script type="module" src="./js/clear-data.js"></script>
 </body>
 </html>
