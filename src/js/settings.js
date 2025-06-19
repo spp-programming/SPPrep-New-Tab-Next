@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 import { handleFakeLinks } from "./modules/fake-links.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

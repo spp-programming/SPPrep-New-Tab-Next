@@ -1,3 +1,4 @@
+"use strict"
 import { migrationVersion, migrationToast } from "./global-constants.js"
 export function runMigrations() {
     console.log("Running migrations for localStorage")

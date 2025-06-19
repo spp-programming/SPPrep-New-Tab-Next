@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 import { calendarApiKey, calendarApiId, primaryTimeZone } from "./global-constants.js"
 
 // Get the current date in UTC

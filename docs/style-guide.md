@@ -8,10 +8,12 @@ There are certain conventions that should be used within the source code here to
 [ECMAScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) are used extensively. **If you think something should go in a module, it probably does.** Examples of this include `calendar-api.js` and `letter-day-extractor.js`. Things like `main.js` and `popup.js` are **specific to pages** and should be the **only JavaScript file** sourced directly from HTML files, except for third-party dependencies (like Bootstrap).
 
 ### Use strict mode
-[Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) should be used on all JavaScript files, unless it is a third-party dependency. To do this, add `"use strict";` at the very top of the file.
+[Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) should be used on all JavaScript files, unless it is a third-party dependency. To do this, add `"use strict"` at the very top of the file.
+> [!NOTE]
+> Although ECMAScript modules automatically use strict mode, the explicit `"use strict"` statement should still be used in modules for consistency.
 
 ### Semicolons
-Semicolons are **absoulutely prohibited** unless it is strictly required. The strict mode line (described above) is considered an exception.
+Semicolons are **absoulutely prohibited** unless it is strictly required.
 
 ### Naming conventions
 Use [camelCase](https://en.wikipedia.org/wiki/Camel_case) for naming functions, variables, among other things.

@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 export const primaryTimeZone = "America/New_York"
 export const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 export const calendarApiKey = "AIzaSyD3GwU8oQO5OEgUO6DbwgdsaO8SShJYkQ8"

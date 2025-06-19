@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 import { secretSettingsContent, secretSettingsDisabledContent } from "./modules/secret-settings-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 

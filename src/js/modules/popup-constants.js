@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 export const titleTextElement = document.getElementById("title-text")
 export const codeEntryInput = document.getElementById("code-entry-input")
 export const codeEntryActualCode = "xyzzy" // This is the secret settings password. If you went out of your way to find this, you deserve it!

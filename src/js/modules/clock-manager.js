@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 export function updateTime(clockElement) {
     const d = new Date()
     const currentTime = `${d.getHours() % 12 == 0 ? 12 : d.getHours() % 12}:${d

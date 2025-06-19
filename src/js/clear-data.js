@@ -1,3 +1,4 @@
+"use strict"
 import { clearEverythingModalButton } from "./modules/clear-data-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 

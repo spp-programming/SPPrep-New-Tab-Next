@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 import { passcodeModal } from "./global-constants.js"
 const passcodeModalBS = new bootstrap.Modal(passcodeModal)
 
