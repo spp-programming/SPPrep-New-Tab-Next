@@ -13,7 +13,7 @@ There are certain conventions that should be used within the source code here to
 > Although ECMAScript modules automatically use strict mode, the explicit `"use strict"` statement should still be used in modules for consistency.
 
 ### Semicolons
-Semicolons are **absoulutely prohibited** unless it is strictly required.
+Semicolons are **absolutely prohibited** unless it is strictly required.
 
 ### Naming conventions
 Use [camelCase](https://en.wikipedia.org/wiki/Camel_case) for naming functions, variables, among other things.
