@@ -14,10 +14,11 @@ function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime } from "./modules/clock-manager.js"
-import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent } from "./modules/global-constants.js"
+import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
+import { getInternalConfigMode } from "./modules/config-mode.js"
 
 let checkLetterDayChangeInterval
 
@@ -65,6 +66,21 @@ function checkLetterDayChange() {
     }
 }
 
+async function applyInternalConfigModeChanges() {
+    const internalConfigMode = await getInternalConfigMode()
+    switch (internalConfigMode) {
+        case "student":
+            powerSchoolButton.href = powerSchoolStudentURL
+            break
+        case "staff":
+            powerSchoolButton.href = powerSchoolTeacherURL
+            break
+    }
+    if (internalConfigMode === "staff") {
+        powerSchoolButton.href = powerSchoolTeacherURL
+    }
+}
+
 function updateTimeHere() {
     // This function serves as a CORS workaround when used in setInterval.
     updateTime(clockElement)
@@ -78,5 +94,6 @@ emblemElement.addEventListener("dblclick", () => {
 runMigrations()
 handleFakeLinks()
 loadLetterDay()
+applyInternalConfigModeChanges()
 updateTimeHere()
 setInterval(updateTimeHere, 1) // Calling updateTime every 1000 ms causes noticeable lag (many milliseconds) so it is called every millisecond to avoid this problem
