@@ -1,0 +1,13 @@
+{
+  "name": "prepare-extension",
+  "version": "1.0.0",
+  "description": "The prepare-extension tool for SPP New Tab Next",
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "prepare-extension.js",
+  "scripts": {
+    "start": "node prepare-extension.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

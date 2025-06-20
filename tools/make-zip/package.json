@@ -1,6 +1,6 @@
 {
   "name": "make-zip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The make-zip tool for SPP New Tab Next",
   "main": "make-zip.js",
   "type": "module",

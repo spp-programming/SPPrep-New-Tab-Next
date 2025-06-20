@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import AdmZip from "adm-zip"
-import path from "node:path"
+"use strict"
+import { AdmZip } from "adm-zip"
+import { join } from "node:path"
 
-const srcFolder = path.join(import.meta.dirname, "..", "..", "src")
-const zipLocation = path.join(import.meta.dirname, "out.zip")
+const srcFolder = join(import.meta.dirname, "..", "..", "src.prepared")
+const zipLocation = join(import.meta.dirname, "out.zip")
 const zipFile = new AdmZip()
 
 console.log(`srcFolder is ${srcFolder}`)

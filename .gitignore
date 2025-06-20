@@ -1,1 +1,4 @@
 .DS_Store
+/src/internal-config.json
+/src/manifest.json
+/src.prepared
