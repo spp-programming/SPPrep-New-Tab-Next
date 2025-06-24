@@ -20,6 +20,13 @@ export const errorToast = document.getElementById("error-toast")
 export const errorToastContent = document.getElementById("error-toast-content")
 export const migrationToast = document.getElementById("migration-toast")
 export const passcodeModal = document.getElementById("passcode-modal")
+export const passcodeModalTitle = document.getElementById("passcode-modal-label")
+export const passcodeModalBody = document.querySelector("#passcode-modal .modal-body")
+export const passcodeModalVerifyButton = document.getElementById("passcode-modal-verify")
+export const passcodeModalInput = document.getElementById("passcode-modal-input")
+export const passcodeModalInputClearButton = document.getElementById("passcode-modal-input-clear")
+export const passcodeModalControllerButtons = document.getElementsByClassName("controller-button")
+export const passcodeModalPasscode = "\u{1F53C} \u{1F53C} \u{1F53D} \u{1F53D} \u{25C0}\u{FE0F} \u{25B6}\u{FE0F} \u{25C0}\u{FE0F} \u{25B6}\u{FE0F} \u{1F171}\u{FE0F} \u{1F170}\u{FE0F} \u{1F3C3}\u{200D}\u{27A1}\u{FE0F} " // The Unicode-escaped emoji sequence representing the passcode. The spaces in between and at the end are very important.
 
 // DO NOT touch this unless you also change the version number. It should match the extension's version number, only using decimals when necessary. Example: version 4.0 ==> 4, version 3.2 ==> 3.2
 export const migrationVersion = 4
