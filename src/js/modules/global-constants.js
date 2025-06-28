@@ -27,6 +27,18 @@ export const passcodeModalInput = document.getElementById("passcode-modal-input"
 export const passcodeModalInputClearButton = document.getElementById("passcode-modal-input-clear")
 export const passcodeModalControllerButtons = document.getElementsByClassName("controller-button")
 export const passcodeModalPasscode = "\u{1F53C} \u{1F53C} \u{1F53D} \u{1F53D} \u{25C0}\u{FE0F} \u{25B6}\u{FE0F} \u{25C0}\u{FE0F} \u{25B6}\u{FE0F} \u{1F171}\u{FE0F} \u{1F170}\u{FE0F} \u{1F3C3}\u{200D}\u{27A1}\u{FE0F} " // The Unicode-escaped emoji sequence representing the passcode. The spaces in between and at the end are very important.
+export const backgroundBliss = "./img/backgrounds/bliss_windows_xp.webp"
+export const backgroundStaffStaring = "./img/backgrounds/staff_staring.webp"
+export const backgroundOsxLeopard = "./img/backgrounds/osx_leopard.webp"
+export const backgroundOsxLion = "./img/backgrounds/osx_lion.webp"
+export const backgroundOsxTiger = "./img/backgrounds/osx_tiger.webp"
+export const backgroundOsxYosemite = "./img/backgrounds/osx_yosemite.webp"
+export const backgroundSnowLowQuality = "./img/backgrounds/snow_low_quality.webp"
+export const backgroundSnow = "./img/backgrounds/snow.webp"
+export const backgroundMscBuilding = "./img/backgrounds/msc_building.webp"
+export const backgroundStreetView = "./img/backgrounds/street_view.webp"
+export const backgroundStreetViewBetter = "./img/backgrounds/street_view_better.webp"
+export const backgroundRainbow = "./img/backgrounds/rainbow.webp"
 
 // DO NOT touch this unless you also change the version number. It should match the extension's version number, only using decimals when necessary. Example: version 4.0 ==> 4, version 3.2 ==> 3.2
 export const migrationVersion = 4
