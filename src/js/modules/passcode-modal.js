@@ -2,15 +2,16 @@
 import { passcodeModal, passcodeModalInput, passcodeModalInputClearButton, passcodeModalControllerButtons, passcodeModalVerifyButton, passcodeModalPasscode, passcodeModalTitle, passcodeModalBody } from "./global-constants.js"
 const passcodeModalBS = new bootstrap.Modal(passcodeModal)
 
-export function openPasscodeModal() {
-    if (localStorage.getItem("secretSettingsVisible") === "true") {
+export async function openPasscodeModal() {
+    const secretSettingsVisible = (await chrome.storage.local.get(["secretSettingsVisible"]))["secretSettingsVisible"]
+    if (secretSettingsVisible === "true") {
         showSecretSettingsContent()
     }
     passcodeModalBS.show()
 }
 
-export function enableSecretSettings() {
-    localStorage.setItem("secretSettingsVisible", "true")
+export async function enableSecretSettings() {
+    await chrome.storage.local.set({ secretSettingsVisible: "true" })
 }
 
 function showSecretSettingsContent() {

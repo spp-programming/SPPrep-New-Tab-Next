@@ -2,9 +2,9 @@
 import { clearEverythingModalButton } from "./modules/clear-data-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 
-function clearExtensionData() {
-    localStorage.clear()
-    console.log("cleared localStorage!")
+async function clearExtensionData() {
+    await chrome.storage.local.clear()
+    console.log("cleared extension storage!")
     chrome.runtime.reload()
 }
 

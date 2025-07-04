@@ -12,13 +12,7 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new boo
 let changesWereMade = false
 
 runMigrations()
-
-if (localStorage.getItem("secretSettingsVisible") === "true") {
-    secretSettingsContent.hidden = false
-} else {
-    secretSettingsDisabledContent.hidden = false
-}
-
+handleSecretSettingsVisibility()
 handleFakeLinks()
 
 secretSettingsDisableSwitch.addEventListener("change", () => {
@@ -49,6 +43,16 @@ secretSettingsFontSelection.addEventListener("change", () => {
     handleBeforeUnload()
     updateFontPreview()
 })
+
+async function handleSecretSettingsVisibility() {
+    const secretSettingsVisible = (await chrome.storage.local.get(["secretSettingsVisible"]))["secretSettingsVisible"]
+
+    if (secretSettingsVisible === "true") {
+        secretSettingsContent.hidden = false
+    } else {
+        secretSettingsDisabledContent.hidden = false
+    }
+}
 
 secretSettingsCustomBackgroundUploader.addEventListener("change", handleCustomBackgroundUploaderChange)
 
@@ -94,10 +98,10 @@ async function constructCustomBackgroundURL() {
     })
 }
 
-function loadSecretSettings() {
-    const storedBackgroundSelection = localStorage.getItem("secretSettings_backgroundSelection")
-    const storedFontSelection = localStorage.getItem("secretSettings_fontSelection")
-    const storedGradientSelection = localStorage.getItem("secretSettings_gradientSelection")
+async function loadSecretSettings() {
+    const storedBackgroundSelection = (await chrome.storage.local.get(["secretSettings_backgroundSelection"]))["secretSettings_backgroundSelection"]
+    const storedFontSelection = (await chrome.storage.local.get(["secretSettings_fontSelection"]))["secretSettings_fontSelection"]
+    const storedGradientSelection = (await chrome.storage.local.get(["secretSettings_gradientSelection"]))["secretSettings_gradientSelection"]
     if (validBackgrounds.includes(storedBackgroundSelection)) {
         secretSettingsBackgroundSelection.value = storedBackgroundSelection
     }
@@ -220,9 +224,11 @@ function handleBeforeUnload() {
         })
     }
 }
-
-loadSecretSettings()
-updateFontPreview()
-updateBackgroundPreview()
-secretSettingsBackgroundPreview.hidden = false
-secretSettingsBackgroundPreviewNotes.hidden = false
+async function loadStuff() {
+    await loadSecretSettings()
+    updateFontPreview()
+    updateBackgroundPreview()
+    secretSettingsBackgroundPreview.hidden = false
+    secretSettingsBackgroundPreviewNotes.hidden = false
+}
+loadStuff()

@@ -12,6 +12,10 @@
     "action": {
       "default_popup": "popup.html"
     },
+    "permissions": [
+      "storage",
+      "unlimitedStorage"
+    ],
     "options_page": "settings.html",
     "manifest_version": 3
 }

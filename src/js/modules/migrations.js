@@ -1,60 +1,64 @@
 "use strict"
 import { migrationVersion, migrationToast } from "./global-constants.js"
-export function runMigrations() {
-    console.log("Running migrations for localStorage")
-    if (localStorage.getItem("migrationVersion") == migrationVersion) {
-        console.log(`✅ migrationVersion is ${migrationVersion}, no migrations necessary.`)
-        return "success"
-    }
-    if (localStorage.getItem("migrationVersion") === null) {
-        console.log(`🤔 migrationVersion is null, going to check if migrations are necessary.`)
-    }
-    // Run any migrations for migrationVersion 1 and below, if that's even possible, here.
-    if (localStorage.getItem("lastExecutionDate") !== null) {
-        console.log("lastExecutionDate is NOT null, running migration: Remove lastExecutionDate")
+
+async function migrateLocalStorage() {
+    console.log("🚚 Migrating localStorage to extension storage")
+    const lastExecutionDate = localStorage.getItem("lastExecutionDate")
+    const secretSettingsFontSelection = localStorage.getItem("secretSettings_fontSelection")
+    const secretSettingsGradientSelection = localStorage.getItem("secretSettings_gradientSelection")
+    const secretSettingsBackgroundSelection = localStorage.getItem("secretSettings_backgroundSelection")
+    if (lastExecutionDate !== null) {
+        console.log("📦 lastExecutionDate is NOT null, running localStorage migration: Remove lastExecutionDate entirely")
         localStorage.removeItem("lastExecutionDate")
-        console.log("lastExecutionDate is now removed, going to get migrationVersion to 2")
-        localStorage.setItem("migrationVersion", "2")
     }
-    // Run any migrations for migrationVersion 2 here.
-    if (localStorage.getItem("secretSettings_fontSelection") !== null) {
-        console.log("secretSettings_fontSelection is NOT null, running migration: Add secretSettingsVisible")
-        localStorage.setItem("secretSettingsVisible", "true")
-        console.log("secretSettingsVisible is now added, going to get migrationVersion to 3")
-        localStorage.setItem("migrationVersion", "3")
+    if (secretSettingsFontSelection !== null) {
+        console.log("📦 secretSettings_fontSelection is NOT null, migrating secretSettings_fontSelection to extension storage and setting secretSettingsVisible")
+        await chrome.storage.local.set({ secretSettingsVisible: "true" })
+        await chrome.storage.local.set({ secretSettingsFontSelection: secretSettingsFontSelection })
+        localStorage.removeItem("secretSettingsVisible")
+        localStorage.removeItem("secretSettings_fontSelection")
     }
-    if (localStorage.getItem("secretSettings_gradientSelection") !== null) {
-        console.log("secretSettings_gradientSelection is NOT null, running migration: Add secretSettingsVisible")
-        localStorage.setItem("secretSettingsVisible", "true")
-        console.log("secretSettingsVisible is now added, going to get migrationVersion to 3")
-        localStorage.setItem("migrationVersion", "3")
+    if (secretSettingsGradientSelection !== null) {
+        console.log("📦 secretSettings_gradientSelection is NOT null, migrating secretSettings_gradientSelection to extension storage and setting secretSettingsVisible")
+        await chrome.storage.local.set({ secretSettingsVisible: "true" })
+        await chrome.storage.local.set({ secretSettingsGradientSelection: secretSettingsGradientSelection })
+        localStorage.removeItem("secretSettingsVisible")
+        localStorage.removeItem("secretSettings_gradientSelection")
     }
-    if (localStorage.getItem("secretSettings_backgroundSelection") !== null) {
-        console.log("secretSettings_backgroundSelection is NOT null, running migration: Add secretSettingsVisible")
-        localStorage.setItem("secretSettingsVisible", "true")
-        console.log("secretSettingsVisible is now added, going to get migrationVersion to 3")
-        localStorage.setItem("migrationVersion", "3")
+    if (secretSettingsBackgroundSelection !== null) {
+        console.log("📦 secretSettings_backgroundSelection is NOT null, migrating secretSettings_backgroundSelection to extension storage and setting secretSettingsVisible")
+        await chrome.storage.local.set({ secretSettingsVisible: "true" })
+        await chrome.storage.local.set({ secretSettingsBackgroundSelection: secretSettingsBackgroundSelection })
+        if (secretSettingsBackgroundSelection === "rickroll") {
+            console.log("📦 secretSettings_backgroundSelection is rickroll, setting it to rainbow")
+            await chrome.storage.local.set({ secretSettingsBackgroundSelection: "rainbow" })
+        }
+        localStorage.removeItem("secretSettingsVisible")
+        localStorage.removeItem("secretSettings_backgroundSelection")
     }
-    // Run any migrations for migrationVersion 3 here.
-    if (~ ["osx-tiger", "osx-leopard", "osx-lion", "osx-yosemite"].indexOf(localStorage.getItem("secretSettings_backgroundSelection"))) {
-        console.log("secretSettings_backgroundSelection contains OS X wallpapers, going to set migrationVersion to 3.1")
-        localStorage.setItem("migrationVersion", "3.1")
+    console.log("📦 Deleting migrationVersion from localStorage (NOT from extension storage)")
+    localStorage.removeItem("migrationVersion")
+    console.log("✅ Migrated localStorage to extension storage!")
+}
+
+export async function runMigrations() {
+    console.log("🔍 Running migrations")
+    const storedMigrationVersion = (await chrome.storage.local.get(["migrationVersion"]))["migrationVersion"]
+    if (storedMigrationVersion == migrationVersion) {
+        console.log(`✅ migrationVersion is ${migrationVersion}, no migrations necessary.`)
+        return
     }
-    // Run any migrations for migrationVersion 3.1 here.
-    // Migrations for migrationVersion 3.2 are being run below:
-    if (localStorage.getItem("secretSettings_backgroundSelection") === "rickroll") {
-        console.log("secretSettings_backgroundSelection is rickroll, running migration: Rickroll compatibility fix")
-        localStorage.setItem("secretSettings_backgroundSelection", "rainbow")
-        console.log("secretSettings_backgroundSelection is now set to rainbow, going to set migrationVersion to 3.2")
-        localStorage.setItem("migrationVersion", "3.2")
+    if (storedMigrationVersion === undefined) {
+        console.log(`💾 migrationVersion is undefined, migrating localStorage to extension storage...`)
+        await migrateLocalStorage()
     }
-    // Migrations for migrationVersion 4 are being run below:
+    // Run any specific migrations for certain migrationVersion values here. There aren't any right now, but this is just for futureproofing.
     try {
         bootstrap.Toast.getOrCreateInstance(migrationToast).show()
     } catch {
-        console.log("Failed to show migrationToast. This is expected if the current page is not index.html")
+        console.log("🤔 Failed to show migrationToast. This is expected if the current page is not index.html")
     }
-    localStorage.setItem("migrationVersion", "4")
-    
-    console.log(`✅ Migrations finished! migrationVersion is ${localStorage.getItem("migrationVersion")}`)
+    await chrome.storage.local.set({ migrationVersion: migrationVersion })
+    const storedMigrationVersionNew = (await chrome.storage.local.get(["migrationVersion"]))["migrationVersion"]
+    console.log(`✅ Migrations finished! migrationVersion is ${storedMigrationVersionNew}`)
 }
