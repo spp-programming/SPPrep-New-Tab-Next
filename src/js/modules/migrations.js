@@ -49,7 +49,11 @@ export function runMigrations() {
         localStorage.setItem("migrationVersion", "3.2")
     }
     // Migrations for migrationVersion 4 are being run below:
-    bootstrap.Toast.getOrCreateInstance(migrationToast).show()
+    try {
+        bootstrap.Toast.getOrCreateInstance(migrationToast).show()
+    } catch {
+        console.log("Failed to show migrationToast. This is expected if the current page is not index.html")
+    }
     localStorage.setItem("migrationVersion", "4")
     
     console.log(`✅ Migrations finished! migrationVersion is ${localStorage.getItem("migrationVersion")}`)

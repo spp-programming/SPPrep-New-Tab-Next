@@ -1,10 +1,10 @@
 "use strict"
-import { secretSettingsContent, secretSettingsDisabledContent, secretSettingsDisableSwitch } from "./modules/secret-settings-constants.js"
+import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { secretSettingsFontSelection, secretSettingsFontPreview, secretSettingsBackgroundPreview, secretSettingsBackgroundSelection, secretSettingsBackgroundPreviewNotes, secretSettingsGradientSelection, secretSettingsGradientSelectionReset} from "./modules/secret-settings-constants.js"
-import { backgroundBliss, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundSnow, backgroundStaffStaring, backgroundStreetView } from "./modules/global-constants.js"
+import { backgroundBliss, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundRainbow, backgroundSnow, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, selectImageImage, validBackgrounds, validFonts } from "./modules/global-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -23,6 +23,10 @@ handleFakeLinks()
 
 secretSettingsDisableSwitch.addEventListener("change", () => {
     handleBeforeUnload()
+    secretSettingsWhenEnabled.hidden = false
+    if (secretSettingsDisableSwitch.checked) {
+        secretSettingsWhenEnabled.hidden = true
+    }
 })
 
 secretSettingsGradientSelection.addEventListener("change", () => {
@@ -46,9 +50,76 @@ secretSettingsFontSelection.addEventListener("change", () => {
     updateFontPreview()
 })
 
-function updateBackgroundPreview() {
+secretSettingsCustomBackgroundUploader.addEventListener("change", handleCustomBackgroundUploaderChange)
+
+async function handleCustomBackgroundUploaderChange() {
     handleBeforeUnload()
+    secretSettingsCustomBackgroundUploader.disabled = true
+    let backgroundURL
+    if (!validateCustomBackgroundFileList()) {
+        secretSettingsCustomBackgroundUploader.value = ""
+        secretSettingsBackgroundPreview.setAttribute("src", selectImageImage)
+    } else {
+        backgroundURL = await constructCustomBackgroundURL()
+        secretSettingsBackgroundPreview.setAttribute("src", backgroundURL)
+    }
+    secretSettingsCustomBackgroundUploader.disabled = false
+    return backgroundURL
+}
+
+function validateCustomBackgroundFileList() {
+    secretSettingsCustomBackgroundAlertWrapper.innerHTML = ""
+    if (secretSettingsCustomBackgroundUploader.files.length === 0) {
+        console.log("Custom background validator: No files selected.")
+        return false
+    }
+    if (secretSettingsCustomBackgroundUploader.files[0].size > 2000000) {
+        console.error(`Custom background validator: File "${secretSettingsCustomBackgroundUploader.files[0].name}" is larger than 2000000 bytes!`)
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible" role="alert"><div><i class="bi bi-exclamation-triangle"></i> File is larger than 2 megabytes! Reduce the file size of your image before trying again.</div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        return false
+    }
+    return true
+}
+
+async function constructCustomBackgroundURL() {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader()
+        fileReader.addEventListener("load", () => {
+            resolve(fileReader.result)
+        })
+        fileReader.addEventListener("error", () => {
+            reject()
+        })
+        fileReader.readAsDataURL(secretSettingsCustomBackgroundUploader.files[0])
+    })
+}
+
+function loadSecretSettings() {
+    const storedBackgroundSelection = localStorage.getItem("secretSettings_backgroundSelection")
+    const storedFontSelection = localStorage.getItem("secretSettings_fontSelection")
+    const storedGradientSelection = localStorage.getItem("secretSettings_gradientSelection")
+    if (validBackgrounds.includes(storedBackgroundSelection)) {
+        secretSettingsBackgroundSelection.value = storedBackgroundSelection
+    }
+    if (storedBackgroundSelection === "custom") {
+        secretSettingsCustomBackgroundSection.hidden = false
+    }
+    if (validFonts.includes(storedFontSelection)) {
+        secretSettingsFontSelection.value = storedFontSelection
+    }
+    if (/^#[0-9A-F]{6}$/i.test(storedGradientSelection)) {
+        secretSettingsGradientSelection.value = storedGradientSelection
+    }
+}
+
+function updateBackgroundPreview() {
+    secretSettingsCustomBackgroundSection.hidden = true
     switch (secretSettingsBackgroundSelection.value) {
+        case "custom":
+            secretSettingsCustomBackgroundSection.hidden = false
+            secretSettingsBackgroundPreview.setAttribute("src", selectImageImage)
+            secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
+            break
         case "seasonal":
             secretSettingsBackgroundPreview.setAttribute("src", getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate()))
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background will change automatically based on the seasons. There are only two images we can use, so a given image is actually used for two seasons."
@@ -94,7 +165,7 @@ function updateBackgroundPreview() {
             secretSettingsBackgroundPreviewNotes.innerHTML = "This is a Google Street View screenshot, dating back to 2012. This version of the background was shared on the Programming Club Discord server and is included as-is.<br>Image attribution: &copy; 2024 Google"
             break
         case "street-view-better":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundStaffStaring)
+            secretSettingsBackgroundPreview.setAttribute("src", backgroundStreetViewBetter)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This is a Google Street View screenshot, dating back to 2012. This background has a greater field of view and resolution, compared to the other version.<br>Image attribution: &copy; 2024 Google"
             break
         case "rainbow":
@@ -150,6 +221,7 @@ function handleBeforeUnload() {
     }
 }
 
+loadSecretSettings()
 updateFontPreview()
 updateBackgroundPreview()
 secretSettingsBackgroundPreview.hidden = false
