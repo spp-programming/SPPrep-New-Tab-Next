@@ -1,5 +1,5 @@
 "use strict"
-import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
+import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsSaveButton, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
@@ -12,6 +12,7 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new boo
 let changesWereMade = false
 
 let storedCustomBackground
+let uploadedCustomBackground
 
 runMigrations()
 handleSecretSettingsVisibility()
@@ -46,6 +47,10 @@ secretSettingsFontSelection.addEventListener("change", () => {
     updateFontPreview()
 })
 
+secretSettingsSaveButton.addEventListener("click", () => {
+    saveSecretSettings()
+})
+
 async function handleSecretSettingsVisibility() {
     const secretSettingsVisible = (await chrome.storage.local.get(["secretSettingsVisible"]))["secretSettingsVisible"]
 
@@ -65,12 +70,13 @@ async function handleCustomBackgroundUploaderChange() {
     if (!validateCustomBackgroundFileList()) {
         secretSettingsCustomBackgroundUploader.value = ""
         secretSettingsBackgroundPreview.setAttribute("src", selectImageImage)
+        uploadedCustomBackground = undefined
     } else {
         backgroundURL = await constructCustomBackgroundURL()
         secretSettingsBackgroundPreview.setAttribute("src", backgroundURL)
+        uploadedCustomBackground = backgroundURL
     }
     secretSettingsCustomBackgroundUploader.disabled = false
-    return backgroundURL
 }
 
 function validateCustomBackgroundFileList() {
@@ -122,6 +128,33 @@ async function loadSecretSettings() {
     }
 }
 
+async function saveSecretSettings() {
+    secretSettingsDisableSwitch.disabled = true
+    secretSettingsFontSelection.disabled = true
+    secretSettingsBackgroundSelection.disabled = true
+    secretSettingsCustomBackgroundUploader.disabled = true
+    secretSettingsGradientSelection.disabled = true
+    secretSettingsSaveButton.disabled = true
+    secretSettingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
+    if (secretSettingsDisableSwitch.checked) {
+        await chrome.storage.local.remove(["secretSettings_customBackground"])
+        await chrome.storage.local.remove(["secretSettings_backgroundSelection"])
+        await chrome.storage.local.remove(["secretSettings_fontSelection"])
+        await chrome.storage.local.remove(["secretSettings_gradientSelection"])
+        await chrome.storage.local.remove(["secretSettingsVisible"])
+    } else {
+        if (uploadedCustomBackground === undefined && storedCustomBackground === undefined) {
+            await chrome.storage.local.remove(["secretSettings_customBackground"])
+        } else {
+            await chrome.storage.local.set({ secretSettings_customBackground: uploadedCustomBackground })
+        }
+        await chrome.storage.local.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection.value })
+        await chrome.storage.local.set({ secretSettings_fontSelection: secretSettingsFontSelection.value })
+        await chrome.storage.local.set({ secretSettings_gradientSelection: secretSettingsGradientSelection.value }) 
+    }
+    chrome.runtime.reload()
+}
+
 function updateBackgroundPreview() {
     secretSettingsCustomBackgroundSection.hidden = true
     switch (secretSettingsBackgroundSelection.value) {
@@ -130,6 +163,9 @@ function updateBackgroundPreview() {
             secretSettingsBackgroundPreview.setAttribute("src", selectImageImage)
             if (storedCustomBackground !== undefined) {
                 secretSettingsBackgroundPreview.setAttribute("src", storedCustomBackground)
+            }
+            if (uploadedCustomBackground !== undefined) {
+                secretSettingsBackgroundPreview.setAttribute("src", uploadedCustomBackground)
             }
             secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
             break
@@ -182,7 +218,7 @@ function updateBackgroundPreview() {
             secretSettingsBackgroundPreviewNotes.innerHTML = "This is a Google Street View screenshot, dating back to 2012. This background has a greater field of view and resolution, compared to the other version.<br>Image attribution: &copy; 2024 Google"
             break
         case "rainbow":
-            secretSettingsBackgroundPreview.setAttribute("src", "./img/backgrounds/rainbow.svg")
+            secretSettingsBackgroundPreview.setAttribute("src", backgroundRainbow)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background is an SVG. I could've just used CSS to make an animation like this, but the SVG works anywhere images do, which makes this the lazy option."
             break
         default:
