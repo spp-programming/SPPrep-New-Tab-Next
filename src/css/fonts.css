@@ -54,3 +54,39 @@
     font-display: block;
     src: url("../fonts/Rubik/Rubik.woff2") format("woff2");
 }
+
+.font-azeret-mono {
+    font-family: "Azeret Mono", monospace !important;
+}
+
+.font-sans-serif {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+.font-inter {
+    font-family: Inter, sans-serif;
+}
+
+.font-lato {
+    font-family: Lato, sans-serif;
+}
+
+.font-montserrat {
+    font-family: Montserrat, sans-serif;
+}
+
+.font-nunito {
+    font-family: Nunito, sans-serif;
+}
+
+.font-poppins {
+    font-family: Poppins, sans-serif;
+}
+
+.font-raleway {
+    font-family: Raleway, sans-serif;
+}
+
+.font-rubik {
+    font-family: Rubik, sans-serif;
+}

@@ -11,6 +11,8 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new boo
 
 let changesWereMade = false
 
+let storedCustomBackground
+
 runMigrations()
 handleSecretSettingsVisibility()
 handleFakeLinks()
@@ -77,9 +79,9 @@ function validateCustomBackgroundFileList() {
         console.log("Custom background validator: No files selected.")
         return false
     }
-    if (secretSettingsCustomBackgroundUploader.files[0].size > 2000000) {
-        console.error(`Custom background validator: File "${secretSettingsCustomBackgroundUploader.files[0].name}" is larger than 2000000 bytes!`)
-        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible" role="alert"><div><i class="bi bi-exclamation-triangle"></i> File is larger than 2 megabytes! Reduce the file size of your image before trying again.</div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+    if (secretSettingsCustomBackgroundUploader.files[0].size > 5000000) {
+        console.error(`Custom background validator: File "${secretSettingsCustomBackgroundUploader.files[0].name}" is larger than 5000000 bytes!`)
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible" role="alert"><div><i class="bi bi-exclamation-triangle"></i> File is larger than 5 megabytes! Reduce the file size of your image before trying again.</div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         return false
     }
     return true
@@ -100,12 +102,16 @@ async function constructCustomBackgroundURL() {
 
 async function loadSecretSettings() {
     const storedBackgroundSelection = (await chrome.storage.local.get(["secretSettings_backgroundSelection"]))["secretSettings_backgroundSelection"]
+    storedCustomBackground = (await chrome.storage.local.get(["secretSettings_customBackground"]))["secretSettings_customBackground"]
     const storedFontSelection = (await chrome.storage.local.get(["secretSettings_fontSelection"]))["secretSettings_fontSelection"]
     const storedGradientSelection = (await chrome.storage.local.get(["secretSettings_gradientSelection"]))["secretSettings_gradientSelection"]
     if (validBackgrounds.includes(storedBackgroundSelection)) {
         secretSettingsBackgroundSelection.value = storedBackgroundSelection
     }
     if (storedBackgroundSelection === "custom") {
+        if (storedCustomBackground !== undefined) {
+            secretSettingsBackgroundPreview.setAttribute("src", storedCustomBackground)
+        }
         secretSettingsCustomBackgroundSection.hidden = false
     }
     if (validFonts.includes(storedFontSelection)) {
@@ -122,6 +128,9 @@ function updateBackgroundPreview() {
         case "custom":
             secretSettingsCustomBackgroundSection.hidden = false
             secretSettingsBackgroundPreview.setAttribute("src", selectImageImage)
+            if (storedCustomBackground !== undefined) {
+                secretSettingsBackgroundPreview.setAttribute("src", storedCustomBackground)
+            }
             secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
             break
         case "seasonal":
@@ -183,36 +192,37 @@ function updateBackgroundPreview() {
 }
 
 function updateFontPreview() {
+    secretSettingsFontPreview.classList.remove.apply(secretSettingsFontPreview.classList, Array.from(secretSettingsFontPreview.classList).filter(v=>v.startsWith("font-"))) // Stolen from https://stackoverflow.com/a/53002208
     switch (secretSettingsFontSelection.value) {
         case "azeret-mono":
-            secretSettingsFontPreview.style.setProperty("font-family", "Azeret Mono, monospace", "important")
+            secretSettingsFontPreview.classList.add("font-azeret-mono")
             break
         case "sans-serif":
-            secretSettingsFontPreview.style.setProperty("font-family", "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif", "important")
+            secretSettingsFontPreview.classList.add("font-sans-serif")
             break
         case "inter":
-            secretSettingsFontPreview.style.setProperty("font-family", "Inter, sans-serif", "important")
-            break
+            secretSettingsFontPreview.classList.add("font-inter")
+        break
         case "lato":
-            secretSettingsFontPreview.style.setProperty("font-family", "Lato, sans-serif", "important")
+            secretSettingsFontPreview.classList.add("font-lato")
             break
         case "montserrat":
-            secretSettingsFontPreview.style.setProperty("font-family", "Montserrat, sans-serif", "important")
+            secretSettingsFontPreview.classList.add("font-montserrat")
             break
         case "nunito":
-            secretSettingsFontPreview.style.setProperty("font-family", "Nunito, sans-serif", "important")
+            secretSettingsFontPreview.classList.add("font-nunito")
             break
         case "poppins":
-            secretSettingsFontPreview.style.setProperty("font-family", "Poppins, sans-serif", "important")
+            secretSettingsFontPreview.classList.add("font-poppins")
             break
         case "raleway":
-            secretSettingsFontPreview.style.setProperty("font-family", "Raleway, sans-serif", "important")
+            secretSettingsFontPreview.classList.add("font-raleway")
             break
         case "rubik":
-            secretSettingsFontPreview.style.setProperty("font-family", "Rubik, sans-serif", "important")
+            secretSettingsFontPreview.classList.add("font-rubik")
             break
         default:
-            secretSettingsFontPreview.style.setProperty("font-family", "Azeret Mono, monospace", "important")
+            secretSettingsFontPreview.classList.add("font-azeret-mono")
     }
 }
 
