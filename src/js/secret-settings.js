@@ -270,9 +270,9 @@ function handleBeforeUnload() {
 }
 async function loadStuff() {
     await runMigrations()
-    handleSecretSettingsVisibility()
     handleFakeLinks()
     await loadSecretSettings()
+    handleSecretSettingsVisibility()
     updateFontPreview()
     updateBackgroundPreview()
     secretSettingsBackgroundPreview.hidden = false
