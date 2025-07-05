@@ -1,10 +1,7 @@
 :root {
-    --bs-body-font-family: Inter, sans-serif;
-
     --selected-gradient: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 20%, var(--gradient-color) 120%);
     --gradient-color: black;
-    
-    --selected-background: url("../img/backgrounds/osx_yosemite.webp")
+    --selected-background: black;
 }
 
 .popover {
