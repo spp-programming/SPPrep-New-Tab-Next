@@ -87,7 +87,7 @@ function validateCustomBackgroundFileList() {
     }
     if (secretSettingsCustomBackgroundUploader.files[0].size > 5000000) {
         console.error(`Custom background validator: File "${secretSettingsCustomBackgroundUploader.files[0].name}" is larger than 5000000 bytes!`)
-        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible" role="alert"><div><i class="bi bi-exclamation-triangle"></i> File is larger than 5 megabytes! Reduce the file size of your image before trying again.</div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 5 megabytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         return false
     }
     return true
