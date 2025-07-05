@@ -61,6 +61,7 @@ secretSettingsCustomBackgroundUploader.addEventListener("change", handleCustomBa
 
 async function handleCustomBackgroundUploaderChange() {
     handleBeforeUnload()
+    secretSettingsBackgroundSelection.disabled = true
     secretSettingsCustomBackgroundUploader.disabled = true
     secretSettingsSaveButton.disabled = true
     let backgroundURL
@@ -73,6 +74,7 @@ async function handleCustomBackgroundUploaderChange() {
         secretSettingsBackgroundPreview.setAttribute("src", backgroundURL)
         uploadedCustomBackground = backgroundURL
     }
+    secretSettingsBackgroundSelection.disabled = false
     secretSettingsCustomBackgroundUploader.disabled = false
     secretSettingsSaveButton.disabled = false
 }
