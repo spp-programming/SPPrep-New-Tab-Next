@@ -14,10 +14,6 @@ let changesWereMade = false
 let storedCustomBackground
 let uploadedCustomBackground
 
-runMigrations()
-handleSecretSettingsVisibility()
-handleFakeLinks()
-
 secretSettingsDisableSwitch.addEventListener("change", () => {
     handleBeforeUnload()
     secretSettingsWhenEnabled.hidden = false
@@ -271,6 +267,9 @@ function handleBeforeUnload() {
     }
 }
 async function loadStuff() {
+    await runMigrations()
+    handleSecretSettingsVisibility()
+    handleFakeLinks()
     await loadSecretSettings()
     updateFontPreview()
     updateBackgroundPreview()

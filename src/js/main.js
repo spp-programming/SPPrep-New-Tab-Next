@@ -86,14 +86,18 @@ function updateTimeHere() {
     updateTime(clockElement)
 }
 
+async function loadStuff() {
+    await runMigrations()
+    handleFakeLinks()
+    loadLetterDay()
+    applyInternalConfigModeChanges()
+    updateTimeHere()
+    setInterval(updateTimeHere, 1) // Calling updateTime every 1000 ms causes noticeable lag (many milliseconds) so it is called every millisecond to avoid this problem
+}
+
 emblemElement.addEventListener("dblclick", () => {
     console.log("open passcode modal")
     openPasscodeModal()
 })
 
-runMigrations()
-handleFakeLinks()
-loadLetterDay()
-applyInternalConfigModeChanges()
-updateTimeHere()
-setInterval(updateTimeHere, 1) // Calling updateTime every 1000 ms causes noticeable lag (many milliseconds) so it is called every millisecond to avoid this problem
+loadStuff()
