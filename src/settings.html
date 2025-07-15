@@ -57,9 +57,99 @@
 
         <h4>Buttons</h4>
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" value="" id="hide-school-calendar-check" aria-describedby="hide-school-calendar-help">
-            <label class="form-check-label" for="hide-school-calendar-check">Hide School Calendar button</label>
-            <p class="form-text" id="hide-school-calendar-help">If you are <a href="https://calendar.google.com/calendar/r?cid=144grand@gmail.com&cid=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&cid=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&cid=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com">subscribed to the School Calendar in your Google Calendar</a>, the dedicated School Calendar button becomes redundant. So you can disable it here if you want.</p>
+            <input class="form-check-input" type="checkbox" role="switch" id="hide-school-calendar-switch" aria-describedby="hide-school-calendar-switch-help">
+            <label class="form-check-label" for="hide-school-calendar-switch">Hide School Calendar button</label>
+        </div>
+        <p class="form-text" id="hide-school-calendar-switch-help">If you are <a href="https://calendar.google.com/calendar/r?cid=144grand@gmail.com&cid=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&cid=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&cid=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com">subscribed to the School Calendar in your Google Calendar</a>, the dedicated School Calendar button becomes redundant. So you can disable it here if you want.</p>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="enable-custom-links-switch" aria-describedby="enable-custom-links-switch-help">
+            <label class="form-check-label" for="enable-custom-links-switch">Enable custom links</label>
+        </div>
+        <p class="form-text" id="enable-custom-links-switch-help">Custom links allow you to add your own buttons to SPP New Tab, linking you to your favorite sites. You can add up to three.</p>
+        <div id="custom-link-cards" hidden>
+            <div class="mb-3" id="custom-link-1-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Custom link #1</h5>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-1-switch">
+                                <label class="form-check-label" for="custom-link-1-switch">Enable custom link #1</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p>Required fields are marked with <span class="text-danger">*</span>. They are only required when this custom link is enabled.</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="custom-link-1-input-name" class="form-label">Name</label>
+                            <input type="text" placeholder="Default name: Custom link #1" class="form-control" id="custom-link-1-name-input" aria-describedby="custom-link-1-input-name-help" disabled>
+                            <div id="custom-link-1-input-name-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="custom-link-1-input-url" class="form-label">URL <span class="text-danger">*</span></label>
+                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-1-url-input" aria-describedby="custom-link-1-input-url-help" disabled>
+                            <div id="custom-link-1-input-url-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3" id="custom-link-2-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Custom link #2</h5>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-2-switch">
+                                <label class="form-check-label" for="custom-link-2-switch">Enable custom link #2</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p>Required fields are marked with <span class="text-danger">*</span>. They are only required when this custom link is enabled.</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="custom-link-2-input-name" class="form-label">Name</label>
+                            <input type="text" placeholder="Default name: Custom link #2" class="form-control" id="custom-link-2-name-input" aria-describedby="custom-link-2-input-name-help" disabled>
+                            <div id="custom-link-2-input-name-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="custom-link-2-input-url" class="form-label">URL <span class="text-danger">*</span></label>
+                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-2-url-input" aria-describedby="custom-link-2-input-url-help" disabled>
+                            <div id="custom-link-2-input-url-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3" id="custom-link-3-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Custom link #3</h5>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-3-switch">
+                                <label class="form-check-label" for="custom-link-3-switch">Enable custom link #3</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p>Required fields are marked with <span class="text-danger">*</span>. They are only required when this custom link is enabled.</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="custom-link-3-input-name" class="form-label">Name</label>
+                            <input type="text" placeholder="Default name: Custom link #3" class="form-control" id="custom-link-3-name-input" aria-describedby="custom-link-3-input-name-help" disabled>
+                            <div id="custom-link-3-input-name-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="custom-link-3-input-url" class="form-label">URL <span class="text-danger">*</span></label>
+                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-3-url-input" aria-describedby="custom-link-3-input-url-help" disabled>
+                            <div id="custom-link-3-input-url-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="mb-3">
+            <button class="btn btn-primary" id="save-button"><i class="bi bi-floppy" aria-hidden="true"></i> <span>Save</span></button>
+            <div class="form-text" id="save-button-help">The extension will be reloaded once you save.</div>
         </div>
     </div>
     <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
