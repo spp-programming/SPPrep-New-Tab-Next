@@ -1,7 +1,8 @@
 # The (heavily opinionated) Style Guide
 There are certain conventions that should be used within the source code here to keep things consistent.
 > [!IMPORTANT]
-> If you disagree with something here, you should discuss it with other members before making any changes. Changing important sections of this without discussing it first wastes our precious time.
+> Note the use of "should" on the line above. These are suggestions. You are strongly recommended to follow these guidelines, but they aren't absolutely required.
+> If you disagree with something here, you should discuss it with other members before making any changes. This ensures that everyone is on the same page with regards to this stuff. Thanks!
 
 ## JavaScript
 ### Use ESM
