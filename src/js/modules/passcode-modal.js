@@ -16,7 +16,7 @@ export async function enableSecretSettings() {
 
 function showSecretSettingsContent() {
     passcodeModalTitle.innerText = "Secret Settings"
-    passcodeModalBody.innerHTML = "<h2>Secret Settings are enabled!</h2><p>Secret Settings have been moved to its own page.<br><a href=\"./secret-settings.html\">Check it out</a>.</p>"
+    passcodeModalBody.innerHTML = "<h2>Secret Settings are enabled!</h2><p>They have been moved to a dedicated page.<br><a href=\"./secret-settings.html\">Check it out</a>.</p>"
     passcodeModalVerifyButton.hidden = true
 }
 
