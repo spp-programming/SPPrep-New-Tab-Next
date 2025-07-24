@@ -90,7 +90,13 @@ async function loadAllSettings() {
     switch (storedBackgroundSelection) {
         case "custom":
             if (storedCustomBackground !== undefined) {
-                document.documentElement.style.setProperty("--selected-background", `url("${storedCustomBackground}")`)
+                try {
+                    const backgroundBlob = (await (await fetch(storedCustomBackground)).blob())
+                    document.documentElement.style.setProperty("--selected-background", `url("${URL.createObjectURL(backgroundBlob)}")`)
+                } catch (error) {
+                    // If fetch() fails for whatever reason (for example, on an invalid data URL), just log the error but move on with the rest of the function.
+                    console.error(error)
+                }
             }
             break
         // Yes, the extra dot in the URL is intentional. This shit is so stupid
