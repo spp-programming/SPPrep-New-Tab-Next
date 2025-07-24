@@ -14,11 +14,12 @@ function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime } from "./modules/clock-manager.js"
-import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL } from "./modules/global-constants.js"
+import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getInternalConfigMode } from "./modules/config-mode.js"
+import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 
 let checkLetterDayChangeInterval
 
@@ -81,6 +82,68 @@ async function applyInternalConfigModeChanges() {
     }
 }
 
+async function loadAllSettings() {
+    const storedBackgroundSelection = (await chrome.storage.local.get(["secretSettings_backgroundSelection"]))["secretSettings_backgroundSelection"]
+    const storedCustomBackground = (await chrome.storage.local.get(["secretSettings_customBackground"]))["secretSettings_customBackground"]
+    const storedFontSelection = (await chrome.storage.local.get(["secretSettings_fontSelection"]))["secretSettings_fontSelection"]
+    const storedGradientSelection = (await chrome.storage.local.get(["secretSettings_gradientSelection"]))["secretSettings_gradientSelection"]
+    switch (storedBackgroundSelection) {
+        case "custom":
+            if (storedCustomBackground !== undefined) {
+                document.documentElement.style.setProperty("--selected-background", `url("${storedCustomBackground}")`)
+            }
+            break
+        case "seasonal":
+            document.documentElement.style.setProperty("--selected-background", getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate()))
+            break
+        // Yes, the extra dot in the URL is intentional. This shit is so stupid
+        case "bliss":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundBliss}")`)
+            break
+        case "osx-tiger":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxTiger}")`)
+            break
+        case "osx-leopard":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxLeopard}")`)
+            break
+        case "osx-lion":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxLion}")`)
+            break
+        case "osx-yosemite":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxYosemite}")`)
+            break
+        case "msc-building":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundMscBuilding}")`)
+            break
+        case "snow":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundSnow}")`)
+            break
+        case "snow-low-quality":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundSnowLowQuality}")`)
+            break
+        case "original-fall-winter":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStaffStaring}")`)
+            break
+        case "street-view":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStreetView}")`)
+            break
+        case "street-view-better":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStreetViewBetter}")`)
+            break
+        case "rainbow":
+            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundRainbow}")`)
+            break
+        default:
+            document.documentElement.style.setProperty("--selected-background", getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate()))
+    }
+    if (validFonts.includes(storedFontSelection)) {
+        document.documentElement.classList.add(`font-${storedFontSelection}`)
+    }
+    if (/^#[0-9A-F]{6}$/i.test(storedGradientSelection)) {
+        document.documentElement.style.setProperty("--gradient-color", storedGradientSelection)
+    }
+}
+
 function updateTimeHere() {
     // This function serves as a CORS workaround when used in setInterval.
     updateTime(clockElement)
@@ -89,10 +152,11 @@ function updateTimeHere() {
 async function loadStuff() {
     await runMigrations()
     handleFakeLinks()
-    loadLetterDay()
+    loadLetterDay() // Don't use await here, we don't want to wait for this to finish before continuing.
     applyInternalConfigModeChanges()
     updateTimeHere()
     setInterval(updateTimeHere, 1) // Calling updateTime every 1000 ms causes noticeable lag (many milliseconds) so it is called every millisecond to avoid this problem
+    await loadAllSettings()
 }
 
 emblemElement.addEventListener("dblclick", () => {
