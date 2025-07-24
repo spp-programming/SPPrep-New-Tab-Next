@@ -93,10 +93,10 @@ async function loadAllSettings() {
                 document.documentElement.style.setProperty("--selected-background", `url("${storedCustomBackground}")`)
             }
             break
-        case "seasonal":
-            document.documentElement.style.setProperty("--selected-background", getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate()))
-            break
         // Yes, the extra dot in the URL is intentional. This shit is so stupid
+        case "seasonal":
+            document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
+            break
         case "bliss":
             document.documentElement.style.setProperty("--selected-background", `url(".${backgroundBliss}")`)
             break
@@ -134,7 +134,7 @@ async function loadAllSettings() {
             document.documentElement.style.setProperty("--selected-background", `url(".${backgroundRainbow}")`)
             break
         default:
-            document.documentElement.style.setProperty("--selected-background", getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate()))
+            document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
     }
     if (validFonts.includes(storedFontSelection)) {
         document.documentElement.classList.add(`font-${storedFontSelection}`)
