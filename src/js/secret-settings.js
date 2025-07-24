@@ -10,6 +10,7 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
 
 let changesWereMade = false
+let aboutToReload = false
 
 let storedCustomBackground
 let uploadedCustomBackground
@@ -152,6 +153,7 @@ async function saveSecretSettings() {
         await chrome.storage.local.set({ secretSettings_fontSelection: secretSettingsFontSelection.value })
         await chrome.storage.local.set({ secretSettings_gradientSelection: secretSettingsGradientSelection.value }) 
     }
+    aboutToReload = true
     chrome.runtime.reload()
 }
 
@@ -266,10 +268,14 @@ function handleBeforeUnload() {
     if (changesWereMade === false) {
         changesWereMade = true
         window.addEventListener("beforeunload", (event) => {
+            if (aboutToReload === true) {
+                return
+            }
             event.preventDefault()
         })
     }
 }
+
 async function loadStuff() {
     await runMigrations()
     handleFakeLinks()
