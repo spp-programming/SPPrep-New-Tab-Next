@@ -149,6 +149,9 @@ async function saveSecretSettings() {
         } else {
             await chrome.storage.local.set({ secretSettings_customBackground: uploadedCustomBackground })
         }
+        if (secretSettingsBackgroundSelection.value !== "custom") {
+            await chrome.storage.local.remove(["secretSettings_customBackground"])
+        }
         await chrome.storage.local.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection.value })
         await chrome.storage.local.set({ secretSettings_fontSelection: secretSettingsFontSelection.value })
         await chrome.storage.local.set({ secretSettings_gradientSelection: secretSettingsGradientSelection.value }) 
