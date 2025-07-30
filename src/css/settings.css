@@ -1,3 +1,9 @@
 .content {
     margin: 0.5em;
 }
+
+.icon-uploader {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+}
