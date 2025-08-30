@@ -20,3 +20,4 @@ export const settingsCustomLink3NameInput = document.getElementById("custom-link
 export const settingsCustomLink1URLInput = document.getElementById("custom-link-1-url-input")
 export const settingsCustomLink2URLInput = document.getElementById("custom-link-2-url-input")
 export const settingsCustomLink3URLInput = document.getElementById("custom-link-3-url-input")
+export const settingsSaveButton = document.getElementById("save-button")

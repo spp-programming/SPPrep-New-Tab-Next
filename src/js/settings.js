@@ -1,7 +1,7 @@
 "use strict"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
-import { settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLinkCards, settingsEnableCustomLinksSwitch } from "./modules/settings-constants.js"
+import { settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLinkCards, settingsEnableCustomLinksSwitch, settingsHideSchoolCalendarSwitch, settingsSaveButton } from "./modules/settings-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -117,9 +117,38 @@ settingsCustomLink3IconUploader.addEventListener("click", () => {
     settingsCustomLink3IconUploaderReal.click()
 })
 
+settingsSaveButton.addEventListener("click", () => {
+    saveSettings()
+})
+
+async function loadSettings() {
+    const storedHideSchoolCalendarSelection = (await chrome.storage.local.get(["settings_hideSchoolCalendarSelection"]))["settings_hideSchoolCalendarSelection"]
+    const storedEnableCustomLinksSelection = (await chrome.storage.local.get(["settings_enableCustomLinksSelection"]))["settings_enableCustomLinksSelection"]
+    if (storedHideSchoolCalendarSelection === true) {
+        settingsHideSchoolCalendarSwitch.checked = true
+    }
+}
+
+async function saveSettings() {
+    settingsHideSchoolCalendarSwitch.disabled = true
+    settingsEnableCustomLinksSwitch.disabled = true
+    disableCustomLink1CardContent()
+    disableCustomLink2CardContent()
+    disableCustomLink3CardContent()
+    settingsSaveButton.disabled = true
+    settingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
+    if (settingsHideSchoolCalendarSwitch.checked = true) {
+        await chrome.storage.local.set({ settings_hideSchoolCalendarSelection: settingsHideSchoolCalendarSwitch.checked })
+    } else {
+        await chrome.storage.remove(["settings_hideSchoolCalendarSelection"])
+    }
+    chrome.runtime.reload()
+}
+
 async function loadStuff() {
     await runMigrations()
     handleFakeLinks()
+    await loadSettings()
 }
 
 loadStuff()

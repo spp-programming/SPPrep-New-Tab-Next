@@ -14,7 +14,7 @@ function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime } from "./modules/clock-manager.js"
-import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts } from "./modules/global-constants.js"
+import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
@@ -83,10 +83,14 @@ async function applyInternalConfigModeChanges() {
 }
 
 async function loadAllSettings() {
+    const storedHideSchoolCalendarSelection = (await chrome.storage.local.get(["settings_hideSchoolCalendarSelection"]))["settings_hideSchoolCalendarSelection"]
     const storedBackgroundSelection = (await chrome.storage.local.get(["secretSettings_backgroundSelection"]))["secretSettings_backgroundSelection"]
     const storedCustomBackground = (await chrome.storage.local.get(["secretSettings_customBackground"]))["secretSettings_customBackground"]
     const storedFontSelection = (await chrome.storage.local.get(["secretSettings_fontSelection"]))["secretSettings_fontSelection"]
     const storedGradientSelection = (await chrome.storage.local.get(["secretSettings_gradientSelection"]))["secretSettings_gradientSelection"]
+    if (storedHideSchoolCalendarSelection === true) {
+        schoolCalendarButton.hidden = true
+    }
     switch (storedBackgroundSelection) {
         case "custom":
             if (storedCustomBackground !== undefined) {
