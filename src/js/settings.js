@@ -1,7 +1,7 @@
 "use strict"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
-import { settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLinkCards, settingsEnableCustomLinksSwitch, settingsHideSchoolCalendarSwitch, settingsSaveButton } from "./modules/settings-constants.js"
+import { settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLinkCards, settingsEnableCustomLinksSwitch, settingsHideSchoolCalendarSwitch, settingsSaveButton } from "./modules/settings-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -172,6 +172,18 @@ settingsCustomLink3IconUploaderReal.addEventListener("change", async () => {
     settingsCustomLink3IconUploader.classList.remove("disabled")
     settingsCustomLink3IconUploader.removeAttribute("aria-disabled")
     settingsCustomLink3IconUploader.removeAttribute("tabindex")
+})
+
+settingsCustomLink1IconResetter.addEventListener("click", () => {
+    settingsCustomLink1IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
+})
+
+settingsCustomLink2IconResetter.addEventListener("click", () => {
+    settingsCustomLink2IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
+})
+
+settingsCustomLink3IconResetter.addEventListener("click", () => {
+    settingsCustomLink3IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
 })
 
 settingsSaveButton.addEventListener("click", () => {
