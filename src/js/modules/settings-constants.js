@@ -1,6 +1,8 @@
 "use strict"
+export const settingsContent = document.getElementsByClassName("content")[0]
 export const settingsHideSchoolCalendarSwitch = document.getElementById("hide-school-calendar-switch")
 export const settingsEnableCustomLinksSwitch = document.getElementById("enable-custom-links-switch")
+export const settingsEnableCustomLinksAlertWrapper = document.getElementById("enable-custom-links-switch-alert-wrapper")
 export const settingsCustomLinkCards = document.getElementById("custom-link-cards")
 export const settingsCustomLink1Card = document.getElementById("custom-link-1-card")
 export const settingsCustomLink2Card = document.getElementById("custom-link-2-card")
@@ -26,4 +28,7 @@ export const settingsCustomLink3NameInput = document.getElementById("custom-link
 export const settingsCustomLink1URLInput = document.getElementById("custom-link-1-url-input")
 export const settingsCustomLink2URLInput = document.getElementById("custom-link-2-url-input")
 export const settingsCustomLink3URLInput = document.getElementById("custom-link-3-url-input")
+export const settingsCustomLink1URLInputAlertWrapper = document.getElementById("custom-link-1-input-url-alert-wrapper")
+export const settingsCustomLink2URLInputAlertWrapper = document.getElementById("custom-link-2-input-url-alert-wrapper")
+export const settingsCustomLink3URLInputAlertWrapper = document.getElementById("custom-link-3-input-url-alert-wrapper")
 export const settingsSaveButton = document.getElementById("save-button")
