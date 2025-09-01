@@ -208,9 +208,13 @@ async function loadAllSettings() {
     }
     if (validFonts.includes(storedSecretSettingsFontSelection)) {
         document.documentElement.classList.add(`font-${storedSecretSettingsFontSelection}`)
+    } else {
+        document.documentElement.classList.add("font-azeret-mono")
     }
     if (/^#[0-9A-F]{6}$/i.test(storedSecretSettingsGradientSelection)) {
         document.documentElement.style.setProperty("--gradient-color", storedSecretSettingsGradientSelection)
+    } else {
+        document.documentElement.style.setProperty("--gradient-color", "#9b042a")
     }
 }
 
