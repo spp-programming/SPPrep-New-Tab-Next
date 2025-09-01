@@ -373,6 +373,9 @@ async function saveSettings() {
     } else {
         await chrome.storage.local.remove(["settings_hideSchoolCalendarSelection"])
     }
+    await chrome.storage.local.set({ settings_customLink1Enabled: false })
+    await chrome.storage.local.set({ settings_customLink2Enabled: false })
+    await chrome.storage.local.set({ settings_customLink3Enabled: false })
     if (settingsCustomLink1Switch.checked === true) {
         if (isValidURL(settingsCustomLink1URLInput.value) === false) {
             settingsCustomLink1Switch.disabled = false
