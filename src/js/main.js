@@ -80,8 +80,8 @@ async function applyInternalConfigModeChanges() {
 }
 
 async function loadAllSettings() {
-    const storedSettingsHideSchoolCalendarSelection = (await chrome.storage.local.get(["settings_hideSchoolCalendarSelection"]))["settings_hideSchoolCalendarSelection"]
-    const storedSettingsEnableCustomLinksSelection = (await chrome.storage.local.get(["settings_enableCustomLinksSelection"]))["settings_enableCustomLinksSelection"]
+    const storedSettingsHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
+    const storedSettingsEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
     const storedSettingsCustomLink1Enabled = (await chrome.storage.local.get())["settings_customLink1Enabled"]
     const storedSettingsCustomLink2Enabled = (await chrome.storage.local.get())["settings_customLink2Enabled"]
     const storedSettingsCustomLink3Enabled = (await chrome.storage.local.get())["settings_customLink3Enabled"]
@@ -94,10 +94,10 @@ async function loadAllSettings() {
     const storedSettingsCustomLink1URL = (await chrome.storage.local.get())["settings_customLink1URL"]
     const storedSettingsCustomLink2URL = (await chrome.storage.local.get())["settings_customLink2URL"]
     const storedSettingsCustomLink3URL = (await chrome.storage.local.get())["settings_customLink3URL"]
-    const storedSecretSettingsBackgroundSelection = (await chrome.storage.local.get(["secretSettings_backgroundSelection"]))["secretSettings_backgroundSelection"]
-    const storedSecretSettingsCustomBackground = (await chrome.storage.local.get(["secretSettings_customBackground"]))["secretSettings_customBackground"]
-    const storedSecretSettingsFontSelection = (await chrome.storage.local.get(["secretSettings_fontSelection"]))["secretSettings_fontSelection"]
-    const storedSecretSettingsGradientSelection = (await chrome.storage.local.get(["secretSettings_gradientSelection"]))["secretSettings_gradientSelection"]
+    const storedSecretSettingsBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
+    const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
+    const storedSecretSettingsFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
+    const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
     if (storedSettingsHideSchoolCalendarSelection === true) {
         schoolCalendarButton.hidden = true
     }

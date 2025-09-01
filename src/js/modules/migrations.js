@@ -43,7 +43,7 @@ async function migrateLocalStorage() {
 
 export async function runMigrations() {
     console.log("🔍 Running migrations")
-    const storedMigrationVersion = (await chrome.storage.local.get(["migrationVersion"]))["migrationVersion"]
+    const storedMigrationVersion = (await chrome.storage.local.get())["migrationVersion"]
     if (storedMigrationVersion == migrationVersion) {
         console.log(`✅ migrationVersion is ${migrationVersion}, no migrations necessary.`)
         return
@@ -59,6 +59,6 @@ export async function runMigrations() {
         console.log("🤔 Failed to show migrationToast. This is expected if the current page is not index.html")
     }
     await chrome.storage.local.set({ migrationVersion: migrationVersion })
-    const storedMigrationVersionNew = (await chrome.storage.local.get(["migrationVersion"]))["migrationVersion"]
+    const storedMigrationVersionNew = (await chrome.storage.local.get())["migrationVersion"]
     console.log(`✅ Migrations finished! migrationVersion is ${storedMigrationVersionNew}`)
 }

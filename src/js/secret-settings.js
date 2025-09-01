@@ -49,7 +49,7 @@ secretSettingsSaveButton.addEventListener("click", () => {
 })
 
 async function handleSecretSettingsVisibility() {
-    const secretSettingsVisible = (await chrome.storage.local.get(["secretSettingsVisible"]))["secretSettingsVisible"]
+    const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
 
     if (secretSettingsVisible === "true") {
         secretSettingsContent.hidden = false
@@ -108,10 +108,10 @@ async function constructCustomBackgroundURL() {
 }
 
 async function loadSecretSettings() {
-    const storedBackgroundSelection = (await chrome.storage.local.get(["secretSettings_backgroundSelection"]))["secretSettings_backgroundSelection"]
-    storedCustomBackground = (await chrome.storage.local.get(["secretSettings_customBackground"]))["secretSettings_customBackground"]
-    const storedFontSelection = (await chrome.storage.local.get(["secretSettings_fontSelection"]))["secretSettings_fontSelection"]
-    const storedGradientSelection = (await chrome.storage.local.get(["secretSettings_gradientSelection"]))["secretSettings_gradientSelection"]
+    const storedBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
+    storedCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
+    const storedFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
+    const storedGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
     if (validBackgrounds.includes(storedBackgroundSelection)) {
         secretSettingsBackgroundSelection.value = storedBackgroundSelection
     }

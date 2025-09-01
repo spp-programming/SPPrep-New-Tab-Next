@@ -273,8 +273,8 @@ async function constructCustomLinkIconURL(file) {
 }
 
 async function loadSettings() {
-    const storedHideSchoolCalendarSelection = (await chrome.storage.local.get(["settings_hideSchoolCalendarSelection"]))["settings_hideSchoolCalendarSelection"]
-    const storedEnableCustomLinksSelection = (await chrome.storage.local.get(["settings_enableCustomLinksSelection"]))["settings_enableCustomLinksSelection"]
+    const storedHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
+    const storedEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
     const storedCustomLink1Enabled = (await chrome.storage.local.get())["settings_customLink1Enabled"]
     const storedCustomLink2Enabled = (await chrome.storage.local.get())["settings_customLink2Enabled"]
     const storedCustomLink3Enabled = (await chrome.storage.local.get())["settings_customLink3Enabled"]
