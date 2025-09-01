@@ -6,6 +6,9 @@ import { settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResett
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
 
+let changesWereMade = false
+let aboutToReload = false
+
 // URL validation function stolen from https://stackoverflow.com/a/43467144
 function isValidURL(string) {
     let url
@@ -77,7 +80,12 @@ function disableCustomLink3CardContent() {
     settingsCustomLink3URLInputAlertWrapper.innerHTML = ""
 }
 
+settingsHideSchoolCalendarSwitch.addEventListener("change", () => {
+    handleBeforeUnload()
+})
+
 settingsCustomLink1Switch.addEventListener("change", () => {
+    handleBeforeUnload()
     disableCustomLink1CardContent()
     if (settingsCustomLink1Switch.checked) {
         enableCustomLink1CardContent()
@@ -85,6 +93,7 @@ settingsCustomLink1Switch.addEventListener("change", () => {
 })
 
 settingsCustomLink2Switch.addEventListener("change", () => {
+    handleBeforeUnload()
     disableCustomLink2CardContent()
     if (settingsCustomLink2Switch.checked) {
         enableCustomLink2CardContent()
@@ -92,6 +101,7 @@ settingsCustomLink2Switch.addEventListener("change", () => {
 })
 
 settingsCustomLink3Switch.addEventListener("change", () => {
+    handleBeforeUnload()
     disableCustomLink3CardContent()
     if (settingsCustomLink3Switch.checked) {
         enableCustomLink3CardContent()
@@ -99,6 +109,7 @@ settingsCustomLink3Switch.addEventListener("change", () => {
 })
 
 settingsEnableCustomLinksSwitch.addEventListener("change", () => {
+    handleBeforeUnload()
     if (settingsEnableCustomLinksSwitch.checked) {
         settingsCustomLinkCards.hidden = false
         settingsEnableCustomLinksAlertWrapper.innerHTML = ""
@@ -109,6 +120,7 @@ settingsEnableCustomLinksSwitch.addEventListener("change", () => {
 })
 
 settingsCustomLink1IconUploader.addEventListener("click", () => {
+    handleBeforeUnload()
     if (settingsCustomLink1IconUploader.classList.contains("disabled")) {
         console.error("Icon uploader clicked while being disabled, this should not be happening!")
         return
@@ -117,6 +129,7 @@ settingsCustomLink1IconUploader.addEventListener("click", () => {
 })
 
 settingsCustomLink2IconUploader.addEventListener("click", () => {
+    handleBeforeUnload()
     if (settingsCustomLink2IconUploader.classList.contains("disabled")) {
         console.error("Icon uploader clicked while being disabled, this should not be happening!")
         return
@@ -125,6 +138,7 @@ settingsCustomLink2IconUploader.addEventListener("click", () => {
 })
 
 settingsCustomLink3IconUploader.addEventListener("click", () => {
+    handleBeforeUnload()
     if (settingsCustomLink3IconUploader.classList.contains("disabled")) {
         console.error("Icon uploader clicked while being disabled, this should not be happening!")
         return
@@ -190,30 +204,37 @@ settingsCustomLink3IconUploaderReal.addEventListener("change", async () => {
 })
 
 settingsCustomLink1IconResetter.addEventListener("click", () => {
+    handleBeforeUnload()
     settingsCustomLink1IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
 })
 
 settingsCustomLink2IconResetter.addEventListener("click", () => {
+    handleBeforeUnload()
     settingsCustomLink2IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
 })
 
 settingsCustomLink3IconResetter.addEventListener("click", () => {
+    handleBeforeUnload()
     settingsCustomLink3IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
 })
 
 settingsCustomLink1URLInput.addEventListener("input", () => {
+    handleBeforeUnload()
     settingsCustomLink1URLInput.classList.remove("is-invalid")
 })
 
 settingsCustomLink2URLInput.addEventListener("input", () => {
+    handleBeforeUnload()
     settingsCustomLink2URLInput.classList.remove("is-invalid")
 })
 
 settingsCustomLink3URLInput.addEventListener("input", () => {
+    handleBeforeUnload()
     settingsCustomLink3URLInput.classList.remove("is-invalid")
 })
 
 settingsSaveButton.addEventListener("click", () => {
+    handleBeforeUnload()
     saveSettings()
 })
 
@@ -462,7 +483,20 @@ async function saveSettings() {
         await chrome.storage.local.remove(["settings_customLink3URL"])
         await chrome.storage.local.remove(["settings_customLink3Enabled"])
     }
+    aboutToReload = true
     chrome.runtime.reload()
+}
+
+function handleBeforeUnload() {
+    if (changesWereMade === false) {
+        changesWereMade = true
+        window.addEventListener("beforeunload", (event) => {
+            if (aboutToReload === true) {
+                return
+            }
+            event.preventDefault()
+        })
+    }
 }
 
 async function loadStuff() {
