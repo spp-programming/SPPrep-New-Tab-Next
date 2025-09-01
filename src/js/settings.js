@@ -462,7 +462,7 @@ async function saveSettings() {
         await chrome.storage.local.remove(["settings_customLink3URL"])
         await chrome.storage.local.remove(["settings_customLink3Enabled"])
     }
-    //chrome.runtime.reload()
+    chrome.runtime.reload()
 }
 
 async function loadStuff() {
