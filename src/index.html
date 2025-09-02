@@ -14,6 +14,16 @@
     <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
 </head>
 <body>
+    <div class="dropdown">
+        <a class="btn btn-dark fixed-bottom rounded-end-pill" style="top: 0%; right: 100%; min-width: min-content; max-height: min-content;" role="button" href="#" id="menu-button" title="Menu" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-list"></i>
+            <span class="visually-hidden">Menu</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="settings.html" target="_blank"><i class="bi bi-gear" aria-hidden="true"></i> Settings</a></li>
+            <li><a class="dropdown-item" href="about.html" target="_blank"><i class="bi bi-info-circle" aria-hidden="true"></i> About SPP New Tab</a></li>
+        </ul>
+    </div>
     <div class="d-flex flex-column min-vh-100 min-vw-100 flex-grow-1 justify-content-center align-items-center user-select-none">
         <h1 class="display-1" id="clock">&zwnj;</h1> <!-- The &zwnj; allocates the vertical space for the clock immediately, before the clock and fonts are fully loaded -->
         <h1 class="display-6" id="letter-day" tabindex="0" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-html="true" data-bs-content="Loading the letter day.<br>This shouldn't take long.">🤔</h1>
@@ -63,13 +73,13 @@
             </div>
     </div>
 
-    <a class="btn btn-dark fixed-bottom rounded-end-pill" style="right: 100%; min-width: min-content;" role="button" href="changelog.html" target="blank" id="changelog-button" title="What's New. This opens in another tab." data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="What's New">
+    <a class="btn btn-dark fixed-bottom rounded-end-pill" style="right: 100%; min-width: min-content;" role="button" href="changelog.html" target="_blank" id="changelog-button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="What's New">
         <i class="bi bi-megaphone" aria-hidden="true"></i>
         <span class="visually-hidden">What's New</span>
     </a>
 
     <span data-bs-toggle="modal" data-bs-target="#bell-schedule-modal">
-        <a class="btn btn-dark fixed-bottom rounded-start-pill fake-link" style="left: unset;" role="button" href="#" id="bell-schedule-button" title="Bell Schedule" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Bell Schedule">
+        <a class="btn btn-dark fixed-bottom rounded-start-pill fake-link" style="left: unset;" role="button" href="#" id="bell-schedule-button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Bell Schedule">
             <i class="bi bi-bell" aria-hidden="true"></i>
             <span class="visually-hidden">Bell Schedule</span>
         </a>
