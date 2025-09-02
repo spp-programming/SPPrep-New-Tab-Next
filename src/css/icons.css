@@ -13,3 +13,30 @@
     width: 95vw;
     flex-wrap: wrap;
 }
+
+#menu-button {
+    --bs-btn-bg: #212529b2;
+    --bs-btn-hover-bg: #424649b2;
+    --bs-btn-active-bg: #4d5154b2;
+    --bs-btn-border-color: unset;
+    --bs-btn-hover-border-color: unset;
+    --bs-btn-active-border-color: unset;
+}
+
+#changelog-button {
+    --bs-btn-bg: #212529b2;
+    --bs-btn-hover-bg: #424649b2;
+    --bs-btn-active-bg: #4d5154b2;
+    --bs-btn-border-color: unset;
+    --bs-btn-hover-border-color: unset;
+    --bs-btn-active-border-color: unset;
+}
+
+#bell-schedule-button {
+    --bs-btn-bg: #212529b2;
+    --bs-btn-hover-bg: #424649b2;
+    --bs-btn-active-bg: #4d5154b2;
+    --bs-btn-border-color: unset;
+    --bs-btn-hover-border-color: unset;
+    --bs-btn-active-border-color: unset;
+}
