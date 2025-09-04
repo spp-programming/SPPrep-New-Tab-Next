@@ -31,7 +31,7 @@ async function migrateLocalStorage() {
         await chrome.storage.local.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection })
         if (secretSettingsBackgroundSelection === "rickroll") {
             console.log("📦 secretSettings_backgroundSelection is rickroll, setting it to rainbow")
-            await chrome.storage.local.set({ secretSettingsBackgroundSelection: "rainbow" })
+            await chrome.storage.local.set({ secretSettings_backgroundSelection: "rainbow" })
         }
         localStorage.removeItem("secretSettingsVisible")
         localStorage.removeItem("secretSettings_backgroundSelection")
