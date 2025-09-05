@@ -327,31 +327,31 @@ async function loadSettings() {
         settingsCustomLink3Switch.checked = true
         enableCustomLink3CardContent()
     }
-    if (storedCustomLink1IconURL !== undefined) {
+    if (typeof(storedCustomLink1IconURL) === "string") {
         settingsCustomLink1IconUploader.querySelector("img").src = storedCustomLink1IconURL
     }
-    if (storedCustomLink2IconURL !== undefined) {
+    if (typeof(storedCustomLink2IconURL) === "string") {
         settingsCustomLink2IconUploader.querySelector("img").src = storedCustomLink2IconURL
     }
-    if (storedCustomLink3IconURL !== undefined) {
+    if (typeof(storedCustomLink3IconURL) === "string") {
         settingsCustomLink3IconUploader.querySelector("img").src = storedCustomLink3IconURL
     }
-    if (storedCustomLink1Name !== undefined) {
+    if (typeof(storedCustomLink1Name) === "string") {
         settingsCustomLink1NameInput.value = storedCustomLink1Name
     }
-    if (storedCustomLink2Name !== undefined) {
+    if (typeof(storedCustomLink2Name) === "string") {
         settingsCustomLink2NameInput.value = storedCustomLink2Name
     }
-    if (storedCustomLink3Name !== undefined) {
+    if (typeof(storedCustomLink3Name) === "string") {
         settingsCustomLink3NameInput.value = storedCustomLink3Name
     }
-    if (storedCustomLink1URL !== undefined) {
+    if (typeof(storedCustomLink1URL) === "string") {
         settingsCustomLink1URLInput.value = storedCustomLink1URL
     }
-    if (storedCustomLink2URL !== undefined) {
+    if (typeof(storedCustomLink2URL) === "string") {
         settingsCustomLink2URLInput.value = storedCustomLink2URL
     }
-    if (storedCustomLink3URL !== undefined) {
+    if (typeof(storedCustomLink3URL) === "string") {
         settingsCustomLink3URLInput.value = storedCustomLink3URL
     }
     settingsContent.hidden = false
