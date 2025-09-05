@@ -56,14 +56,40 @@
         </div>
         <hr>
         <h3>Version 4.0 (Latest, installed version)</h3>
-        <strong>This is a major release.</strong>
-        <p>🚨 TODO: Finish changelog for version 4.0</p>
+        <strong>This is a major release. That's a bit of an understatement.</strong>
+        <p>Version 4.0 represents a full rewrite of SPP New Tab with a more modular, maintainable codebase. Here's what's new in this release:</p>
+        <p>🎉 New features:</p>
+        <ul>
+            <li>🙈 The School Calendar button can now be hidden.</li>
+            <li>💠 Custom links to your favorite sites can now be added.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ⚙️ Secret Settings is now a dedicated page.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 📤 You can now upload a custom background in Secret Settings.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🔀 Rickroll background has been replaced with one that cycles through colors</li>
+            <li>
+                📦 The "What's New" and "Bell Schedule" buttons are now smaller and have been moved to the bottom corners.
+                <ul>
+                    <li>👉 There's also a new "Menu" button at the top left to access the Settings and About pages.</li>
+                    <li>👉 The Bell Schedule option now offers to enlarge the Bell Schedule (by opening it in another tab)</li>
+                </ul>
+            </li>
+            <li>🍺 Navigation bar for Settings, What's New, and About pages</li>
+            <li>🖱️ You can now click on the extension icon in the toolbar</li>
+        </ul>
+        <p>🧑‍💻 Behind the scenes:</p>
+        <ul>
+            <li>✨ A more modular codebase using ECMAScript Modules</li>
+            <li>🅱️ <a href="https://getbootstrap.com">Bootstrap</a> is now used for the entire interface.</li>
+            <li>🗃️ Extension storage is now used for storing settings, instead of localStorage. Existing data stored in localStorage is migrated automatically.</li>
+            <li>🤖 The staff and student versions of the extensions are now part of the same codebase, so staff/student specific functionality is handled using a config file.</li>
+        </ul>
+        <hr>
         <h3>Version 3.3 (Previous version)</h3>
         <strong>This is a minor release because it does not contain any new major features.</strong>
         <p>🚨 Fixed major bugs:</p>
         <ul>
             <li>🏃 Loading times have been significantly improved</li>
         </ul>
+        <hr>
         <h3>Version 3.2 (Previous previous version)</h3>
         <strong>This is a minor release because it does not contain any new major features.</strong>
         <p>🚨 Fixed major bugs:</p>
@@ -77,6 +103,7 @@
         <p>🎉 New features:</p>
         <ul>
             <li>🔄 There is now a loading spinner (because the page doesn't load instantly)</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🎆 Added rickroll, which automatically triggers on April 1st</li>
         </ul>
         <hr>
         <h3>Version 3.1 (Previous previous previous version)</h3>
@@ -85,6 +112,15 @@
         <ul>
             <li>🥞 Buttons now stack up more neatly as needed</li>
             <li>↔️ Added padding to this changelog page.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ↕️ Error on passcode screen looks better.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🎮 Start/Select icon on passcode screen was changed. (The passcode is still the same)</li>
+        </ul>
+        <p class="secret-item" hidden>🎉 New features:</p>
+        <ul class="secret-item" hidden>
+            <li><span class="badge rounded-pill text-bg-warning">Secret!</span> 🆕 Added this secret changelog page.</li>
+            <li><span class="badge rounded-pill text-bg-warning">Secret!</span> 🎆 Added four OS X wallpapers.</li>
+            <li><span class="badge rounded-pill text-bg-warning">Secret!</span> ✏️ Added font previewing in the secret settings.</li>
+            <li><span class="badge rounded-pill text-bg-warning">Secret!</span> 📝 Background preview now has a description for each picture.</li>
         </ul>
         <p>🧑‍💻 Behind the scenes:</p>
         <ul>
@@ -119,6 +155,7 @@
             <li>🗓️ Added Google Calendar button (separate from school calendar)</li>
             <li>♿️ Accessibility improvements</li>
             <li>❄️ New Fall/Winter background</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ⚙️ Added secret settings functionality.</li>
         </ul>
         <hr>
         <h3>Version 2.0 (and below)</h3>
