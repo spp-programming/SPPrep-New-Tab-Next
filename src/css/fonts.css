@@ -60,6 +60,10 @@
     font-family: "Azeret Mono", monospace;
 }
 
+.font-azeret-mono #letter-day {
+    font-family: "Azeret Mono", monospace;
+}
+
 /* This fixes the font preview on the secret settings page. The lack of a space between the selectors is intentional. */
 .font-azeret-mono#font-preview {
     font-family: "Azeret Mono", monospace;
