@@ -9,7 +9,7 @@ handleFakeLinks()
 async function handleSecretSettingsVisibility() {
     const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
 
-    if (secretSettingsVisible === "true") {
+    if (secretSettingsVisible === true) {
         Array.from(secretItems).forEach(element => {
             element.hidden = false
         })

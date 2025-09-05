@@ -51,7 +51,7 @@ secretSettingsSaveButton.addEventListener("click", () => {
 async function handleSecretSettingsVisibility() {
     const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
 
-    if (secretSettingsVisible === "true") {
+    if (secretSettingsVisible === true) {
         secretSettingsContent.hidden = false
     } else {
         secretSettingsDisabledContent.hidden = false

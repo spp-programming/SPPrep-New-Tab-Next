@@ -13,21 +13,21 @@ async function migrateLocalStorage() {
     }
     if (secretSettingsFontSelection !== null) {
         console.log("📦 secretSettings_fontSelection is NOT null, migrating secretSettings_fontSelection to extension storage and setting secretSettingsVisible")
-        await chrome.storage.local.set({ secretSettingsVisible: "true" })
+        await chrome.storage.local.set({ secretSettingsVisible: true })
         await chrome.storage.local.set({ secretSettings_fontSelection: secretSettingsFontSelection })
         localStorage.removeItem("secretSettingsVisible")
         localStorage.removeItem("secretSettings_fontSelection")
     }
     if (secretSettingsGradientSelection !== null) {
         console.log("📦 secretSettings_gradientSelection is NOT null, migrating secretSettings_gradientSelection to extension storage and setting secretSettingsVisible")
-        await chrome.storage.local.set({ secretSettingsVisible: "true" })
+        await chrome.storage.local.set({ secretSettingsVisible: true })
         await chrome.storage.local.set({ secretSettings_gradientSelection: secretSettingsGradientSelection })
         localStorage.removeItem("secretSettingsVisible")
         localStorage.removeItem("secretSettings_gradientSelection")
     }
     if (secretSettingsBackgroundSelection !== null) {
         console.log("📦 secretSettings_backgroundSelection is NOT null, migrating secretSettings_backgroundSelection to extension storage and setting secretSettingsVisible")
-        await chrome.storage.local.set({ secretSettingsVisible: "true" })
+        await chrome.storage.local.set({ secretSettingsVisible: true })
         await chrome.storage.local.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection })
         if (secretSettingsBackgroundSelection === "rickroll") {
             console.log("📦 secretSettings_backgroundSelection is rickroll, setting it to rainbow")
