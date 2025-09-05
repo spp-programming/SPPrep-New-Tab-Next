@@ -102,14 +102,14 @@ async function loadAllSettings() {
         schoolCalendarButton.hidden = true
     }
     if (storedSettingsEnableCustomLinksSelection === true) {
-        if (storedSettingsCustomLink1Enabled === true && storedSettingsCustomLink1URL !== undefined) {
+        if (storedSettingsCustomLink1Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
             let name = "Custom link #1"
             let iconURL = "./img/icons/globe2.svg"
             const url = storedSettingsCustomLink1URL
-            if (storedSettingsCustomLink1Name !== undefined && storedSettingsCustomLink1Name.trim() !== "") {
+            if (typeof(storedSettingsCustomLink1Name) === "string" && storedSettingsCustomLink1Name.trim() !== "") {
                 name = storedSettingsCustomLink1Name.trim()
             }
-            if (storedSettingsCustomLink1IconURL !== undefined) {
+            if (typeof(storedSettingsCustomLink1IconURL) === "string") {
                 iconURL = storedSettingsCustomLink1IconURL
             }
             const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
@@ -118,14 +118,14 @@ async function loadAllSettings() {
             content.querySelector("img").src = iconURL
             buttonContainer.appendChild(content)
         }
-        if (storedSettingsCustomLink2Enabled === true && storedSettingsCustomLink2URL !== undefined) {
+        if (storedSettingsCustomLink2Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
             let name = "Custom link #2"
             let iconURL = "./img/icons/globe2.svg"
             const url = storedSettingsCustomLink2URL
-            if (storedSettingsCustomLink2Name !== undefined && storedSettingsCustomLink2Name.trim() !== "") {
+            if (typeof(storedSettingsCustomLink2Name) === "string" && storedSettingsCustomLink2Name.trim() !== "") {
                 name = storedSettingsCustomLink2Name.trim()
             }
-            if (storedSettingsCustomLink2IconURL !== undefined) {
+            if (typeof(storedSettingsCustomLink2IconURL) === "string") {
                 iconURL = storedSettingsCustomLink2IconURL
             }
             const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
@@ -134,14 +134,14 @@ async function loadAllSettings() {
             content.querySelector("img").src = iconURL
             buttonContainer.appendChild(content)
         }
-        if (storedSettingsCustomLink3Enabled === true && storedSettingsCustomLink3URL !== undefined) {
+        if (storedSettingsCustomLink3Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
             let name = "Custom link #3"
             let iconURL = "./img/icons/globe2.svg"
             const url = storedSettingsCustomLink3URL
-            if (storedSettingsCustomLink3Name !== undefined && storedSettingsCustomLink3Name.trim() !== "") {
+            if (typeof(storedSettingsCustomLink3Name) === "string" && storedSettingsCustomLink3Name.trim() !== "") {
                 name = storedSettingsCustomLink3Name.trim()
             }
-            if (storedSettingsCustomLink3IconURL !== undefined) {
+            if (typeof(storedSettingsCustomLink3IconURL) === "string") {
                 iconURL = storedSettingsCustomLink3IconURL
             }
             const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
