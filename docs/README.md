@@ -1,0 +1,1 @@
+The documentation stored here has been moved to the [GitHub wiki](https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki).
