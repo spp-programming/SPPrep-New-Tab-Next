@@ -35,9 +35,9 @@ async function loadLetterDay() {
             default:
                 // "US/Eastern" and "EST5EDT" are linked to "America/New_York" so we have to check for them too. This may not be necessary, but I don't care. https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
-                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY. Last updated on: ${(new Date()).toLocaleString("en-US")} (refresh to update)`)
+                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY. <div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")}. (refresh to update)</div>`)
                 } else {
-                    setPopoverText(letterDayElement, `⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone})<br>The current letter day is ${letterDay}-DAY.<br>Last updated on: ${(new Date()).toLocaleString()} (your local time, refresh to update)`)
+                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone})</div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${(new Date()).toLocaleString()}. (your local time, refresh to update)</div>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
             letterDay = `${letterDay}-DAY`
@@ -48,7 +48,7 @@ async function loadLetterDay() {
         console.log(e)
         letterDayElement.innerHTML = "🤯"
         setPopoverText(letterDayElement, "Woah! Something went wrong.<br>Hit refresh to try again.")
-        errorToastContent.innerHTML = "Couldn't query School Calendar.<br>Refresh the page to try again"
+        errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">To try querying it again, refresh the page.</div>"
         bootstrap.Toast.getOrCreateInstance(errorToast).show()
     }
 }
