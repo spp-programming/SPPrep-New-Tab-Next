@@ -11,14 +11,13 @@ function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
-import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer } from "./modules/global-constants.js"
+import { letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getInternalConfigMode } from "./modules/config-mode.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 
-let clockMode
 let checkLetterDayChangeInterval
 
 async function loadLetterDay() {
@@ -75,12 +74,10 @@ async function applyInternalConfigModeChanges() {
             powerSchoolButton.href = powerSchoolTeacherURL
             break
     }
-    if (internalConfigMode === "staff") {
-        powerSchoolButton.href = powerSchoolTeacherURL
-    }
 }
 
 async function loadAllSettings() {
+    const storedSettingsEnableSplitLayoutSelection = (await chrome.storage.local.get())["settings_enableSplitLayoutSelection"]
     const storedSettingsHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
     const storedSettingsEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
     const storedSettingsCustomLink1Enabled = (await chrome.storage.local.get())["settings_customLink1Enabled"]
@@ -99,6 +96,12 @@ async function loadAllSettings() {
     const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
     const storedSecretSettingsFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
     const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
+    if (storedSettingsEnableSplitLayoutSelection === true) {
+        const linkElement = document.createElement("link")
+        linkElement.rel = "stylesheet"
+        linkElement.href = "./css/split-layout.css"
+        document.head.appendChild(linkElement)
+    }
     if (storedSettingsHideSchoolCalendarSelection === true) {
         schoolCalendarButton.hidden = true
     }

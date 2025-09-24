@@ -1,0 +1,14 @@
+body {
+    background: var(--selected-background);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#content-element {
+	background-color: #880024;
+	width: 75vw;
+}
+
+#button-container {
+    width: 70vw;
+}

@@ -1,4 +1,5 @@
 "use strict"
+import { getInternalConfigMode } from "./config-mode.js"
 import { migrationVersion, migrationToast } from "./global-constants.js"
 
 async function migrateLocalStorage() {
@@ -51,6 +52,18 @@ export async function runMigrations() {
     if (storedMigrationVersion === undefined) {
         console.log(`💾 migrationVersion is undefined, migrating localStorage to extension storage...`)
         await migrateLocalStorage()
+        console.log(`👨‍🔧 Setting default layout mode...`)
+        const internalConfigMode = await getInternalConfigMode()
+        switch (internalConfigMode) {
+            case "student":
+                await chrome.storage.local.set({ settings_enableSplitLayoutSelection: false })
+                console.log("✅ Set default layout mode to \"stacked\"!")
+                break
+            case "staff":
+                await chrome.storage.local.set({ settings_enableSplitLayoutSelection: true })
+                console.log("✅ Set the default layout mode to \"split\"!")
+                break
+        }
     }
     // Run any specific migrations for certain migrationVersion values here. There aren't any right now, but this is just for futureproofing.
     try {

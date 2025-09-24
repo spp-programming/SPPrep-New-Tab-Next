@@ -13,3 +13,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+#content-element {
+	width: 100vw;
+}
