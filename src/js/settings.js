@@ -1,7 +1,7 @@
 "use strict"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
-import { settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsHideSchoolCalendarSwitch, settingsSaveButton } from "./modules/settings-constants.js"
+import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsHideSchoolCalendarSwitch, settingsSaveButton } from "./modules/settings-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -308,6 +308,7 @@ async function loadSettings() {
     const storedCustomLink1URL = (await chrome.storage.local.get())["settings_customLink1URL"]
     const storedCustomLink2URL = (await chrome.storage.local.get())["settings_customLink2URL"]
     const storedCustomLink3URL = (await chrome.storage.local.get())["settings_customLink3URL"]
+    const storedClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
     if (storedHideSchoolCalendarSelection === true) {
         settingsHideSchoolCalendarSwitch.checked = true
     }
@@ -353,6 +354,17 @@ async function loadSettings() {
     }
     if (typeof(storedCustomLink3URL) === "string") {
         settingsCustomLink3URLInput.value = storedCustomLink3URL
+    }
+    switch (storedClockModeSelection) {
+        case "12hour":
+            settingsClockModeRadio12hour.checked = true
+            break
+        case "ampm":
+            settingsClockModeRadioAmPm.checked = true
+            break
+        case "24hour":
+            settingsClockModeRadio24hour.checked = true
+            break
     }
     settingsContent.hidden = false
 }
@@ -485,6 +497,15 @@ async function saveSettings() {
         await chrome.storage.local.remove(["settings_customLink3Name"])
         await chrome.storage.local.remove(["settings_customLink3URL"])
         await chrome.storage.local.remove(["settings_customLink3Enabled"])
+    }
+    if (settingsClockModeRadio12hour.checked === true) {
+        await chrome.storage.local.set({ settings_clockModeSelection: "12hour" })
+    }
+    if (settingsClockModeRadioAmPm.checked === true) {
+        await chrome.storage.local.set({ settings_clockModeSelection: "ampm" })
+    }
+    if (settingsClockModeRadio24hour.checked === true) {
+        await chrome.storage.local.set({ settings_clockModeSelection: "24hour" })
     }
     aboutToReload = true
     chrome.runtime.reload()

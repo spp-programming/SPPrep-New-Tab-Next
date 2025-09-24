@@ -10,7 +10,7 @@ function setPopoverText(triggerElement, content) {
 
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
-import { updateTime } from "./modules/clock-manager.js"
+import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
 import { clockElement, letterDayElement, emblemElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
@@ -18,6 +18,7 @@ import { runMigrations } from "./modules/migrations.js"
 import { getInternalConfigMode } from "./modules/config-mode.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 
+let clockMode
 let checkLetterDayChangeInterval
 
 async function loadLetterDay() {
@@ -218,9 +219,29 @@ async function loadAllSettings() {
     }
 }
 
-function updateTimeHere() {
-    // This function serves as a CORS workaround when used in setInterval.
-    updateTime(clockElement)
+async function handleClock() {
+    const storedSettingsClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
+    switch (storedSettingsClockModeSelection) {
+        case "12hour":
+            console.log("Using the \"12hour\" clock mode. (set from extension storage)")
+            updateTime12hour()
+            setInterval(updateTime12hour, 1)
+            break
+        case "ampm":
+            console.log("Using the \"ampm\" clock mode. (set from extension storage)")
+            updateTimeAmPm()
+            setInterval(updateTimeAmPm, 1)
+            break
+        case "24hour":
+            console.log("Using the \"24hour\" clock mode. (set from extension storage)")
+            updateTime24hour()
+            setInterval(updateTime24hour, 1)
+            break
+        default:
+            console.log("Using the default clock mode.")
+            updateTime12hour()
+            setInterval(updateTime12hour, 1)
+    }
 }
 
 async function loadStuff() {
@@ -228,8 +249,7 @@ async function loadStuff() {
     handleFakeLinks()
     loadLetterDay() // Don't use await here, we don't want to wait for this to finish before continuing.
     applyInternalConfigModeChanges()
-    updateTimeHere()
-    setInterval(updateTimeHere, 1) // Calling updateTime every 1000 ms causes noticeable lag (many milliseconds) so it is called every millisecond to avoid this problem
+    handleClock()
     await loadAllSettings()
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))

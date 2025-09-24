@@ -187,6 +187,28 @@
             </div>
         </div>
         <hr>
+
+        <h4>Clock</h4>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-12hour" aria-describedby="clock-mode-radio-help" checked>
+            <label class="form-check-label" for="clock-mode-radio-12hour">
+                12-hour (AM/PM hidden, default)
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-ampm" aria-describedby="clock-mode-radio-help">
+            <label class="form-check-label" for="clock-mode-radio-ampm">
+                12-hour (AM/PM visible)
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-24hour" aria-describedby="clock-mode-radio-help">
+            <label class="form-check-label" for="clock-mode-radio-24hour">
+                24-hour
+            </label>
+        </div>
+        <p class="form-text" id="clock-mode-radio-help">Change how the clock is displayed.</p>
+        <hr>
         <div class="mb-3">
             <button class="btn btn-primary" id="save-button"><i class="bi bi-floppy" aria-hidden="true"></i> <span>Save</span></button>
             <div class="form-text" id="save-button-help">The extension will be reloaded once you save. Any other new tabs that are open will load into Chrome's default one, you can close them or press back when they are focused to get back to SPP New Tab.</div>
