@@ -79,6 +79,9 @@ function disableCustomLink3CardContent() {
     settingsCustomLink3URLInput.classList.remove("is-invalid")
     settingsCustomLink3URLInputAlertWrapper.innerHTML = ""
 }
+settingsEnableSplitLayoutSwitch.addEventListener("change", () => {
+    handleBeforeUnload()
+})
 
 settingsHideSchoolCalendarSwitch.addEventListener("change", () => {
     handleBeforeUnload()
@@ -231,6 +234,18 @@ settingsCustomLink2URLInput.addEventListener("input", () => {
 settingsCustomLink3URLInput.addEventListener("input", () => {
     handleBeforeUnload()
     settingsCustomLink3URLInput.classList.remove("is-invalid")
+})
+
+settingsClockModeRadio12hour.addEventListener("change", () => {
+    handleBeforeUnload()
+})
+
+settingsClockModeRadioAmPm.addEventListener("change", () => {
+    handleBeforeUnload()
+})
+
+settingsClockModeRadio24hour.addEventListener("change", () => {
+    handleBeforeUnload()
 })
 
 settingsSaveButton.addEventListener("click", () => {
@@ -403,6 +418,9 @@ async function saveSettings() {
     await chrome.storage.local.set({ settings_customLink3Enabled: false })
     if (settingsCustomLink1Switch.checked === true) {
         if (isValidURL(settingsCustomLink1URLInput.value) === false) {
+            settingsClockModeRadio12hour.disabled = false
+            settingsClockModeRadioAmPm.disabled = false
+            settingsClockModeRadio24hour.disabled = false
             settingsCustomLink1Switch.disabled = false
             settingsCustomLink2Switch.disabled = false
             settingsCustomLink3Switch.disabled = false
@@ -410,6 +428,7 @@ async function saveSettings() {
             settingsCustomLink1URLInput.classList.add("is-invalid")
             settingsHideSchoolCalendarSwitch.disabled = false
             settingsEnableCustomLinksSwitch.disabled = false
+            settingsEnableSplitLayoutSwitch.disabled = false
             enableCustomLink1CardContent()
             enableCustomLink2CardContent()
             enableCustomLink3CardContent()
@@ -434,6 +453,9 @@ async function saveSettings() {
     }
     if (settingsCustomLink2Switch.checked === true) {
         if (isValidURL(settingsCustomLink2URLInput.value) === false) {
+            settingsClockModeRadio12hour.disabled = false
+            settingsClockModeRadioAmPm.disabled = false
+            settingsClockModeRadio24hour.disabled = false
             settingsCustomLink1Switch.disabled = false
             settingsCustomLink2Switch.disabled = false
             settingsCustomLink3Switch.disabled = false
@@ -441,6 +463,7 @@ async function saveSettings() {
             settingsCustomLink2URLInput.classList.add("is-invalid")
             settingsHideSchoolCalendarSwitch.disabled = false
             settingsEnableCustomLinksSwitch.disabled = false
+            settingsEnableSplitLayoutSwitch.disabled = false
             enableCustomLink1CardContent()
             enableCustomLink2CardContent()
             enableCustomLink3CardContent()
@@ -465,6 +488,9 @@ async function saveSettings() {
     }
     if (settingsCustomLink3Switch.checked === true) {
         if (isValidURL(settingsCustomLink3URLInput.value) === false) {
+            settingsClockModeRadio12hour.disabled = false
+            settingsClockModeRadioAmPm.disabled = false
+            settingsClockModeRadio24hour.disabled = false
             settingsCustomLink1Switch.disabled = false
             settingsCustomLink2Switch.disabled = false
             settingsCustomLink3Switch.disabled = false
@@ -472,6 +498,7 @@ async function saveSettings() {
             settingsCustomLink3URLInput.classList.add("is-invalid")
             settingsHideSchoolCalendarSwitch.disabled = false
             settingsEnableCustomLinksSwitch.disabled = false
+            settingsEnableSplitLayoutSwitch.disabled = false
             enableCustomLink1CardContent()
             enableCustomLink2CardContent()
             enableCustomLink3CardContent()
