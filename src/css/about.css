@@ -7,3 +7,7 @@
     top: 56px;
     z-index: 9999;
 }
+
+@view-transition {
+    navigation: auto;
+}
