@@ -35,9 +35,9 @@ async function loadLetterDay() {
             default:
                 // "US/Eastern" and "EST5EDT" are linked to "America/New_York" so we have to check for them too. This may not be necessary, but I don't care. https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
-                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY. <div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")}. (refresh to update)</div>`)
+                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY. <div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")}. Refresh the page to update.</div>`)
                 } else {
-                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone})</div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${(new Date()).toLocaleString()}. (your local time, refresh to update)</div>`)
+                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone})</div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")} in your local time zone. Refresh the page to update.</div>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
             letterDay = `${letterDay}-DAY`
