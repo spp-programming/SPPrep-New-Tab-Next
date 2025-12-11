@@ -1,7 +1,7 @@
 "use strict"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
-import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideSchoolCalendarSwitch, settingsSaveButton } from "./modules/settings-constants.js"
+import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideClubHubSwitch, settingsHideSchoolCalendarSwitch, settingsSaveButton } from "./modules/settings-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -311,6 +311,7 @@ async function constructCustomLinkIconURL(file) {
 async function loadSettings() {
     const storedEnableSplitLayoutSelection = (await chrome.storage.local.get())["settings_enableSplitLayoutSelection"]
     const storedHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
+    const storedHideClubHubSelection = (await chrome.storage.local.get())["settings_hideClubHubSelection"]
     const storedEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
     const storedCustomLink1Enabled = (await chrome.storage.local.get())["settings_customLink1Enabled"]
     const storedCustomLink2Enabled = (await chrome.storage.local.get())["settings_customLink2Enabled"]
@@ -330,6 +331,9 @@ async function loadSettings() {
     }
     if (storedHideSchoolCalendarSelection === true) {
         settingsHideSchoolCalendarSwitch.checked = true
+    }
+    if (storedHideClubHubSelection === true) {
+        settingsHideClubHubSwitch.checked = true
     }
     if (storedEnableCustomLinksSelection === true) {
         settingsEnableCustomLinksSwitch.checked = true
@@ -391,6 +395,7 @@ async function loadSettings() {
 async function saveSettings() {
     settingsEnableSplitLayoutSwitch.disabled = true
     settingsHideSchoolCalendarSwitch.disabled = true
+    settingsHideClubHubSwitch.disabled = true
     settingsEnableCustomLinksSwitch.disabled = true
     settingsCustomLink1Switch.disabled = true
     settingsCustomLink2Switch.disabled = true
@@ -403,19 +408,6 @@ async function saveSettings() {
     settingsClockModeRadio24hour.disabled = true
     settingsSaveButton.disabled = true
     settingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
-    if (settingsEnableSplitLayoutSwitch.checked === true) {
-        await chrome.storage.local.set({ settings_enableSplitLayoutSelection: settingsEnableSplitLayoutSwitch.checked })
-    } else {
-        await chrome.storage.local.remove(["settings_enableSplitLayoutSelection"])
-    }
-    if (settingsHideSchoolCalendarSwitch.checked === true) {
-        await chrome.storage.local.set({ settings_hideSchoolCalendarSelection: settingsHideSchoolCalendarSwitch.checked })
-    } else {
-        await chrome.storage.local.remove(["settings_hideSchoolCalendarSelection"])
-    }
-    await chrome.storage.local.set({ settings_customLink1Enabled: false })
-    await chrome.storage.local.set({ settings_customLink2Enabled: false })
-    await chrome.storage.local.set({ settings_customLink3Enabled: false })
     if (settingsCustomLink1Switch.checked === true) {
         if (isValidURL(settingsCustomLink1URLInput.value) === false) {
             settingsClockModeRadio12hour.disabled = false
@@ -450,6 +442,8 @@ async function saveSettings() {
         await chrome.storage.local.set({ settings_customLink1Name: name })
         await chrome.storage.local.set({ settings_customLink1URL: url })
         await chrome.storage.local.set({ settings_customLink1Enabled: true })
+    } else {
+        await chrome.storage.local.set({ settings_customLink1Enabled: false })
     }
     if (settingsCustomLink2Switch.checked === true) {
         if (isValidURL(settingsCustomLink2URLInput.value) === false) {
@@ -485,6 +479,8 @@ async function saveSettings() {
         await chrome.storage.local.set({ settings_customLink2Name: name })
         await chrome.storage.local.set({ settings_customLink2URL: url })
         await chrome.storage.local.set({ settings_customLink2Enabled: true })
+    } else {
+        await chrome.storage.local.set({ settings_customLink2Enabled: false })
     }
     if (settingsCustomLink3Switch.checked === true) {
         if (isValidURL(settingsCustomLink3URLInput.value) === false) {
@@ -520,6 +516,23 @@ async function saveSettings() {
         await chrome.storage.local.set({ settings_customLink3Name: name })
         await chrome.storage.local.set({ settings_customLink3URL: url })
         await chrome.storage.local.set({ settings_customLink3Enabled: true })
+    } else {
+        await chrome.storage.local.set({ settings_customLink3Enabled: false })
+    }
+    if (settingsEnableSplitLayoutSwitch.checked === true) {
+        await chrome.storage.local.set({ settings_enableSplitLayoutSelection: settingsEnableSplitLayoutSwitch.checked })
+    } else {
+        await chrome.storage.local.remove(["settings_enableSplitLayoutSelection"])
+    }
+    if (settingsHideSchoolCalendarSwitch.checked === true) {
+        await chrome.storage.local.set({ settings_hideSchoolCalendarSelection: settingsHideSchoolCalendarSwitch.checked })
+    } else {
+        await chrome.storage.local.remove(["settings_hideSchoolCalendarSelection"])
+    }
+    if (settingsHideClubHubSwitch.checked === true) {
+        await chrome.storage.local.set({ settings_hideClubHubSelection: settingsHideClubHubSwitch.checked })
+    } else {
+        await chrome.storage.local.remove(["settings_hideClubHubSelection"])
     }
     if (settingsEnableCustomLinksSwitch.checked === true) {
         await chrome.storage.local.set({ settings_enableCustomLinksSelection: settingsEnableCustomLinksSwitch.checked })

@@ -2,6 +2,7 @@
 export const settingsContent = document.getElementsByClassName("content")[0]
 export const settingsEnableSplitLayoutSwitch = document.getElementById("enable-split-layout-switch")
 export const settingsHideSchoolCalendarSwitch = document.getElementById("hide-school-calendar-switch")
+export const settingsHideClubHubSwitch = document.getElementById("hide-club-hub-switch")
 export const settingsEnableCustomLinksSwitch = document.getElementById("enable-custom-links-switch")
 export const settingsEnableCustomLinksAlertWrapper = document.getElementById("enable-custom-links-switch-alert-wrapper")
 export const settingsCustomLinkCards = document.getElementById("custom-link-cards")
