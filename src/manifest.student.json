@@ -20,5 +20,6 @@
     "chrome_url_overrides": {
       "newtab": "index.html"
     },
+    "incognito": "not_allowed",
     "manifest_version": 3
 }
