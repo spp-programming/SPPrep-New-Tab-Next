@@ -1,4 +1,4 @@
-body {
+#background-image {
     background: var(--selected-background);
     background-repeat: no-repeat;
     background-size: cover;

@@ -6,6 +6,7 @@ export const calendarApiId = "144grand@gmail.com"
 export const internalConfigFile = "/internal-config.json"
 export const powerSchoolStudentURL = "https://spprep.powerschool.com/public/"
 export const powerSchoolTeacherURL = "https://spprep.powerschool.com/teachers/"
+export const backgroundImage = document.getElementById("background-image")
 export const clockElement = document.getElementById("clock")
 export const letterDayElement = document.getElementById("letter-day")
 export const buttonContainer = document.getElementById("button-container")

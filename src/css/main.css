@@ -8,10 +8,26 @@
     user-select: none;
 }
 
+/* Using the browser's default background-color is less jarring than pure black, so this is commented out
 body {
+    background: black;
+}
+*/
+
+#background-image {
     background: var(--selected-gradient), var(--selected-background);
     background-size: cover;
     background-repeat: no-repeat;
+    z-index: -9999;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    opacity: 0;
+    transition: opacity 0.1s ease-in;
+}
+
+#background-image.fade-in {
+    opacity: 1;
 }
 
 #content-element {

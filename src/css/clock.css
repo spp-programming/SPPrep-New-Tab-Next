@@ -1,11 +1,23 @@
 #clock {
     font-weight: bold;
     font-feature-settings: "tnum";
+    opacity: 0;
+    transition: opacity 0.1s ease-in;
+}
+
+#clock.fade-in {
+    opacity: 1;
 }
 
 #letter-day {
     font-weight: bold;
     cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.1s ease-in;
+}
+
+#letter-day.fade-in {
+    opacity: 1;
 }
 
 #letter-day-spinner {

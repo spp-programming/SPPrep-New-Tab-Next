@@ -12,6 +12,12 @@
     row-gap: 1.5rem;
     width: 95vw;
     flex-wrap: wrap;
+    opacity: 0;
+    transition: opacity 0.1s ease-in;
+}
+
+#button-container.fade-in {
+    opacity: 1;
 }
 
 #menu-button {
