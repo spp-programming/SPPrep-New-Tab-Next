@@ -7,6 +7,9 @@
     top: 56px;
     z-index: 9999;
 }
+#internal-config-mode-text {
+    text-decoration-style: dotted;
+}
 
 @view-transition {
     navigation: auto;
