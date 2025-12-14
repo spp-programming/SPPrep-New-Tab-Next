@@ -4,6 +4,7 @@
   "description": "The make-zip tool for SPP New Tab Next",
   "main": "make-zip.js",
   "type": "module",
+  "private": true,
   "scripts": {
     "start": "node make-zip.js",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 "use strict"
-import { AdmZip } from "adm-zip"
+import AdmZip from "adm-zip"
 import { join } from "node:path"
 
 const srcFolder = join(import.meta.dirname, "..", "..", "src.prepared")
