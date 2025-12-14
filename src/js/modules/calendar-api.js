@@ -7,14 +7,10 @@ const currentDateUTC = new Date()
 // Get the time zone offset in minutes for the current date
 const timeZoneOffsetMinutes = getTimeZoneOffsetFromName(primaryTimeZone)
 
-// Convert the current date to EST by adjusting according to timezone offset
-const timeZoneOffset = -timeZoneOffsetMinutes // EST offset in minutes
-const currentDateEST = new Date(currentDateUTC.getTime() + timeZoneOffset * 60 * 1000)
-
 // Extract the date parts for the EST Timezone
-const year = currentDateEST.getFullYear()
-const month = String(currentDateEST.getMonth()+1).padStart(2, "0") // Months are 0-based in JS
-const day = String(currentDateEST.getDate()).padStart(2, "0")
+const year = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, year: "numeric"}).format(currentDateUTC)
+const month = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, month: "2-digit"}).format(currentDateUTC)
+const day = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, day: "2-digit"}).format(currentDateUTC)
 
 const timeZoneOffsetISO = convertOffsetToISO(timeZoneOffsetMinutes)
 const timeMin = `${year}-${month}-${day}T00:00:00${timeZoneOffsetISO}` // Start of the day in EST
@@ -71,16 +67,9 @@ export function getCurrentDateString() {
     // Get the current date in UTC
     const currentDateUTC = new Date()
 
-    // Get the time zone offset in minutes for the current date
-    const timeZoneOffsetMinutes = getTimeZoneOffsetFromName(primaryTimeZone)
-
-    // Convert the current date to EST by adjusting according to timezone offset
-    const timeZoneOffset = -timeZoneOffsetMinutes // EST offset in minutes
-    const currentDateEST = new Date(currentDateUTC.getTime() + timeZoneOffset * 60 * 1000)
-
     // Extract the date parts for the EST Timezone
-    const year = currentDateEST.getFullYear()
-    const month = String(currentDateEST.getMonth()+1).padStart(2, "0") // Months are 0-based in JS
-    const day = String(currentDateEST.getDate()).padStart(2, "0")
+    const year = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, year: "numeric"}).format(currentDateUTC)
+    const month = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, month: "2-digit"}).format(currentDateUTC)
+    const day = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, day: "2-digit"}).format(currentDateUTC)
     return `${month}/${day}/${year}`
 }
