@@ -76,8 +76,35 @@ async function applyInternalConfigModeChanges() {
     }
 }
 
-async function loadAllSettings() {
+async function loadLayoutSettings() {
     const storedSettingsEnableSplitLayoutSelection = (await chrome.storage.local.get())["settings_enableSplitLayoutSelection"]
+    if (new URLSearchParams(document.location.search).get("preview-layout") === "split") {
+        previewLayoutToastSelected.innerText = "split"
+        bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
+    }
+    if (new URLSearchParams(document.location.search).get("preview-layout") === "stacked") {
+        previewLayoutToastSelected.innerText = "stacked"
+        bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
+    } else if (storedSettingsEnableSplitLayoutSelection === true || new URLSearchParams(document.location.search).get("preview-layout") === "split") {
+        const linkElement = document.createElement("link")
+        linkElement.rel = "stylesheet"
+        linkElement.href = "./css/split-layout.css"
+        document.head.appendChild(linkElement)
+    }
+}
+
+async function loadFontSettings() {
+    const storedSecretSettingsFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
+    if (validFonts.includes(storedSecretSettingsFontSelection)) {
+        document.documentElement.classList.add(`font-${storedSecretSettingsFontSelection}`)
+    } else {
+        document.documentElement.classList.add("font-azeret-mono")
+    }
+    clockElement.classList.add("fade-in")
+    letterDayElement.classList.add("fade-in")
+}
+
+async function loadButtonSettings() {
     const storedSettingsHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
     const storedSettingsHideClubHubSelection = (await chrome.storage.local.get())["settings_hideClubHubSelection"]
     const storedSettingsEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
@@ -93,23 +120,6 @@ async function loadAllSettings() {
     const storedSettingsCustomLink1URL = (await chrome.storage.local.get())["settings_customLink1URL"]
     const storedSettingsCustomLink2URL = (await chrome.storage.local.get())["settings_customLink2URL"]
     const storedSettingsCustomLink3URL = (await chrome.storage.local.get())["settings_customLink3URL"]
-    const storedSecretSettingsBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
-    const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
-    const storedSecretSettingsFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
-    const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
-    if (new URLSearchParams(document.location.search).get("preview-layout") === "split") {
-        previewLayoutToastSelected.innerText = "split"
-        bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
-    }
-    if (new URLSearchParams(document.location.search).get("preview-layout") === "stacked") {
-        previewLayoutToastSelected.innerText = "stacked"
-        bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
-    } else if (storedSettingsEnableSplitLayoutSelection === true || new URLSearchParams(document.location.search).get("preview-layout") === "split") {
-        const linkElement = document.createElement("link")
-        linkElement.rel = "stylesheet"
-        linkElement.href = "./css/split-layout.css"
-        document.head.appendChild(linkElement)
-    }
     if (storedSettingsHideSchoolCalendarSelection === true) {
         schoolCalendarButton.hidden = true
     }
@@ -166,6 +176,13 @@ async function loadAllSettings() {
             buttonContainer.appendChild(content)
         }
     }
+    buttonContainer.classList.add("fade-in")
+}
+
+async function loadBackgroundSettings() {
+    const storedSecretSettingsBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
+    const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
+    const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
     switch (storedSecretSettingsBackgroundSelection) {
         case "custom":
             if (storedSecretSettingsCustomBackground !== undefined) {
@@ -221,16 +238,12 @@ async function loadAllSettings() {
         default:
             document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
     }
-    if (validFonts.includes(storedSecretSettingsFontSelection)) {
-        document.documentElement.classList.add(`font-${storedSecretSettingsFontSelection}`)
-    } else {
-        document.documentElement.classList.add("font-azeret-mono")
-    }
     if (/^#[0-9A-F]{6}$/i.test(storedSecretSettingsGradientSelection)) {
         document.documentElement.style.setProperty("--gradient-color", storedSecretSettingsGradientSelection)
     } else {
         document.documentElement.style.setProperty("--gradient-color", "#9b042a")
     }
+    backgroundImage.classList.add("fade-in")
 }
 
 async function handleClock() {
@@ -264,11 +277,10 @@ async function loadStuff() {
     loadLetterDay() // Don't use await here, we don't want to wait for this to finish before continuing.
     applyInternalConfigModeChanges()
     handleClock()
-    await loadAllSettings()
-    backgroundImage.classList.add("fade-in")
-    clockElement.classList.add("fade-in")
-    letterDayElement.classList.add("fade-in")
-    buttonContainer.classList.add("fade-in")
+    loadLayoutSettings()
+    loadButtonSettings()
+    loadFontSettings()
+    loadBackgroundSettings()
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
 }
