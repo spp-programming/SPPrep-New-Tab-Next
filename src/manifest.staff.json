@@ -21,5 +21,6 @@
       "newtab": "index.html"
     },
     "incognito": "not_allowed",
+    "minimum_chrome_version": "123",
     "manifest_version": 3
 }
