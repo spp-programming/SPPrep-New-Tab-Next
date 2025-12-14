@@ -148,6 +148,7 @@ async function loadButtonSettings() {
             content.href = url
             content.querySelector("img").src = iconURL
             buttonContainer.appendChild(content)
+            new bootstrap.Tooltip(content)
         }
         if (storedSettingsCustomLink2Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
             let name = "Custom link #2"
@@ -164,6 +165,7 @@ async function loadButtonSettings() {
             content.href = url
             content.querySelector("img").src = iconURL
             buttonContainer.appendChild(content)
+            new bootstrap.Tooltip(content)
         }
         if (storedSettingsCustomLink3Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
             let name = "Custom link #3"
@@ -180,6 +182,7 @@ async function loadButtonSettings() {
             content.href = url
             content.querySelector("img").src = iconURL
             buttonContainer.appendChild(content)
+            new bootstrap.Tooltip(content)
         }
     }
     buttonContainer.classList.add("fade-in")
