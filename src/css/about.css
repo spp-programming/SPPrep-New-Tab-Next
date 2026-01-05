@@ -9,6 +9,7 @@
 }
 #internal-config-mode-text {
     text-decoration-style: dotted;
+    cursor: help;
 }
 
 @view-transition {
