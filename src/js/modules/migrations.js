@@ -45,7 +45,7 @@ async function migrateLocalStorage() {
 export async function runMigrations() {
     console.log("🔍 Running migrations")
     const storedMigrationVersion = (await chrome.storage.local.get())["migrationVersion"]
-    if (storedMigrationVersion == migrationVersion) {
+    if (storedMigrationVersion === migrationVersion) {
         console.log(`✅ migrationVersion is ${migrationVersion}, no migrations necessary.`)
         return
     }

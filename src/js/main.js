@@ -50,8 +50,8 @@ async function loadLetterDay() {
         }
         letterDayElement.innerHTML = letterDay
         checkLetterDayChangeInterval = setInterval(checkLetterDayChange, 1)
-    } catch (e) {
-        console.log(e)
+    } catch (error) {
+        console.log(error)
         letterDayElement.innerHTML = "🤯"
         setPopoverText(letterDayElement, "Woah! Something went wrong.<br>Hit refresh to try again.")
         errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">To try querying it again, refresh the page.</div>"
