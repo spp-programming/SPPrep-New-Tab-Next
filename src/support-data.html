@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPP New Tab | Collect support data</title>
+    <link rel="preload" href="./fonts/bootstrap-icons/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/support-data.css">
+    <link rel="stylesheet" href="./css/colors.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md sticky-top bg-maroon-brand-color">
+        <div class="container-fluid">
+            <a class="navbar-brand fake-link" href="#">
+                <img src="./img/icons/extension/48.png" alt="SPP New Tab Logo" width="24" height="24" class="d-inline-block align-text-top">
+                SPP New Tab
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-content">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fake-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span></a></li>
+                            <li><a class="dropdown-item" href="secret-settings.html"><i class="bi bi-file-lock" aria-hidden="true"></i> <span>Secret Settings</span></a></li>
+                            <li><a class="dropdown-item" href="clear-data.html"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear extension data</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="changelog.html"><i class="bi bi-megaphone" aria-hidden="true"></i> <span>What's New</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="bi bi-info-circle" aria-hidden="true"></i> <span>About</span></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" id="github-nav-link" href="https://github.com/spp-programming/SPPrep-New-Tab-Next/issues" title="GitHub account required! Please check if your issue has already been reported before opening an issue report." data-bs-toggle="tooltip"><i class="bi bi-github" aria-hidden="true"></i> <span>GitHub Issues</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <h1><i class="bi bi-bug" aria-hidden="true"></i> Collect support data</h1>
+        <p>This data may be requested by our team if we need it for debugging an issue report. You can file an issue report by clicking on "GitHub Issues" in the navbar.</p>
+        <div class="alert alert-warning" role="alert">
+            The support data file contains all data stored by the extension, which includes all settings, custom links, and backgrounds. <strong>Keep in mind that anybody with this file will be able to know which background you've set and the custom links that you've added.</strong>
+        </div>
+        <button type="button" class="btn btn-primary" id="collect-support-data-button"><i class="bi bi-download" aria-hidden="true"></i> Collect support data</button>
+    </div>
+    <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./js/support-data.js"></script>
+</body>
+</html>
