@@ -192,6 +192,7 @@ async function loadBackgroundSettings() {
     const storedSecretSettingsBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
     const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
     const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
+    const storedSecretSettingsGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
     switch (storedSecretSettingsBackgroundSelection) {
         case "custom":
             if (storedSecretSettingsCustomBackground !== undefined) {
@@ -251,6 +252,10 @@ async function loadBackgroundSettings() {
         document.documentElement.style.setProperty("--gradient-color", storedSecretSettingsGradientSelection)
     } else {
         document.documentElement.style.setProperty("--gradient-color", "#9b042a")
+    }
+    if (storedSecretSettingsGradientDisabled === true) {
+        // The background-image property overrides the background property set in main.css, this is easier than overriding background because it doesn't unset background-size or background-repeat in the process
+        backgroundImage.style.backgroundImage = "var(--selected-background)"
     }
     backgroundImage.classList.add("fade-in")
 }

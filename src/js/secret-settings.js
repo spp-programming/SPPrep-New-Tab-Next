@@ -1,5 +1,5 @@
 "use strict"
-import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsSaveButton, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
+import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsSaveButton, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
@@ -30,6 +30,10 @@ secretSettingsGradientSelection.addEventListener("change", () => {
 secretSettingsGradientSelectionReset.addEventListener("click", () => {
     handleBeforeUnload()
     secretSettingsGradientSelection.value = "#9b042a"
+})
+
+secretSettingsGradientDisableSwitch.addEventListener("change", () => {
+    handleBeforeUnload()
 })
 
 secretSettingsBackgroundSelection.addEventListener("change", () => {
@@ -112,6 +116,7 @@ async function loadSecretSettings() {
     storedCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
     const storedFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
     const storedGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
+    const storedGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
     if (validBackgrounds.includes(storedBackgroundSelection)) {
         secretSettingsBackgroundSelection.value = storedBackgroundSelection
     }
@@ -127,6 +132,9 @@ async function loadSecretSettings() {
     if (/^#[0-9A-F]{6}$/i.test(storedGradientSelection)) {
         secretSettingsGradientSelection.value = storedGradientSelection
     }
+    if (storedGradientDisabled === true) {
+        secretSettingsGradientDisableSwitch.checked = true
+    }
 }
 
 async function saveSecretSettings() {
@@ -135,6 +143,7 @@ async function saveSecretSettings() {
     secretSettingsBackgroundSelection.disabled = true
     secretSettingsCustomBackgroundUploader.disabled = true
     secretSettingsGradientSelection.disabled = true
+    secretSettingsGradientDisableSwitch.disabled = true
     secretSettingsSaveButton.disabled = true
     secretSettingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
     if (secretSettingsDisableSwitch.checked) {
@@ -142,6 +151,7 @@ async function saveSecretSettings() {
         await chrome.storage.local.remove(["secretSettings_backgroundSelection"])
         await chrome.storage.local.remove(["secretSettings_fontSelection"])
         await chrome.storage.local.remove(["secretSettings_gradientSelection"])
+        await chrome.storage.local.remove(["secretSettings_gradientDisabled"])
         await chrome.storage.local.remove(["secretSettingsVisible"])
     } else {
         if (uploadedCustomBackground === undefined && storedCustomBackground === undefined) {
@@ -154,7 +164,8 @@ async function saveSecretSettings() {
         }
         await chrome.storage.local.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection.value })
         await chrome.storage.local.set({ secretSettings_fontSelection: secretSettingsFontSelection.value })
-        await chrome.storage.local.set({ secretSettings_gradientSelection: secretSettingsGradientSelection.value }) 
+        await chrome.storage.local.set({ secretSettings_gradientSelection: secretSettingsGradientSelection.value })
+        await chrome.storage.local.set({ secretSettings_gradientDisabled: secretSettingsGradientDisableSwitch.checked })
     }
     aboutToReload = true
     chrome.runtime.reload()

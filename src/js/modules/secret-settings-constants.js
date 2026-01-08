@@ -9,6 +9,7 @@ export const secretSettingsCustomBackgroundUploader = document.getElementById("c
 export const secretSettingsCustomBackgroundAlertWrapper = document.getElementById("custom-background-alert-wrapper")
 export const secretSettingsGradientSelection = document.getElementById("gradient-selection")
 export const secretSettingsGradientSelectionReset = document.getElementById("gradient-selection-reset")
+export const secretSettingsGradientDisableSwitch = document.getElementById("gradient-disable-switch")
 export const secretSettingsFontPreview = document.getElementById("font-preview")
 export const secretSettingsBackgroundPreview = document.getElementById("background-preview")
 export const secretSettingsBackgroundPreviewNotes = document.getElementById("background-preview-notes")
