@@ -57,7 +57,7 @@
 
         <h4>General Layout</h4>
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="enable-split-layout-switch" aria-describedby="enable-split-layout-switch-help">
+            <input class="form-check-input" type="checkbox" role="switch" id="enable-split-layout-switch" aria-describedby="enable-split-layout-switch-help" autocomplete="off">
             <label class="form-check-label" for="enable-split-layout-switch">Enable split layout</label>
         </div>
         <p class="form-text" id="enable-split-layout-switch-help">The staff version of the extension uses the split layout by default, while the student version uses the stacked layout by default. You can preview what the <a href="./index.html?preview-layout=split" target="_blank">split</a> and <a href="./index.html?preview-layout=stacked" target="_blank">stacked</a> layouts will look like.</p>
@@ -65,17 +65,17 @@
 
         <h4>Buttons</h4>
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="hide-school-calendar-switch" aria-describedby="hide-school-calendar-switch-help">
+            <input class="form-check-input" type="checkbox" role="switch" id="hide-school-calendar-switch" aria-describedby="hide-school-calendar-switch-help" autocomplete="off">
             <label class="form-check-label" for="hide-school-calendar-switch">Hide School Calendar button</label>
         </div>
         <p class="form-text" id="hide-school-calendar-switch-help">If you are <a href="https://calendar.google.com/calendar/r?cid=144grand@gmail.com&cid=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&cid=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&cid=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com">subscribed to the School Calendar in your Google Calendar</a>, the dedicated School Calendar button becomes redundant. So you can disable it here if you want.</p>
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="hide-club-hub-switch" aria-describedby="hide-club-hub-switch-help">
+            <input class="form-check-input" type="checkbox" role="switch" id="hide-club-hub-switch" aria-describedby="hide-club-hub-switch-help" autocomplete="off">
             <label class="form-check-label" for="hide-club-hub-switch">Hide Club Hub button</label>
         </div>
         <p class="form-text" id="hide-club-hub-switch-help">This option hides the Club Hub button that was added in version 4.0, in case you didn't want it.</p>
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="enable-custom-links-switch" aria-describedby="enable-custom-links-switch-help">
+            <input class="form-check-input" type="checkbox" role="switch" id="enable-custom-links-switch" aria-describedby="enable-custom-links-switch-help" autocomplete="off">
             <label class="form-check-label" for="enable-custom-links-switch">Enable custom links</label>
         </div>
         <p class="form-text" id="enable-custom-links-switch-help">Custom links allow you to add your own buttons to SPP New Tab, linking you to your favorite sites. You can add up to three.</p>
@@ -87,7 +87,7 @@
                         <h5 class="card-title">Custom link #1</h5>
                         <div class="mb-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-1-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-1-switch" autocomplete="off">
                                 <label class="form-check-label" for="custom-link-1-switch">Enable custom link #1</label>
                             </div>
                         </div>
@@ -102,18 +102,18 @@
                                     <img src="./img/icons/globe2.svg" alt="" aria-hidden="true" class="rounded icon-uploader">
                                 </div>
                             </a>
-                            <input type="file" id="custom-link-1-icon-uploader-real" accept="image/*" hidden>
+                            <input type="file" id="custom-link-1-icon-uploader-real" accept="image/*" autocomplete="off" hidden>
                             <div id="custom-link-1-icon-uploader-help" class="form-text">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link text-danger" id="custom-link-1-icon-resetter">reset the icon to the default one</a>.</span></div>
                             <div id="custom-link-1-icon-uploader-alert-wrapper"></div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-1-name-input" class="form-label">Name</label>
-                            <input type="text" placeholder="Default name: Custom link #1" class="form-control" id="custom-link-1-name-input" aria-describedby="custom-link-1-name-input-help" disabled>
+                            <input type="text" placeholder="Default name: Custom link #1" class="form-control" id="custom-link-1-name-input" aria-describedby="custom-link-1-name-input-help" autocomplete="off" disabled>
                             <div id="custom-link-1-name-input-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-1-url-input" class="form-label">URL <span class="text-danger">*</span></label>
-                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-1-url-input" aria-describedby="custom-link-1-url-input-help" disabled>
+                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-1-url-input" aria-describedby="custom-link-1-url-input-help" autocomplete="off" disabled>
                             <div id="custom-link-1-url-input-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
                             <div id="custom-link-1-url-input-alert-wrapper"></div>
                         </div>
@@ -126,7 +126,7 @@
                         <h5 class="card-title">Custom link #2</h5>
                         <div class="mb-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-2-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-2-switch" autocomplete="off">
                                 <label class="form-check-label" for="custom-link-2-switch">Enable custom link #2</label>
                             </div>
                         </div>
@@ -141,18 +141,18 @@
                                     <img src="./img/icons/globe2.svg" alt="" aria-hidden="true" class="rounded icon-uploader">
                                 </div>
                             </a>
-                            <input type="file" id="custom-link-2-icon-uploader-real" accept="image/*" hidden>
+                            <input type="file" id="custom-link-2-icon-uploader-real" accept="image/*" autocomplete="off" hidden>
                             <div id="custom-link-2-icon-uploader-help" class="form-text">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link text-danger" id="custom-link-2-icon-resetter">reset the icon to the default one</a>.</span></div>
                             <div id="custom-link-2-icon-uploader-alert-wrapper"></div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-2-name-input" class="form-label">Name</label>
-                            <input type="text" placeholder="Default name: Custom link #2" class="form-control" id="custom-link-2-name-input" aria-describedby="custom-link-2-name-input-help" disabled>
+                            <input type="text" placeholder="Default name: Custom link #2" class="form-control" id="custom-link-2-name-input" aria-describedby="custom-link-2-name-input-help" autocomplete="off" disabled>
                             <div id="custom-link-2-name-input-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-2-url-input" class="form-label">URL <span class="text-danger">*</span></label>
-                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-2-url-input" aria-describedby="custom-link-2-url-input-help" disabled>
+                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-2-url-input" aria-describedby="custom-link-2-url-input-help" autocomplete="off" disabled>
                             <div id="custom-link-2-url-input-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
                             <div id="custom-link-2-url-input-alert-wrapper"></div>
                         </div>
@@ -165,7 +165,7 @@
                         <h5 class="card-title">Custom link #3</h5>
                         <div class="mb-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-3-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-3-switch" autocomplete="off">
                                 <label class="form-check-label" for="custom-link-3-switch">Enable custom link #3</label>
                             </div>
                         </div>
@@ -180,18 +180,18 @@
                                     <img src="./img/icons/globe2.svg" alt="" aria-hidden="true" class="rounded icon-uploader">
                                 </div>
                             </a>
-                            <input type="file" id="custom-link-3-icon-uploader-real" accept="image/*" hidden>
+                            <input type="file" id="custom-link-3-icon-uploader-real" accept="image/*" autocomplete="off" hidden>
                             <div id="custom-link-3-icon-uploader-help" class="form-text">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link text-danger" id="custom-link-3-icon-resetter">reset the icon to the default one</a>.</span></div>
                             <div id="custom-link-3-icon-uploader-alert-wrapper"></div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-3-name-input" class="form-label">Name</label>
-                            <input type="text" placeholder="Default name: Custom link #3" class="form-control" id="custom-link-3-name-input" aria-describedby="custom-link-3-name-input-help" disabled>
+                            <input type="text" placeholder="Default name: Custom link #3" class="form-control" id="custom-link-3-name-input" aria-describedby="custom-link-3-name-input-help" autocomplete="off" disabled>
                             <div id="custom-link-3-name-input-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-3-url-input" class="form-label">URL <span class="text-danger">*</span></label>
-                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-3-url-input" aria-describedby="custom-link-3-url-input-help" disabled>
+                            <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-3-url-input" aria-describedby="custom-link-3-url-input-help" autocomplete="off" disabled>
                             <div id="custom-link-3-url-input-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
                             <div id="custom-link-3-url-input-alert-wrapper"></div>
                         </div>
@@ -203,19 +203,19 @@
 
         <h4>Clock</h4>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-12hour" aria-describedby="clock-mode-radio-help" checked>
+            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-12hour" aria-describedby="clock-mode-radio-help" autocomplete="off" checked>
             <label class="form-check-label" for="clock-mode-radio-12hour">
                 12-hour (AM/PM hidden, default)
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-ampm" aria-describedby="clock-mode-radio-help">
+            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-ampm" aria-describedby="clock-mode-radio-help" autocomplete="off">
             <label class="form-check-label" for="clock-mode-radio-ampm">
                 12-hour (AM/PM visible)
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-24hour" aria-describedby="clock-mode-radio-help">
+            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-24hour" aria-describedby="clock-mode-radio-help" autocomplete="off">
             <label class="form-check-label" for="clock-mode-radio-24hour">
                 24-hour
             </label>
