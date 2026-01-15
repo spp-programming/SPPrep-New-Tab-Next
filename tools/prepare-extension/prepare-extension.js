@@ -10,6 +10,8 @@ let sanityCounter = 0
 const srcFolder = join(import.meta.dirname, "..", "..", "src")
 const srcPreparedFolder = join(import.meta.dirname, "..", "..", "src.prepared")
 const srcPreparedFolderManifest = join(srcPreparedFolder, "manifest.json")
+const srcPreparedFolderManifestFirefoxStudent = join(srcPreparedFolder, "manifest.firefox.student.json")
+const srcPreparedFolderManifestFirefoxStaff = join(srcPreparedFolder, "manifest.firefox.staff.json")
 const srcPreparedFolderManifestStudent = join(srcPreparedFolder, "manifest.student.json")
 const srcPreparedFolderManifestStaff = join(srcPreparedFolder, "manifest.staff.json")
 const srcPreparedFolderInternalConfig = join(srcPreparedFolder, "internal-config.json")
@@ -23,6 +25,14 @@ argv.forEach((val, _index) => {
     }
     if (val === "staff") {
         selectedAction = "staff"
+        sanityCounter++
+    }
+    if (val === "firefox-student") {
+        selectedAction = "firefox-student"
+        sanityCounter++
+    }
+    if (val === "firefox-staff") {
+        selectedAction = "firefox-staff"
         sanityCounter++
     }
 })
@@ -63,6 +73,22 @@ switch (selectedAction) {
         cpSync(srcPreparedFolderInternalConfigStaff, srcPreparedFolderInternalConfig, {force: true})
 
         break
+    case "firefox-student":
+        console.log(`Copying srcPreparedFolderManifestFirefoxStudent \"${srcPreparedFolderManifestFirefoxStudent}\" to srcPreparedFolderManifest \"${srcPreparedFolderManifest}\"`)
+        cpSync(srcPreparedFolderManifestFirefoxStudent, srcPreparedFolderManifest, {force: true})
+
+        console.log(`Copying srcPreparedFolderInternalConfigStudent \"${srcPreparedFolderInternalConfigStudent}\" to srcPreparedFolderInternalConfig \"${srcPreparedFolderInternalConfig}\"`)
+        cpSync(srcPreparedFolderInternalConfigStudent, srcPreparedFolderInternalConfig, {force: true})
+
+        break
+    case "firefox-staff":
+        console.log(`Copying srcPreparedFolderManifestFirefoxStaff \"${srcPreparedFolderManifestFirefoxStaff}\" to srcPreparedFolderManifest \"${srcPreparedFolderManifest}\"`)
+        cpSync(srcPreparedFolderManifestFirefoxStaff, srcPreparedFolderManifest, {force: true})
+
+        console.log(`Copying srcPreparedFolderInternalConfigStaff \"${srcPreparedFolderInternalConfigStaff}\" to srcPreparedFolderInternalConfig \"${srcPreparedFolderInternalConfig}\"`)
+        cpSync(srcPreparedFolderInternalConfigStaff, srcPreparedFolderInternalConfig, {force: true})
+
+        break
     default:
         throw Error(`Unknown value for selectedAction (${selectedAction}). This should not be happening!`)
 }
@@ -72,6 +98,12 @@ rmSync(srcPreparedFolderManifestStudent)
 
 console.log(`Deleting srcPreparedFolderManifestStaff \"${srcPreparedFolderManifestStaff}\"`)
 rmSync(srcPreparedFolderManifestStaff)
+
+console.log(`Deleting srcPreparedFolderManifestFirefoxStudent \"${srcPreparedFolderManifestFirefoxStudent}\"`)
+rmSync(srcPreparedFolderManifestFirefoxStudent)
+
+console.log(`Deleting srcPreparedFolderManifestFirefoxStaff \"${srcPreparedFolderManifestFirefoxStaff}\"`)
+rmSync(srcPreparedFolderManifestFirefoxStaff)
 
 console.log(`Deleting srcPreparedFolderInternalConfigStudent \"${srcPreparedFolderInternalConfigStudent}\"`)
 rmSync(srcPreparedFolderInternalConfigStudent)
