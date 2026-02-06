@@ -17,7 +17,7 @@ function isValidURL(string) {
     } catch {
         return false
     }
-    return url.protocol === "http:" || url.protocol === "https:"
+    return url.protocol === "http:" || url.protocol === "https:" || url.protocol === "steam:"
 }
 
 function enableCustomLink1CardContent() {
