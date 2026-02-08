@@ -38,10 +38,12 @@ try {
 collectSupportDataButton.addEventListener("click", () => {
     try {
         // Stolen from https://stackoverflow.com/a/23167789
-        chrome.storage.local.get(null, (items) => {
+        chrome.storage.local.get(null, async (items) => {
             const data = {
-                supportDataVersion: 1,
+                supportDataVersion: 2,
                 extensionVersion: chrome.runtime.getManifest().version,
+                extensionId: chrome.runtime.id,
+                platformInfo: await chrome.runtime.getPlatformInfo(),
                 internalConfigMode: internalConfigMode,
                 date: Date.now(),
                 timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -63,4 +65,8 @@ collectSupportDataButton.addEventListener("click", () => {
         alert(`Oops, something went wrong while collecting support data. This is not supposed to be happening! Please include the message that is displayed below in your issue report.\n\n${error}`)
         console.error(error)
     }
+})
+
+window.addEventListener("unhandledrejection", (error) => {
+    alert(`Oops, something went wrong while collecting support data. This is not supposed to be happening! Please include the message that is displayed below in your issue report.\n\nUnhandled promise rejection:\n${error.reason}`)
 })
