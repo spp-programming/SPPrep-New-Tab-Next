@@ -53,8 +53,13 @@ async function loadLetterDay() {
     } catch (error) {
         console.log(error)
         letterDayElement.innerHTML = "🤯"
-        setPopoverText(letterDayElement, "Woah! Something went wrong.<br>Hit refresh to try again.")
-        errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">To try querying it again, refresh the page.</div>"
+        if (navigator.onLine === false) {
+            setPopoverText(letterDayElement, "No internet connection!<br>Hit refresh to try again.")
+            errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">Check your internet connection. To try querying it again, refresh the page.</div>"
+        } else {
+            setPopoverText(letterDayElement, "Woah! Something went wrong.<br>Hit refresh to try again.")
+            errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">To try querying it again, refresh the page.</div>"
+        }
         bootstrap.Toast.getOrCreateInstance(errorToast).show()
     }
 }
