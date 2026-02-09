@@ -32,6 +32,7 @@ export const passcodeModalBody = document.querySelector("#passcode-modal .modal-
 export const passcodeModalVerifyButton = document.getElementById("passcode-modal-verify")
 export const passcodeModalInput = document.getElementById("passcode-modal-input")
 export const passcodeModalInputClearButton = document.getElementById("passcode-modal-input-clear")
+export const passcodeModalAlertWrapper = document.getElementById("passcode-modal-alert-wrapper")
 export const passcodeModalControllerButtons = document.getElementsByClassName("controller-button")
 export const passcodeModalPasscode = "\u{1F53C} \u{1F53C} \u{1F53D} \u{1F53D} \u{25C0}\u{FE0F} \u{25B6}\u{FE0F} \u{25C0}\u{FE0F} \u{25B6}\u{FE0F} \u{1F171}\u{FE0F} \u{1F170}\u{FE0F} \u{1F3C3}\u{200D}\u{27A1}\u{FE0F} " // The Unicode-escaped emoji sequence representing the passcode. The spaces in between and at the end are very important.
 export const backgroundBliss = "./img/backgrounds/bliss_windows_xp.webp"

@@ -1,5 +1,5 @@
 "use strict"
-import { passcodeModal, passcodeModalInput, passcodeModalInputClearButton, passcodeModalControllerButtons, passcodeModalVerifyButton, passcodeModalPasscode, passcodeModalTitle, passcodeModalBody } from "./global-constants.js"
+import { passcodeModal, passcodeModalInput, passcodeModalInputClearButton, passcodeModalControllerButtons, passcodeModalVerifyButton, passcodeModalPasscode, passcodeModalTitle, passcodeModalBody, passcodeModalAlertWrapper } from "./global-constants.js"
 const passcodeModalBS = new bootstrap.Modal(passcodeModal)
 
 export async function openPasscodeModal() {
@@ -40,5 +40,8 @@ passcodeModalVerifyButton.addEventListener("click", () => {
         console.log("passcode verified!")
         enableSecretSettings()
         showSecretSettingsContent()
+    } else {
+        console.log("passcode NOT verified!")
+        passcodeModalAlertWrapper.innerHTML = '<div class="alert alert-danger alert-dismissible fade show mt-3 mb-0" role="alert"><h4 class="alert-heading"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> Incorrect passcode</h4><p>You can try entering the passcode again.</p><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
     }
 })
