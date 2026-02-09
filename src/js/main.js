@@ -88,205 +88,230 @@ async function applyInternalConfigModeChanges() {
 }
 
 async function loadLayoutSettings() {
-    const storedSettingsEnableSplitLayoutSelection = (await chrome.storage.local.get())["settings_enableSplitLayoutSelection"]
-    if (new URLSearchParams(document.location.search).get("preview-layout") === "split") {
-        previewLayoutToastSelected.innerText = "split"
-        bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
-    }
-    if (new URLSearchParams(document.location.search).get("preview-layout") === "stacked") {
-        previewLayoutToastSelected.innerText = "stacked"
-        bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
-    } else if (storedSettingsEnableSplitLayoutSelection === true || new URLSearchParams(document.location.search).get("preview-layout") === "split") {
-        const linkElement = document.createElement("link")
-        linkElement.rel = "stylesheet"
-        linkElement.href = "./css/split-layout.css"
-        document.head.appendChild(linkElement)
+    try {
+        const storedSettingsEnableSplitLayoutSelection = (await chrome.storage.local.get())["settings_enableSplitLayoutSelection"]
+        if (new URLSearchParams(document.location.search).get("preview-layout") === "split") {
+            previewLayoutToastSelected.innerText = "split"
+            bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
+        }
+        if (new URLSearchParams(document.location.search).get("preview-layout") === "stacked") {
+            previewLayoutToastSelected.innerText = "stacked"
+            bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
+        } else if (storedSettingsEnableSplitLayoutSelection === true || new URLSearchParams(document.location.search).get("preview-layout") === "split") {
+            const linkElement = document.createElement("link")
+            linkElement.rel = "stylesheet"
+            linkElement.href = "./css/split-layout.css"
+            document.head.appendChild(linkElement)
+        }
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while loading layout settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
 }
 
 async function loadFontSettings() {
-    const storedSecretSettingsFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
-    if (validFonts.includes(storedSecretSettingsFontSelection)) {
-        document.documentElement.classList.add(`font-${storedSecretSettingsFontSelection}`)
-    } else {
-        document.documentElement.classList.add("font-azeret-mono")
+    try {
+        const storedSecretSettingsFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
+        if (validFonts.includes(storedSecretSettingsFontSelection)) {
+            document.documentElement.classList.add(`font-${storedSecretSettingsFontSelection}`)
+        } else {
+            document.documentElement.classList.add("font-azeret-mono")
+        }
+        clockElement.classList.add("fade-in")
+        letterDayElement.classList.add("fade-in")
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while loading font settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
-    clockElement.classList.add("fade-in")
-    letterDayElement.classList.add("fade-in")
 }
 
 async function loadButtonSettings() {
-    const storedSettingsHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
-    const storedSettingsHideClubHubSelection = (await chrome.storage.local.get())["settings_hideClubHubSelection"]
-    const storedSettingsEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
-    const storedSettingsCustomLink1Enabled = (await chrome.storage.local.get())["settings_customLink1Enabled"]
-    const storedSettingsCustomLink2Enabled = (await chrome.storage.local.get())["settings_customLink2Enabled"]
-    const storedSettingsCustomLink3Enabled = (await chrome.storage.local.get())["settings_customLink3Enabled"]
-    const storedSettingsCustomLink1IconURL = (await chrome.storage.local.get())["settings_customLink1IconURL"]
-    const storedSettingsCustomLink2IconURL = (await chrome.storage.local.get())["settings_customLink2IconURL"]
-    const storedSettingsCustomLink3IconURL = (await chrome.storage.local.get())["settings_customLink3IconURL"]
-    const storedSettingsCustomLink1Name = (await chrome.storage.local.get())["settings_customLink1Name"]
-    const storedSettingsCustomLink2Name = (await chrome.storage.local.get())["settings_customLink2Name"]
-    const storedSettingsCustomLink3Name = (await chrome.storage.local.get())["settings_customLink3Name"]
-    const storedSettingsCustomLink1URL = (await chrome.storage.local.get())["settings_customLink1URL"]
-    const storedSettingsCustomLink2URL = (await chrome.storage.local.get())["settings_customLink2URL"]
-    const storedSettingsCustomLink3URL = (await chrome.storage.local.get())["settings_customLink3URL"]
-    if (storedSettingsHideSchoolCalendarSelection === true) {
-        schoolCalendarButton.hidden = true
-    }
-    if (storedSettingsHideClubHubSelection === true) {
-        clubHubButton.hidden = true
-    }
-    if (storedSettingsEnableCustomLinksSelection === true) {
-        if (storedSettingsCustomLink1Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
-            let name = "Custom link #1"
-            let iconURL = "./img/icons/globe2.svg"
-            const url = storedSettingsCustomLink1URL
-            if (typeof(storedSettingsCustomLink1Name) === "string" && storedSettingsCustomLink1Name.trim() !== "") {
-                name = storedSettingsCustomLink1Name.trim()
-            }
-            if (typeof(storedSettingsCustomLink1IconURL) === "string") {
-                iconURL = storedSettingsCustomLink1IconURL
-            }
-            const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
-            content.title = name
-            content.href = url
-            content.querySelector("img").src = iconURL
-            buttonContainer.appendChild(content)
-            new bootstrap.Tooltip(content)
+    try {
+        const storedSettingsHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
+        const storedSettingsHideClubHubSelection = (await chrome.storage.local.get())["settings_hideClubHubSelection"]
+        const storedSettingsEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
+        const storedSettingsCustomLink1Enabled = (await chrome.storage.local.get())["settings_customLink1Enabled"]
+        const storedSettingsCustomLink2Enabled = (await chrome.storage.local.get())["settings_customLink2Enabled"]
+        const storedSettingsCustomLink3Enabled = (await chrome.storage.local.get())["settings_customLink3Enabled"]
+        const storedSettingsCustomLink1IconURL = (await chrome.storage.local.get())["settings_customLink1IconURL"]
+        const storedSettingsCustomLink2IconURL = (await chrome.storage.local.get())["settings_customLink2IconURL"]
+        const storedSettingsCustomLink3IconURL = (await chrome.storage.local.get())["settings_customLink3IconURL"]
+        const storedSettingsCustomLink1Name = (await chrome.storage.local.get())["settings_customLink1Name"]
+        const storedSettingsCustomLink2Name = (await chrome.storage.local.get())["settings_customLink2Name"]
+        const storedSettingsCustomLink3Name = (await chrome.storage.local.get())["settings_customLink3Name"]
+        const storedSettingsCustomLink1URL = (await chrome.storage.local.get())["settings_customLink1URL"]
+        const storedSettingsCustomLink2URL = (await chrome.storage.local.get())["settings_customLink2URL"]
+        const storedSettingsCustomLink3URL = (await chrome.storage.local.get())["settings_customLink3URL"]
+        if (storedSettingsHideSchoolCalendarSelection === true) {
+            schoolCalendarButton.hidden = true
         }
-        if (storedSettingsCustomLink2Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
-            let name = "Custom link #2"
-            let iconURL = "./img/icons/globe2.svg"
-            const url = storedSettingsCustomLink2URL
-            if (typeof(storedSettingsCustomLink2Name) === "string" && storedSettingsCustomLink2Name.trim() !== "") {
-                name = storedSettingsCustomLink2Name.trim()
-            }
-            if (typeof(storedSettingsCustomLink2IconURL) === "string") {
-                iconURL = storedSettingsCustomLink2IconURL
-            }
-            const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
-            content.title = name
-            content.href = url
-            content.querySelector("img").src = iconURL
-            buttonContainer.appendChild(content)
-            new bootstrap.Tooltip(content)
+        if (storedSettingsHideClubHubSelection === true) {
+            clubHubButton.hidden = true
         }
-        if (storedSettingsCustomLink3Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
-            let name = "Custom link #3"
-            let iconURL = "./img/icons/globe2.svg"
-            const url = storedSettingsCustomLink3URL
-            if (typeof(storedSettingsCustomLink3Name) === "string" && storedSettingsCustomLink3Name.trim() !== "") {
-                name = storedSettingsCustomLink3Name.trim()
+        if (storedSettingsEnableCustomLinksSelection === true) {
+            if (storedSettingsCustomLink1Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
+                let name = "Custom link #1"
+                let iconURL = "./img/icons/globe2.svg"
+                const url = storedSettingsCustomLink1URL
+                if (typeof(storedSettingsCustomLink1Name) === "string" && storedSettingsCustomLink1Name.trim() !== "") {
+                    name = storedSettingsCustomLink1Name.trim()
+                }
+                if (typeof(storedSettingsCustomLink1IconURL) === "string") {
+                    iconURL = storedSettingsCustomLink1IconURL
+                }
+                const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
+                content.title = name
+                content.href = url
+                content.querySelector("img").src = iconURL
+                buttonContainer.appendChild(content)
+                new bootstrap.Tooltip(content)
             }
-            if (typeof(storedSettingsCustomLink3IconURL) === "string") {
-                iconURL = storedSettingsCustomLink3IconURL
+            if (storedSettingsCustomLink2Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
+                let name = "Custom link #2"
+                let iconURL = "./img/icons/globe2.svg"
+                const url = storedSettingsCustomLink2URL
+                if (typeof(storedSettingsCustomLink2Name) === "string" && storedSettingsCustomLink2Name.trim() !== "") {
+                    name = storedSettingsCustomLink2Name.trim()
+                }
+                if (typeof(storedSettingsCustomLink2IconURL) === "string") {
+                    iconURL = storedSettingsCustomLink2IconURL
+                }
+                const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
+                content.title = name
+                content.href = url
+                content.querySelector("img").src = iconURL
+                buttonContainer.appendChild(content)
+                new bootstrap.Tooltip(content)
             }
-            const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
-            content.title = name
-            content.href = url
-            content.querySelector("img").src = iconURL
-            buttonContainer.appendChild(content)
-            new bootstrap.Tooltip(content)
+            if (storedSettingsCustomLink3Enabled === true && typeof(storedSettingsCustomLink1URL) === "string") {
+                let name = "Custom link #3"
+                let iconURL = "./img/icons/globe2.svg"
+                const url = storedSettingsCustomLink3URL
+                if (typeof(storedSettingsCustomLink3Name) === "string" && storedSettingsCustomLink3Name.trim() !== "") {
+                    name = storedSettingsCustomLink3Name.trim()
+                }
+                if (typeof(storedSettingsCustomLink3IconURL) === "string") {
+                    iconURL = storedSettingsCustomLink3IconURL
+                }
+                const content = customLinkTemplate.content.firstElementChild.cloneNode(true)
+                content.title = name
+                content.href = url
+                content.querySelector("img").src = iconURL
+                buttonContainer.appendChild(content)
+                new bootstrap.Tooltip(content)
+            }
         }
+        buttonContainer.classList.add("fade-in")
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while loading button settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
-    buttonContainer.classList.add("fade-in")
 }
 
 async function loadBackgroundSettings() {
-    const storedSecretSettingsBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
-    const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
-    const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
-    const storedSecretSettingsGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
-    switch (storedSecretSettingsBackgroundSelection) {
-        case "custom":
-            if (storedSecretSettingsCustomBackground !== undefined) {
-                try {
-                    const backgroundBlob = (await (await fetch(storedSecretSettingsCustomBackground)).blob())
-                    document.documentElement.style.setProperty("--selected-background", `url("${URL.createObjectURL(backgroundBlob)}")`)
-                } catch (error) {
-                    // If fetch() fails for whatever reason (for example, on an invalid data URL), just log the error but move on with the rest of the function.
-                    console.error(error)
+    try {
+        const storedSecretSettingsBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
+        const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
+        const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
+        const storedSecretSettingsGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
+        switch (storedSecretSettingsBackgroundSelection) {
+            case "custom":
+                if (storedSecretSettingsCustomBackground !== undefined) {
+                    try {
+                        const backgroundBlob = (await (await fetch(storedSecretSettingsCustomBackground)).blob())
+                        document.documentElement.style.setProperty("--selected-background", `url("${URL.createObjectURL(backgroundBlob)}")`)
+                    } catch (error) {
+                        // If fetch() fails for whatever reason (for example, on an invalid data URL), just log the error but move on with the rest of the function.
+                        console.error(error)
+                    }
                 }
-            }
-            break
-        // Yes, the extra dot in the URL is intentional. This shit is so stupid
-        case "seasonal":
-            document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
-            break
-        case "bliss":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundBliss}")`)
-            break
-        case "osx-tiger":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxTiger}")`)
-            break
-        case "osx-leopard":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxLeopard}")`)
-            break
-        case "osx-lion":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxLion}")`)
-            break
-        case "osx-yosemite":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxYosemite}")`)
-            break
-        case "msc-building":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundMscBuilding}")`)
-            break
-        case "snow":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundSnow}")`)
-            break
-        case "snow-low-quality":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundSnowLowQuality}")`)
-            break
-        case "original-fall-winter":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStaffStaring}")`)
-            break
-        case "street-view":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStreetView}")`)
-            break
-        case "street-view-better":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStreetViewBetter}")`)
-            break
-        case "rainbow":
-            document.documentElement.style.setProperty("--selected-background", `url(".${backgroundRainbow}")`)
-            break
-        default:
-            document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
+                break
+            // Yes, the extra dot in the URL is intentional. This shit is so stupid
+            case "seasonal":
+                document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
+                break
+            case "bliss":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundBliss}")`)
+                break
+            case "osx-tiger":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxTiger}")`)
+                break
+            case "osx-leopard":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxLeopard}")`)
+                break
+            case "osx-lion":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxLion}")`)
+                break
+            case "osx-yosemite":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxYosemite}")`)
+                break
+            case "msc-building":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundMscBuilding}")`)
+                break
+            case "snow":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundSnow}")`)
+                break
+            case "snow-low-quality":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundSnowLowQuality}")`)
+                break
+            case "original-fall-winter":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStaffStaring}")`)
+                break
+            case "street-view":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStreetView}")`)
+                break
+            case "street-view-better":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStreetViewBetter}")`)
+                break
+            case "rainbow":
+                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundRainbow}")`)
+                break
+            default:
+                document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
+        }
+        if (/^#[0-9A-F]{6}$/i.test(storedSecretSettingsGradientSelection)) {
+            document.documentElement.style.setProperty("--gradient-color", storedSecretSettingsGradientSelection)
+        } else {
+            document.documentElement.style.setProperty("--gradient-color", "#9b042a")
+        }
+        if (storedSecretSettingsGradientDisabled === true) {
+            // The background-image property overrides the background property set in main.css, this is easier than overriding background because it doesn't unset background-size or background-repeat in the process
+            backgroundImage.style.backgroundImage = "var(--selected-background)"
+        }
+        backgroundImage.classList.add("fade-in")
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while loading background settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
-    if (/^#[0-9A-F]{6}$/i.test(storedSecretSettingsGradientSelection)) {
-        document.documentElement.style.setProperty("--gradient-color", storedSecretSettingsGradientSelection)
-    } else {
-        document.documentElement.style.setProperty("--gradient-color", "#9b042a")
-    }
-    if (storedSecretSettingsGradientDisabled === true) {
-        // The background-image property overrides the background property set in main.css, this is easier than overriding background because it doesn't unset background-size or background-repeat in the process
-        backgroundImage.style.backgroundImage = "var(--selected-background)"
-    }
-    backgroundImage.classList.add("fade-in")
 }
 
 async function handleClock() {
-    const storedSettingsClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
-    switch (storedSettingsClockModeSelection) {
-        case "12hour":
-            console.log("Using the \"12hour\" clock mode. (set from extension storage)")
-            updateTime12hour()
-            setInterval(updateTime12hour, 1)
-            break
-        case "ampm":
-            console.log("Using the \"ampm\" clock mode. (set from extension storage)")
-            updateTimeAmPm()
-            setInterval(updateTimeAmPm, 1)
-            break
-        case "24hour":
-            console.log("Using the \"24hour\" clock mode. (set from extension storage)")
-            updateTime24hour()
-            setInterval(updateTime24hour, 1)
-            break
-        default:
-            console.log("Using the default clock mode.")
-            updateTime12hour()
-            setInterval(updateTime12hour, 1)
+    try {
+        const storedSettingsClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
+        switch (storedSettingsClockModeSelection) {
+            case "12hour":
+                console.log("Using the \"12hour\" clock mode. (set from extension storage)")
+                updateTime12hour()
+                setInterval(updateTime12hour, 1)
+                break
+            case "ampm":
+                console.log("Using the \"ampm\" clock mode. (set from extension storage)")
+                updateTimeAmPm()
+                setInterval(updateTimeAmPm, 1)
+                break
+            case "24hour":
+                console.log("Using the \"24hour\" clock mode. (set from extension storage)")
+                updateTime24hour()
+                setInterval(updateTime24hour, 1)
+                break
+            default:
+                console.log("Using the default clock mode.")
+                updateTime12hour()
+                setInterval(updateTime12hour, 1)
+        }
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while loading clock settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
 }
 

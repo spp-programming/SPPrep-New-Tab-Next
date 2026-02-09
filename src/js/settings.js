@@ -325,259 +325,269 @@ async function constructCustomLinkIconURL(file) {
 }
 
 async function loadSettings() {
-    const storedEnableSplitLayoutSelection = (await chrome.storage.local.get())["settings_enableSplitLayoutSelection"]
-    const storedHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
-    const storedHideClubHubSelection = (await chrome.storage.local.get())["settings_hideClubHubSelection"]
-    const storedEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
-    const storedCustomLink1Enabled = (await chrome.storage.local.get())["settings_customLink1Enabled"]
-    const storedCustomLink2Enabled = (await chrome.storage.local.get())["settings_customLink2Enabled"]
-    const storedCustomLink3Enabled = (await chrome.storage.local.get())["settings_customLink3Enabled"]
-    const storedCustomLink1IconURL = (await chrome.storage.local.get())["settings_customLink1IconURL"]
-    const storedCustomLink2IconURL = (await chrome.storage.local.get())["settings_customLink2IconURL"]
-    const storedCustomLink3IconURL = (await chrome.storage.local.get())["settings_customLink3IconURL"]
-    const storedCustomLink1Name = (await chrome.storage.local.get())["settings_customLink1Name"]
-    const storedCustomLink2Name = (await chrome.storage.local.get())["settings_customLink2Name"]
-    const storedCustomLink3Name = (await chrome.storage.local.get())["settings_customLink3Name"]
-    const storedCustomLink1URL = (await chrome.storage.local.get())["settings_customLink1URL"]
-    const storedCustomLink2URL = (await chrome.storage.local.get())["settings_customLink2URL"]
-    const storedCustomLink3URL = (await chrome.storage.local.get())["settings_customLink3URL"]
-    const storedClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
-    if (storedEnableSplitLayoutSelection === true) {
-        settingsEnableSplitLayoutSwitch.checked = true
+    try {
+        const storedEnableSplitLayoutSelection = (await chrome.storage.local.get())["settings_enableSplitLayoutSelection"]
+        const storedHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
+        const storedHideClubHubSelection = (await chrome.storage.local.get())["settings_hideClubHubSelection"]
+        const storedEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
+        const storedCustomLink1Enabled = (await chrome.storage.local.get())["settings_customLink1Enabled"]
+        const storedCustomLink2Enabled = (await chrome.storage.local.get())["settings_customLink2Enabled"]
+        const storedCustomLink3Enabled = (await chrome.storage.local.get())["settings_customLink3Enabled"]
+        const storedCustomLink1IconURL = (await chrome.storage.local.get())["settings_customLink1IconURL"]
+        const storedCustomLink2IconURL = (await chrome.storage.local.get())["settings_customLink2IconURL"]
+        const storedCustomLink3IconURL = (await chrome.storage.local.get())["settings_customLink3IconURL"]
+        const storedCustomLink1Name = (await chrome.storage.local.get())["settings_customLink1Name"]
+        const storedCustomLink2Name = (await chrome.storage.local.get())["settings_customLink2Name"]
+        const storedCustomLink3Name = (await chrome.storage.local.get())["settings_customLink3Name"]
+        const storedCustomLink1URL = (await chrome.storage.local.get())["settings_customLink1URL"]
+        const storedCustomLink2URL = (await chrome.storage.local.get())["settings_customLink2URL"]
+        const storedCustomLink3URL = (await chrome.storage.local.get())["settings_customLink3URL"]
+        const storedClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
+        if (storedEnableSplitLayoutSelection === true) {
+            settingsEnableSplitLayoutSwitch.checked = true
+        }
+        if (storedHideSchoolCalendarSelection === true) {
+            settingsHideSchoolCalendarSwitch.checked = true
+        }
+        if (storedHideClubHubSelection === true) {
+            settingsHideClubHubSwitch.checked = true
+        }
+        if (storedEnableCustomLinksSelection === true) {
+            settingsEnableCustomLinksSwitch.checked = true
+            settingsCustomLinkCards.hidden = false
+        }
+        if (storedCustomLink1Enabled === true) {
+            settingsCustomLink1Switch.checked = true
+            enableCustomLink1CardContent()
+        }
+        if (storedCustomLink2Enabled === true) {
+            settingsCustomLink2Switch.checked = true
+            enableCustomLink2CardContent()
+        }
+        if (storedCustomLink3Enabled === true) {
+            settingsCustomLink3Switch.checked = true
+            enableCustomLink3CardContent()
+        }
+        if (typeof(storedCustomLink1IconURL) === "string") {
+            settingsCustomLink1IconUploader.querySelector("img").src = storedCustomLink1IconURL
+        }
+        if (typeof(storedCustomLink2IconURL) === "string") {
+            settingsCustomLink2IconUploader.querySelector("img").src = storedCustomLink2IconURL
+        }
+        if (typeof(storedCustomLink3IconURL) === "string") {
+            settingsCustomLink3IconUploader.querySelector("img").src = storedCustomLink3IconURL
+        }
+        if (typeof(storedCustomLink1Name) === "string") {
+            settingsCustomLink1NameInput.value = storedCustomLink1Name
+        }
+        if (typeof(storedCustomLink2Name) === "string") {
+            settingsCustomLink2NameInput.value = storedCustomLink2Name
+        }
+        if (typeof(storedCustomLink3Name) === "string") {
+            settingsCustomLink3NameInput.value = storedCustomLink3Name
+        }
+        if (typeof(storedCustomLink1URL) === "string") {
+            settingsCustomLink1URLInput.value = storedCustomLink1URL
+        }
+        if (typeof(storedCustomLink2URL) === "string") {
+            settingsCustomLink2URLInput.value = storedCustomLink2URL
+        }
+        if (typeof(storedCustomLink3URL) === "string") {
+            settingsCustomLink3URLInput.value = storedCustomLink3URL
+        }
+        switch (storedClockModeSelection) {
+            case "12hour":
+                settingsClockModeRadio12hour.checked = true
+                break
+            case "ampm":
+                settingsClockModeRadioAmPm.checked = true
+                break
+            case "24hour":
+                settingsClockModeRadio24hour.checked = true
+                break
+        }
+        settingsContent.hidden = false
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while loading settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
-    if (storedHideSchoolCalendarSelection === true) {
-        settingsHideSchoolCalendarSwitch.checked = true
-    }
-    if (storedHideClubHubSelection === true) {
-        settingsHideClubHubSwitch.checked = true
-    }
-    if (storedEnableCustomLinksSelection === true) {
-        settingsEnableCustomLinksSwitch.checked = true
-        settingsCustomLinkCards.hidden = false
-    }
-    if (storedCustomLink1Enabled === true) {
-        settingsCustomLink1Switch.checked = true
-        enableCustomLink1CardContent()
-    }
-    if (storedCustomLink2Enabled === true) {
-        settingsCustomLink2Switch.checked = true
-        enableCustomLink2CardContent()
-    }
-    if (storedCustomLink3Enabled === true) {
-        settingsCustomLink3Switch.checked = true
-        enableCustomLink3CardContent()
-    }
-    if (typeof(storedCustomLink1IconURL) === "string") {
-        settingsCustomLink1IconUploader.querySelector("img").src = storedCustomLink1IconURL
-    }
-    if (typeof(storedCustomLink2IconURL) === "string") {
-        settingsCustomLink2IconUploader.querySelector("img").src = storedCustomLink2IconURL
-    }
-    if (typeof(storedCustomLink3IconURL) === "string") {
-        settingsCustomLink3IconUploader.querySelector("img").src = storedCustomLink3IconURL
-    }
-    if (typeof(storedCustomLink1Name) === "string") {
-        settingsCustomLink1NameInput.value = storedCustomLink1Name
-    }
-    if (typeof(storedCustomLink2Name) === "string") {
-        settingsCustomLink2NameInput.value = storedCustomLink2Name
-    }
-    if (typeof(storedCustomLink3Name) === "string") {
-        settingsCustomLink3NameInput.value = storedCustomLink3Name
-    }
-    if (typeof(storedCustomLink1URL) === "string") {
-        settingsCustomLink1URLInput.value = storedCustomLink1URL
-    }
-    if (typeof(storedCustomLink2URL) === "string") {
-        settingsCustomLink2URLInput.value = storedCustomLink2URL
-    }
-    if (typeof(storedCustomLink3URL) === "string") {
-        settingsCustomLink3URLInput.value = storedCustomLink3URL
-    }
-    switch (storedClockModeSelection) {
-        case "12hour":
-            settingsClockModeRadio12hour.checked = true
-            break
-        case "ampm":
-            settingsClockModeRadioAmPm.checked = true
-            break
-        case "24hour":
-            settingsClockModeRadio24hour.checked = true
-            break
-    }
-    settingsContent.hidden = false
 }
 
 async function saveSettings() {
-    settingsEnableSplitLayoutSwitch.disabled = true
-    settingsHideSchoolCalendarSwitch.disabled = true
-    settingsHideClubHubSwitch.disabled = true
-    settingsEnableCustomLinksSwitch.disabled = true
-    settingsCustomLink1Switch.disabled = true
-    settingsCustomLink2Switch.disabled = true
-    settingsCustomLink3Switch.disabled = true
-    disableCustomLink1CardContent()
-    disableCustomLink2CardContent()
-    disableCustomLink3CardContent()
-    settingsClockModeRadio12hour.disabled = true
-    settingsClockModeRadioAmPm.disabled = true
-    settingsClockModeRadio24hour.disabled = true
-    settingsSaveButton.disabled = true
-    settingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
-    if (settingsCustomLink1Switch.checked === true) {
-        if (isValidURL(settingsCustomLink1URLInput.value) === false) {
-            settingsClockModeRadio12hour.disabled = false
-            settingsClockModeRadioAmPm.disabled = false
-            settingsClockModeRadio24hour.disabled = false
-            settingsCustomLink1Switch.disabled = false
-            settingsCustomLink2Switch.disabled = false
-            settingsCustomLink3Switch.disabled = false
-            settingsCustomLink1URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
-            settingsCustomLink1URLInput.classList.add("is-invalid")
-            settingsHideSchoolCalendarSwitch.disabled = false
-            settingsEnableCustomLinksSwitch.disabled = false
-            settingsEnableSplitLayoutSwitch.disabled = false
-            enableCustomLink1CardContent()
-            enableCustomLink2CardContent()
-            enableCustomLink3CardContent()
-            settingsSaveButton.disabled = false
-            settingsSaveButton.innerHTML = "<i class=\"bi bi-floppy\" aria-hidden=\"true\"></i> <span>Save</span>"
-            settingsCustomLink1URLInput.select()
-            settingsCustomLink1Card.scrollIntoView({ behavior: "smooth" })
-            return
+    try {
+        settingsEnableSplitLayoutSwitch.disabled = true
+        settingsHideSchoolCalendarSwitch.disabled = true
+        settingsHideClubHubSwitch.disabled = true
+        settingsEnableCustomLinksSwitch.disabled = true
+        settingsCustomLink1Switch.disabled = true
+        settingsCustomLink2Switch.disabled = true
+        settingsCustomLink3Switch.disabled = true
+        disableCustomLink1CardContent()
+        disableCustomLink2CardContent()
+        disableCustomLink3CardContent()
+        settingsClockModeRadio12hour.disabled = true
+        settingsClockModeRadioAmPm.disabled = true
+        settingsClockModeRadio24hour.disabled = true
+        settingsSaveButton.disabled = true
+        settingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
+        if (settingsCustomLink1Switch.checked === true) {
+            if (isValidURL(settingsCustomLink1URLInput.value) === false) {
+                settingsClockModeRadio12hour.disabled = false
+                settingsClockModeRadioAmPm.disabled = false
+                settingsClockModeRadio24hour.disabled = false
+                settingsCustomLink1Switch.disabled = false
+                settingsCustomLink2Switch.disabled = false
+                settingsCustomLink3Switch.disabled = false
+                settingsCustomLink1URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+                settingsCustomLink1URLInput.classList.add("is-invalid")
+                settingsHideSchoolCalendarSwitch.disabled = false
+                settingsEnableCustomLinksSwitch.disabled = false
+                settingsEnableSplitLayoutSwitch.disabled = false
+                enableCustomLink1CardContent()
+                enableCustomLink2CardContent()
+                enableCustomLink3CardContent()
+                settingsSaveButton.disabled = false
+                settingsSaveButton.innerHTML = "<i class=\"bi bi-floppy\" aria-hidden=\"true\"></i> <span>Save</span>"
+                settingsCustomLink1URLInput.select()
+                settingsCustomLink1Card.scrollIntoView({ behavior: "smooth" })
+                return
+            }
+            let iconURL = "./icons/globe2.svg"
+            let name = "Custom link #1"
+            let url = "#"
+            iconURL = settingsCustomLink1IconUploader.querySelector("img").src
+            if (settingsCustomLink1NameInput.value.trim() !== "") {
+                name = settingsCustomLink1NameInput.value.trim()
+            }
+            url = settingsCustomLink1URLInput.value
+            await chrome.storage.local.set({ settings_customLink1IconURL: iconURL })
+            await chrome.storage.local.set({ settings_customLink1Name: name })
+            await chrome.storage.local.set({ settings_customLink1URL: url })
+            await chrome.storage.local.set({ settings_customLink1Enabled: true })
+        } else {
+            await chrome.storage.local.set({ settings_customLink1Enabled: false })
         }
-        let iconURL = "./icons/globe2.svg"
-        let name = "Custom link #1"
-        let url = "#"
-        iconURL = settingsCustomLink1IconUploader.querySelector("img").src
-        if (settingsCustomLink1NameInput.value.trim() !== "") {
-            name = settingsCustomLink1NameInput.value.trim()
+        if (settingsCustomLink2Switch.checked === true) {
+            if (isValidURL(settingsCustomLink2URLInput.value) === false) {
+                settingsClockModeRadio12hour.disabled = false
+                settingsClockModeRadioAmPm.disabled = false
+                settingsClockModeRadio24hour.disabled = false
+                settingsCustomLink1Switch.disabled = false
+                settingsCustomLink2Switch.disabled = false
+                settingsCustomLink3Switch.disabled = false
+                settingsCustomLink2URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+                settingsCustomLink2URLInput.classList.add("is-invalid")
+                settingsHideSchoolCalendarSwitch.disabled = false
+                settingsEnableCustomLinksSwitch.disabled = false
+                settingsEnableSplitLayoutSwitch.disabled = false
+                enableCustomLink1CardContent()
+                enableCustomLink2CardContent()
+                enableCustomLink3CardContent()
+                settingsSaveButton.disabled = false
+                settingsSaveButton.innerHTML = "<i class=\"bi bi-floppy\" aria-hidden=\"true\"></i> <span>Save</span>"
+                settingsCustomLink2URLInput.select()
+                settingsCustomLink2Card.scrollIntoView({ behavior: "smooth" })
+                return
+            }
+            let iconURL = "./icons/globe2.svg"
+            let name = "Custom link #2"
+            let url = "#"
+            iconURL = settingsCustomLink2IconUploader.querySelector("img").src
+            if (settingsCustomLink2NameInput.value.trim() !== "") {
+                name = settingsCustomLink2NameInput.value.trim()
+            }
+            url = settingsCustomLink2URLInput.value
+            await chrome.storage.local.set({ settings_customLink2IconURL: iconURL })
+            await chrome.storage.local.set({ settings_customLink2Name: name })
+            await chrome.storage.local.set({ settings_customLink2URL: url })
+            await chrome.storage.local.set({ settings_customLink2Enabled: true })
+        } else {
+            await chrome.storage.local.set({ settings_customLink2Enabled: false })
         }
-        url = settingsCustomLink1URLInput.value
-        await chrome.storage.local.set({ settings_customLink1IconURL: iconURL })
-        await chrome.storage.local.set({ settings_customLink1Name: name })
-        await chrome.storage.local.set({ settings_customLink1URL: url })
-        await chrome.storage.local.set({ settings_customLink1Enabled: true })
-    } else {
-        await chrome.storage.local.set({ settings_customLink1Enabled: false })
-    }
-    if (settingsCustomLink2Switch.checked === true) {
-        if (isValidURL(settingsCustomLink2URLInput.value) === false) {
-            settingsClockModeRadio12hour.disabled = false
-            settingsClockModeRadioAmPm.disabled = false
-            settingsClockModeRadio24hour.disabled = false
-            settingsCustomLink1Switch.disabled = false
-            settingsCustomLink2Switch.disabled = false
-            settingsCustomLink3Switch.disabled = false
-            settingsCustomLink2URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
-            settingsCustomLink2URLInput.classList.add("is-invalid")
-            settingsHideSchoolCalendarSwitch.disabled = false
-            settingsEnableCustomLinksSwitch.disabled = false
-            settingsEnableSplitLayoutSwitch.disabled = false
-            enableCustomLink1CardContent()
-            enableCustomLink2CardContent()
-            enableCustomLink3CardContent()
-            settingsSaveButton.disabled = false
-            settingsSaveButton.innerHTML = "<i class=\"bi bi-floppy\" aria-hidden=\"true\"></i> <span>Save</span>"
-            settingsCustomLink2URLInput.select()
-            settingsCustomLink2Card.scrollIntoView({ behavior: "smooth" })
-            return
+        if (settingsCustomLink3Switch.checked === true) {
+            if (isValidURL(settingsCustomLink3URLInput.value) === false) {
+                settingsClockModeRadio12hour.disabled = false
+                settingsClockModeRadioAmPm.disabled = false
+                settingsClockModeRadio24hour.disabled = false
+                settingsCustomLink1Switch.disabled = false
+                settingsCustomLink2Switch.disabled = false
+                settingsCustomLink3Switch.disabled = false
+                settingsCustomLink3URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+                settingsCustomLink3URLInput.classList.add("is-invalid")
+                settingsHideSchoolCalendarSwitch.disabled = false
+                settingsEnableCustomLinksSwitch.disabled = false
+                settingsEnableSplitLayoutSwitch.disabled = false
+                enableCustomLink1CardContent()
+                enableCustomLink2CardContent()
+                enableCustomLink3CardContent()
+                settingsSaveButton.disabled = false
+                settingsSaveButton.innerHTML = "<i class=\"bi bi-floppy\" aria-hidden=\"true\"></i> <span>Save</span>"
+                settingsCustomLink3URLInput.select()
+                settingsCustomLink3Card.scrollIntoView({ behavior: "smooth" })
+                return
+            }
+            let iconURL = "./icons/globe2.svg"
+            let name = "Custom link #3"
+            let url = "#"
+            iconURL = settingsCustomLink3IconUploader.querySelector("img").src
+            if (settingsCustomLink3NameInput.value.trim() !== "") {
+                name = settingsCustomLink3NameInput.value.trim()
+            }
+            url = settingsCustomLink3URLInput.value
+            await chrome.storage.local.set({ settings_customLink3IconURL: iconURL })
+            await chrome.storage.local.set({ settings_customLink3Name: name })
+            await chrome.storage.local.set({ settings_customLink3URL: url })
+            await chrome.storage.local.set({ settings_customLink3Enabled: true })
+        } else {
+            await chrome.storage.local.set({ settings_customLink3Enabled: false })
         }
-        let iconURL = "./icons/globe2.svg"
-        let name = "Custom link #2"
-        let url = "#"
-        iconURL = settingsCustomLink2IconUploader.querySelector("img").src
-        if (settingsCustomLink2NameInput.value.trim() !== "") {
-            name = settingsCustomLink2NameInput.value.trim()
+        if (settingsEnableSplitLayoutSwitch.checked === true) {
+            await chrome.storage.local.set({ settings_enableSplitLayoutSelection: settingsEnableSplitLayoutSwitch.checked })
+        } else {
+            await chrome.storage.local.remove(["settings_enableSplitLayoutSelection"])
         }
-        url = settingsCustomLink2URLInput.value
-        await chrome.storage.local.set({ settings_customLink2IconURL: iconURL })
-        await chrome.storage.local.set({ settings_customLink2Name: name })
-        await chrome.storage.local.set({ settings_customLink2URL: url })
-        await chrome.storage.local.set({ settings_customLink2Enabled: true })
-    } else {
-        await chrome.storage.local.set({ settings_customLink2Enabled: false })
-    }
-    if (settingsCustomLink3Switch.checked === true) {
-        if (isValidURL(settingsCustomLink3URLInput.value) === false) {
-            settingsClockModeRadio12hour.disabled = false
-            settingsClockModeRadioAmPm.disabled = false
-            settingsClockModeRadio24hour.disabled = false
-            settingsCustomLink1Switch.disabled = false
-            settingsCustomLink2Switch.disabled = false
-            settingsCustomLink3Switch.disabled = false
-            settingsCustomLink3URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
-            settingsCustomLink3URLInput.classList.add("is-invalid")
-            settingsHideSchoolCalendarSwitch.disabled = false
-            settingsEnableCustomLinksSwitch.disabled = false
-            settingsEnableSplitLayoutSwitch.disabled = false
-            enableCustomLink1CardContent()
-            enableCustomLink2CardContent()
-            enableCustomLink3CardContent()
-            settingsSaveButton.disabled = false
-            settingsSaveButton.innerHTML = "<i class=\"bi bi-floppy\" aria-hidden=\"true\"></i> <span>Save</span>"
-            settingsCustomLink3URLInput.select()
-            settingsCustomLink3Card.scrollIntoView({ behavior: "smooth" })
-            return
+        if (settingsHideSchoolCalendarSwitch.checked === true) {
+            await chrome.storage.local.set({ settings_hideSchoolCalendarSelection: settingsHideSchoolCalendarSwitch.checked })
+        } else {
+            await chrome.storage.local.remove(["settings_hideSchoolCalendarSelection"])
         }
-        let iconURL = "./icons/globe2.svg"
-        let name = "Custom link #3"
-        let url = "#"
-        iconURL = settingsCustomLink3IconUploader.querySelector("img").src
-        if (settingsCustomLink3NameInput.value.trim() !== "") {
-            name = settingsCustomLink3NameInput.value.trim()
+        if (settingsHideClubHubSwitch.checked === true) {
+            await chrome.storage.local.set({ settings_hideClubHubSelection: settingsHideClubHubSwitch.checked })
+        } else {
+            await chrome.storage.local.remove(["settings_hideClubHubSelection"])
         }
-        url = settingsCustomLink3URLInput.value
-        await chrome.storage.local.set({ settings_customLink3IconURL: iconURL })
-        await chrome.storage.local.set({ settings_customLink3Name: name })
-        await chrome.storage.local.set({ settings_customLink3URL: url })
-        await chrome.storage.local.set({ settings_customLink3Enabled: true })
-    } else {
-        await chrome.storage.local.set({ settings_customLink3Enabled: false })
+        if (settingsEnableCustomLinksSwitch.checked === true) {
+            await chrome.storage.local.set({ settings_enableCustomLinksSelection: settingsEnableCustomLinksSwitch.checked })
+        } else {
+            await chrome.storage.local.remove(["settings_enableCustomLinksSelection"])
+            await chrome.storage.local.remove(["settings_customLink1IconURL"])
+            await chrome.storage.local.remove(["settings_customLink1Name"])
+            await chrome.storage.local.remove(["settings_customLink1URL"])
+            await chrome.storage.local.remove(["settings_customLink1Enabled"])
+            await chrome.storage.local.remove(["settings_customLink2IconURL"])
+            await chrome.storage.local.remove(["settings_customLink2Name"])
+            await chrome.storage.local.remove(["settings_customLink2URL"])
+            await chrome.storage.local.remove(["settings_customLink2Enabled"])
+            await chrome.storage.local.remove(["settings_customLink3IconURL"])
+            await chrome.storage.local.remove(["settings_customLink3Name"])
+            await chrome.storage.local.remove(["settings_customLink3URL"])
+            await chrome.storage.local.remove(["settings_customLink3Enabled"])
+        }
+        if (settingsClockModeRadio12hour.checked === true) {
+            await chrome.storage.local.set({ settings_clockModeSelection: "12hour" })
+        }
+        if (settingsClockModeRadioAmPm.checked === true) {
+            await chrome.storage.local.set({ settings_clockModeSelection: "ampm" })
+        }
+        if (settingsClockModeRadio24hour.checked === true) {
+            await chrome.storage.local.set({ settings_clockModeSelection: "24hour" })
+        }
+        aboutToReload = true
+        chrome.runtime.reload()
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while saving settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
-    if (settingsEnableSplitLayoutSwitch.checked === true) {
-        await chrome.storage.local.set({ settings_enableSplitLayoutSelection: settingsEnableSplitLayoutSwitch.checked })
-    } else {
-        await chrome.storage.local.remove(["settings_enableSplitLayoutSelection"])
-    }
-    if (settingsHideSchoolCalendarSwitch.checked === true) {
-        await chrome.storage.local.set({ settings_hideSchoolCalendarSelection: settingsHideSchoolCalendarSwitch.checked })
-    } else {
-        await chrome.storage.local.remove(["settings_hideSchoolCalendarSelection"])
-    }
-    if (settingsHideClubHubSwitch.checked === true) {
-        await chrome.storage.local.set({ settings_hideClubHubSelection: settingsHideClubHubSwitch.checked })
-    } else {
-        await chrome.storage.local.remove(["settings_hideClubHubSelection"])
-    }
-    if (settingsEnableCustomLinksSwitch.checked === true) {
-        await chrome.storage.local.set({ settings_enableCustomLinksSelection: settingsEnableCustomLinksSwitch.checked })
-    } else {
-        await chrome.storage.local.remove(["settings_enableCustomLinksSelection"])
-        await chrome.storage.local.remove(["settings_customLink1IconURL"])
-        await chrome.storage.local.remove(["settings_customLink1Name"])
-        await chrome.storage.local.remove(["settings_customLink1URL"])
-        await chrome.storage.local.remove(["settings_customLink1Enabled"])
-        await chrome.storage.local.remove(["settings_customLink2IconURL"])
-        await chrome.storage.local.remove(["settings_customLink2Name"])
-        await chrome.storage.local.remove(["settings_customLink2URL"])
-        await chrome.storage.local.remove(["settings_customLink2Enabled"])
-        await chrome.storage.local.remove(["settings_customLink3IconURL"])
-        await chrome.storage.local.remove(["settings_customLink3Name"])
-        await chrome.storage.local.remove(["settings_customLink3URL"])
-        await chrome.storage.local.remove(["settings_customLink3Enabled"])
-    }
-    if (settingsClockModeRadio12hour.checked === true) {
-        await chrome.storage.local.set({ settings_clockModeSelection: "12hour" })
-    }
-    if (settingsClockModeRadioAmPm.checked === true) {
-        await chrome.storage.local.set({ settings_clockModeSelection: "ampm" })
-    }
-    if (settingsClockModeRadio24hour.checked === true) {
-        await chrome.storage.local.set({ settings_clockModeSelection: "24hour" })
-    }
-    aboutToReload = true
-    chrome.runtime.reload()
 }
 
 function handleBeforeUnload() {

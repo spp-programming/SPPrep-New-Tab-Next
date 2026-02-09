@@ -43,35 +43,40 @@ async function migrateLocalStorage() {
 }
 
 export async function runMigrations() {
-    console.log("🔍 Running migrations")
-    const storedMigrationVersion = (await chrome.storage.local.get())["migrationVersion"]
-    if (storedMigrationVersion === migrationVersion) {
-        console.log(`✅ migrationVersion is ${migrationVersion}, no migrations necessary.`)
-        return
-    }
-    if (storedMigrationVersion === undefined) {
-        console.log(`💾 migrationVersion is undefined, migrating localStorage to extension storage...`)
-        await migrateLocalStorage()
-        console.log(`👨‍🔧 Setting default layout mode...`)
-        const internalConfigMode = await getInternalConfigMode()
-        switch (internalConfigMode) {
-            case "student":
-                await chrome.storage.local.set({ settings_enableSplitLayoutSelection: false })
-                console.log("✅ Set default layout mode to \"stacked\"!")
-                break
-            case "staff":
-                await chrome.storage.local.set({ settings_enableSplitLayoutSelection: true })
-                console.log("✅ Set the default layout mode to \"split\"!")
-                break
-        }
-    }
-    // Run any specific migrations for certain migrationVersion values here. There aren't any right now, but this is just for futureproofing.
     try {
-        bootstrap.Toast.getOrCreateInstance(migrationToast).show()
-    } catch {
-        console.log("🤔 Failed to show migrationToast. This is expected if the current page is not index.html")
+        console.log("🔍 Running migrations")
+        const storedMigrationVersion = (await chrome.storage.local.get())["migrationVersion"]
+        if (storedMigrationVersion === migrationVersion) {
+            console.log(`✅ migrationVersion is ${migrationVersion}, no migrations necessary.`)
+            return
+        }
+        if (storedMigrationVersion === undefined) {
+            console.log(`💾 migrationVersion is undefined, migrating localStorage to extension storage...`)
+            await migrateLocalStorage()
+            console.log(`👨‍🔧 Setting default layout mode...`)
+            const internalConfigMode = await getInternalConfigMode()
+            switch (internalConfigMode) {
+                case "student":
+                    await chrome.storage.local.set({ settings_enableSplitLayoutSelection: false })
+                    console.log("✅ Set default layout mode to \"stacked\"!")
+                    break
+                case "staff":
+                    await chrome.storage.local.set({ settings_enableSplitLayoutSelection: true })
+                    console.log("✅ Set the default layout mode to \"split\"!")
+                    break
+            }
+        }
+        // Run any specific migrations for certain migrationVersion values here. There aren't any right now, but this is just for futureproofing.
+        try {
+            bootstrap.Toast.getOrCreateInstance(migrationToast).show()
+        } catch {
+            console.log("🤔 Failed to show migrationToast. This is expected if the current page is not index.html")
+        }
+        await chrome.storage.local.set({ migrationVersion: migrationVersion })
+        const storedMigrationVersionNew = (await chrome.storage.local.get())["migrationVersion"]
+        console.log(`✅ Migrations finished! migrationVersion is ${storedMigrationVersionNew}`)
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while running migrations. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
-    await chrome.storage.local.set({ migrationVersion: migrationVersion })
-    const storedMigrationVersionNew = (await chrome.storage.local.get())["migrationVersion"]
-    console.log(`✅ Migrations finished! migrationVersion is ${storedMigrationVersionNew}`)
 }

@@ -53,12 +53,17 @@ secretSettingsSaveButton.addEventListener("click", () => {
 })
 
 async function handleSecretSettingsVisibility() {
-    const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
+    try {
+        const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
 
-    if (secretSettingsVisible === true) {
-        secretSettingsContent.hidden = false
-    } else {
-        secretSettingsDisabledContent.hidden = false
+        if (secretSettingsVisible === true) {
+            secretSettingsContent.hidden = false
+        } else {
+            secretSettingsDisabledContent.hidden = false
+        }
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while checking secret settings visibility. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
 }
 
@@ -112,63 +117,73 @@ async function constructCustomBackgroundURL() {
 }
 
 async function loadSecretSettings() {
-    const storedBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
-    storedCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
-    const storedFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
-    const storedGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
-    const storedGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
-    if (validBackgrounds.includes(storedBackgroundSelection)) {
-        secretSettingsBackgroundSelection.value = storedBackgroundSelection
-    }
-    if (storedBackgroundSelection === "custom") {
-        if (storedCustomBackground !== undefined) {
-            secretSettingsBackgroundPreview.setAttribute("src", storedCustomBackground)
+    try {
+        const storedBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
+        storedCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
+        const storedFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
+        const storedGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
+        const storedGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
+        if (validBackgrounds.includes(storedBackgroundSelection)) {
+            secretSettingsBackgroundSelection.value = storedBackgroundSelection
         }
-        secretSettingsCustomBackgroundSection.hidden = false
-    }
-    if (validFonts.includes(storedFontSelection)) {
-        secretSettingsFontSelection.value = storedFontSelection
-    }
-    if (/^#[0-9A-F]{6}$/i.test(storedGradientSelection)) {
-        secretSettingsGradientSelection.value = storedGradientSelection
-    }
-    if (storedGradientDisabled === true) {
-        secretSettingsGradientDisableSwitch.checked = true
+        if (storedBackgroundSelection === "custom") {
+            if (storedCustomBackground !== undefined) {
+                secretSettingsBackgroundPreview.setAttribute("src", storedCustomBackground)
+            }
+            secretSettingsCustomBackgroundSection.hidden = false
+        }
+        if (validFonts.includes(storedFontSelection)) {
+            secretSettingsFontSelection.value = storedFontSelection
+        }
+        if (/^#[0-9A-F]{6}$/i.test(storedGradientSelection)) {
+            secretSettingsGradientSelection.value = storedGradientSelection
+        }
+        if (storedGradientDisabled === true) {
+            secretSettingsGradientDisableSwitch.checked = true
+        }
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while loading secret settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
 }
 
 async function saveSecretSettings() {
-    secretSettingsDisableSwitch.disabled = true
-    secretSettingsFontSelection.disabled = true
-    secretSettingsBackgroundSelection.disabled = true
-    secretSettingsCustomBackgroundUploader.disabled = true
-    secretSettingsGradientSelection.disabled = true
-    secretSettingsGradientDisableSwitch.disabled = true
-    secretSettingsSaveButton.disabled = true
-    secretSettingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
-    if (secretSettingsDisableSwitch.checked) {
-        await chrome.storage.local.remove(["secretSettings_customBackground"])
-        await chrome.storage.local.remove(["secretSettings_backgroundSelection"])
-        await chrome.storage.local.remove(["secretSettings_fontSelection"])
-        await chrome.storage.local.remove(["secretSettings_gradientSelection"])
-        await chrome.storage.local.remove(["secretSettings_gradientDisabled"])
-        await chrome.storage.local.remove(["secretSettingsVisible"])
-    } else {
-        if (uploadedCustomBackground === undefined && storedCustomBackground === undefined) {
+    try {
+        secretSettingsDisableSwitch.disabled = true
+        secretSettingsFontSelection.disabled = true
+        secretSettingsBackgroundSelection.disabled = true
+        secretSettingsCustomBackgroundUploader.disabled = true
+        secretSettingsGradientSelection.disabled = true
+        secretSettingsGradientDisableSwitch.disabled = true
+        secretSettingsSaveButton.disabled = true
+        secretSettingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
+        if (secretSettingsDisableSwitch.checked) {
             await chrome.storage.local.remove(["secretSettings_customBackground"])
+            await chrome.storage.local.remove(["secretSettings_backgroundSelection"])
+            await chrome.storage.local.remove(["secretSettings_fontSelection"])
+            await chrome.storage.local.remove(["secretSettings_gradientSelection"])
+            await chrome.storage.local.remove(["secretSettings_gradientDisabled"])
+            await chrome.storage.local.remove(["secretSettingsVisible"])
         } else {
-            await chrome.storage.local.set({ secretSettings_customBackground: uploadedCustomBackground })
+            if (uploadedCustomBackground === undefined && storedCustomBackground === undefined) {
+                await chrome.storage.local.remove(["secretSettings_customBackground"])
+            } else {
+                await chrome.storage.local.set({ secretSettings_customBackground: uploadedCustomBackground })
+            }
+            if (secretSettingsBackgroundSelection.value !== "custom") {
+                await chrome.storage.local.remove(["secretSettings_customBackground"])
+            }
+            await chrome.storage.local.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection.value })
+            await chrome.storage.local.set({ secretSettings_fontSelection: secretSettingsFontSelection.value })
+            await chrome.storage.local.set({ secretSettings_gradientSelection: secretSettingsGradientSelection.value })
+            await chrome.storage.local.set({ secretSettings_gradientDisabled: secretSettingsGradientDisableSwitch.checked })
         }
-        if (secretSettingsBackgroundSelection.value !== "custom") {
-            await chrome.storage.local.remove(["secretSettings_customBackground"])
-        }
-        await chrome.storage.local.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection.value })
-        await chrome.storage.local.set({ secretSettings_fontSelection: secretSettingsFontSelection.value })
-        await chrome.storage.local.set({ secretSettings_gradientSelection: secretSettingsGradientSelection.value })
-        await chrome.storage.local.set({ secretSettings_gradientDisabled: secretSettingsGradientDisableSwitch.checked })
+        aboutToReload = true
+        chrome.runtime.reload()
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while saving secret settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
-    aboutToReload = true
-    chrome.runtime.reload()
 }
 
 function updateBackgroundPreview() {
