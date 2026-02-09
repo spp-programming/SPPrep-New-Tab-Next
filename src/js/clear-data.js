@@ -9,7 +9,7 @@ async function clearExtensionData() {
     try {
         await chrome.storage.local.clear()
         console.log("cleared extension storage!")
-        await localStorage.clear() // Clearing out localStorage can fix issues with migrations, so that's why we do this.
+        localStorage.clear() // Clearing out localStorage can fix issues with migrations, so that's why we do this.
         console.log("cleared localStorage!")
         chrome.runtime.reload()
     } catch (error) {
