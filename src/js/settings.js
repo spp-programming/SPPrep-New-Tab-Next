@@ -87,6 +87,10 @@ settingsHideSchoolCalendarSwitch.addEventListener("change", () => {
     handleBeforeUnload()
 })
 
+settingsHideClubHubSwitch.addEventListener("change", () => {
+    handleBeforeUnload()
+})
+
 settingsCustomLink1Switch.addEventListener("change", () => {
     handleBeforeUnload()
     disableCustomLink1CardContent()
