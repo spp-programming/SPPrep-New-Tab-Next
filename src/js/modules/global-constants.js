@@ -52,4 +52,4 @@ export const validBackgrounds = [ "custom", "seasonal", "bliss", "osx-tiger", "o
 export const validFonts = [ "azeret-mono", "sans-serif", "inter", "lato", "montserrat", "nunito", "poppins", "raleway", "rubik" ]
 
 // DO NOT touch this unless you also change the version number. It should match the extension's version number, only using decimals when necessary. Example: version 4.0 ==> 4, version 3.2 ==> 3.2
-export const migrationVersion = 4.1
+export const migrationVersion = 4.2
