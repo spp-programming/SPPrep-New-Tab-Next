@@ -225,6 +225,18 @@ settingsCustomLink3IconResetter.addEventListener("click", () => {
     settingsCustomLink3IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
 })
 
+settingsCustomLink1NameInput.addEventListener("input", () => {
+    handleBeforeUnload()
+})
+
+settingsCustomLink2NameInput.addEventListener("input", () => {
+    handleBeforeUnload()
+})
+
+settingsCustomLink3NameInput.addEventListener("input", () => {
+    handleBeforeUnload()
+})
+
 settingsCustomLink1URLInput.addEventListener("input", () => {
     handleBeforeUnload()
     settingsCustomLink1URLInput.classList.remove("is-invalid")
