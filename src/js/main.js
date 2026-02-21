@@ -70,7 +70,7 @@ function checkLetterDayChange() {
         console.log(`start date: ${dateString}`)
         console.log(`current date: ${getCurrentDateString()}`)
         letterDayElement.innerHTML = "⚠️"
-        setPopoverText(letterDayElement, "Date changed.<br>Refresh the page to load today's letter day.")
+        setPopoverText(letterDayElement, "Date changed!<br><span class=\"form-text\">To load the letter day, refresh the page.</span>")
         clearInterval(checkLetterDayChangeInterval)
     }
 }
