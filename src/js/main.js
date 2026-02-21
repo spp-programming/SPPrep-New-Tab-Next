@@ -2,7 +2,7 @@
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerElement => new bootstrap.Popover(popoverTriggerElement))
 
-function setPopoverText(triggerElement, content) {
+export function setPopoverText(triggerElement, content) {
     const popover = bootstrap.Popover.getInstance(triggerElement)
     popover._config.content = content
     popover.setContent()
@@ -17,6 +17,7 @@ import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getInternalConfigMode } from "./modules/config-mode.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
+import { handleTourButton } from "./tour.js"
 
 let checkLetterDayChangeInterval
 
@@ -327,6 +328,7 @@ async function loadStuff() {
     loadBackgroundSettings()
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
+    handleTourButton()
 }
 
 sealElement.addEventListener("dblclick", () => {
