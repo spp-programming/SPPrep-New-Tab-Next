@@ -32,6 +32,7 @@ export const previewLayoutToast = document.getElementById("preview-layout-toast"
 export const previewLayoutToastContent = document.getElementById("preview-layout-toast-content")
 export const previewLayoutToastSelected = document.getElementById("preview-layout-toast-selected")
 export const migrationToast = document.getElementById("migration-toast")
+export const migrationToastTourLink = document.getElementById("migration-toast-tour-link")
 export const passcodeModal = document.getElementById("passcode-modal")
 export const passcodeModalTitle = document.getElementById("passcode-modal-label")
 export const passcodeModalBody = document.querySelector("#passcode-modal .modal-body")

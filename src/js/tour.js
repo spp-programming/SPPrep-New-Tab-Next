@@ -1,6 +1,6 @@
 "use strict"
 import { setPopoverText } from "./main.js"
-import { bellScheduleButtonTourTarget, buttonContainer, changelogButtonTourTarget, clockElement, letterDayTourTarget, sealElement, toggleTourButton } from "./modules/global-constants.js"
+import { bellScheduleButtonTourTarget, buttonContainer, changelogButtonTourTarget, clockElement, letterDayTourTarget, migrationToast, migrationToastTourLink, sealElement, toggleTourButton } from "./modules/global-constants.js"
 
 let isTourActive = false
 let tourCurrentIndex = 0
@@ -36,13 +36,17 @@ const tourData = [
     {
         name: "letter-day",
         element: letterDayTourTarget,
-        html: "<strong>Here's the letter day.</strong><p class=\"form-text\">You can click on it to see when it was last updated. It may display these emojis in place of the letter day when:</p><ul class=\"form-text list-unstyled\"><li>🤔: The letter day is still being loaded.</li><li>🤷‍♂️: No letter day could be found for today.</li><li>⚠️: The date has changed, which means the letter day has probably changed.</li><li>🤯: An error was encountered while loading the letter day. This is usually network related.</li><li>😐: Multiple letter days were found for today. You should not ever see this, if you do please report it.</li></ul><a href=\"#\" role=\"button\" class=\"btn btn-success btn-sm float-end mb-3 tour-next-button tour-end-button\"><i class=\"bi bi-flag\" aria-hidden=\"true\"></i> Done!</a>"
+        html: "<strong>Here's the letter day.</strong><p class=\"form-text\">You can click on it to see when it was last updated. It may display these emojis in place of the letter day when:</p><ul class=\"form-text list-unstyled\"><li>🤔: The letter day is still being loaded.</li><li>🤷‍♂️: No letter day could be found for today.</li><li>⚠️: The date has changed, which means the letter day has probably changed.</li><li>🤯: An error was encountered while loading the letter day. This is usually network related.</li><li>😐: Multiple letter days were found for today. You should not ever see this, if you do please report it.</li></ul><a href=\"#\" role=\"button\" class=\"btn btn-primary btn-sm float-end mb-3 tour-next-button\">Next ></a>"
     },
+    {
+        name: "outro",
+        element: sealElement,
+        html: "<strong>You've completed the tour!</strong><p class=\"form-text\">Restart this tour at any time by clicking on the <span class=\"text-body-emphasis\"><i class=\"bi bi-list\" aria-hidden=\"true\"></i> Menu</span> at the top left and choosing <span class=\"text-body-emphasis\"><i class=\"bi bi-map\" aria-hidden=\"true\"></i> Start tour</span>.</p><a href=\"#\" role=\"button\" class=\"btn btn-success btn-sm float-end mb-3 tour-next-button tour-end-button\"><i class=\"bi bi-flag\" aria-hidden=\"true\"></i> Done!</a>"
+    }
 ]
 
 export function handleTourButton() {
-    toggleTourButton.addEventListener("click", (event) => {
-        event.preventDefault()
+    function tourStuff() {
         if (isTourActive === false) {
             isTourActive = true
             tourButtonOriginalContent = toggleTourButton.innerHTML
@@ -70,6 +74,15 @@ export function handleTourButton() {
         } else {
             handleTourEnd()
         }
+    }
+    toggleTourButton.addEventListener("click", (event) => {
+        event.preventDefault()
+        tourStuff()
+    })
+    migrationToastTourLink.addEventListener("click", (event) => {
+        event.preventDefault()
+        bootstrap.Toast.getOrCreateInstance(migrationToast).hide()
+        tourStuff()
     })
 }
 
