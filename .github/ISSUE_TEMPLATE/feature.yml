@@ -1,0 +1,35 @@
+name: Feature Request
+description: Create a feature/enhancement request
+type: "Feature"
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Extension Version + Edition
+      description: Open SPP New Tab, click on the three-line menu at the top left, then on "About SPP New Tab". Please specify the edition (Staff or Student) as well, which is displayed on the right of the version number.
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: Your actual feature/enhancement request
+      description: What do you want added or changed in the extension?
+      placeholder: Please type in something here.
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Before you continue!
+      description: Please read and check the boxes below that apply to you.
+      options:
+        - label: I have [searched for existing issues](https://github.com/spp-programming/SPPrep-New-Tab-Next/issues?q=is%3Aissue) and my issue is **NOT** a duplicate of any of those issues
+          required: true
+        - label: I agree that my issue will be closed if it is found to be a duplicate of an existing issue
+          required: true
+        - label: My issue is a feature request, not a bug report or other type of issue
+          required: true
+        - label: I agree that my issue will be closed if it is found to _not_ be an actual feature request
+          required: true
+        - label: I _did not_ answer the checkboxes above honestly
+          required: false

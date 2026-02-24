@@ -1,6 +1,6 @@
 name: Bug Report
-description: File a bug report. Feature requests or other types of issues should be placed in GitHub Discussions instead.
-type: bug
+description: File a bug report
+type: "Bug"
 body:
   - type: markdown
     attributes:
@@ -28,7 +28,7 @@ body:
     attributes:
       value: |
         > [!IMPORTANT]
-        > Uploading a support data file is recommended, but not strictly required because it could contain identifiable information. If you don't upload one, we may ask for it _only if it is required to__ troubleshoot your issue, and provide options to upload it privately instead of publicly on GitHub. If you do want to upload one, you can do so using the text area below.
+        > Uploading a support data file is recommended, but not strictly required because it could contain identifiable information. If you don't upload one, we may ask for it _only if it is required to_ troubleshoot your issue, and provide options to upload it privately instead of publicly on GitHub. If you do want to upload one, you can do so using the text area below.
   - type: textarea
     id: what-happened
     attributes:
