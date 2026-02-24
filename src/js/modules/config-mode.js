@@ -1,5 +1,9 @@
 "use strict"
 import { internalConfigFile } from "./global-constants.js"
+/**
+ * This function returns the current config mode, as defined in `config-mode.json`.
+ * @returns {Promise<"student"|"staff"|undefined>} String of `student` if the config mode is set to student, or `staff` if the config mode is set to staff. Returns `undefined` on an error.
+ */
 export async function getInternalConfigMode() {
     try {
         let internalConfigFileData

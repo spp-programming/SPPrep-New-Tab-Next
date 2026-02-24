@@ -10,10 +10,15 @@ let changesWereMade = false
 let aboutToReload = false
 
 // URL validation function stolen from https://stackoverflow.com/a/43467144
-function isValidURL(string) {
+/**
+ * 
+ * @param {(string | URL)} urlToCheck 
+ * @returns {boolean} Returns `true` if `urlToCheck` is a valid URL, otherwise `false`.
+ */
+function isValidURL(urlToCheck) {
     let url
     try {
-        url = new URL(string)
+        url = new URL(urlToCheck)
     } catch {
         return false
     }

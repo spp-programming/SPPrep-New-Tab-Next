@@ -2,6 +2,12 @@
 
 import { backgroundMscBuilding, backgroundRainbow, backgroundSnow } from "./global-constants.js"
 
+/**
+ * 
+ * @param {number} month _Zero-based_ month, probably from `new Date().getMonth()`. That means that `0` represents January, `1` represents February, etc.
+ * @param {number} day Day of the month, probably from `new Date().getDate()`. Only used to facilitate April Fools functionality.
+ * @returns {string} Relative URL that points to this season's background.
+ */
 export function getSeasonalBackground(month, day) {
     month += 1
     let imageUrl

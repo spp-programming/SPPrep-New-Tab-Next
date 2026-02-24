@@ -7,6 +7,15 @@ let tourCurrentIndex = 0
 let tourButtonOriginalContent = ""
 let tourButtonOriginalTitle = ""
 
+/**
+ * @typedef {Object} TourData
+ * @property {string} name Unique identifier for a tour popover.
+ * @property {HTMLElement} element Target HTML element for a tour popover.
+ * @property {string} html HTML string that contains the contents of a tour popover.
+ */
+/**
+ * @type {TourData[]}
+ */
 const tourData = [
     {
         name: "intro",
@@ -87,8 +96,8 @@ export function handleTourButton() {
 }
 
 /**
- * 
- * @param {string} currentTour 
+ * This function is called when the user clicks on the "Next" button on a tour popover.
+ * @param {string} currentTour String identifier for the current tour.
  */
 function handleTourNextButton(currentTour) {
     let tourCurrentIndexHere = tourData.findIndex((tour) => tour.name === currentTour)

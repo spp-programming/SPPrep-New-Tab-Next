@@ -2,6 +2,11 @@
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerElement => new bootstrap.Popover(popoverTriggerElement))
 
+/**
+ * This function sets the content of a Bootstrap popover.
+ * @param {(HTMLElement | string)} triggerElement HTML element (`HTMLElement`) or a CSS selector (`string`) that represents the popover's trigger element
+ * @param {string} content The content of the popover in question
+ */
 export function setPopoverText(triggerElement, content) {
     const popover = bootstrap.Popover.getInstance(triggerElement)
     popover._config.content = content

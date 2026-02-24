@@ -20,6 +20,17 @@ export const dateString = `${month}/${day}/${year}` // Date string is used in se
 console.log(`timeMin is ${timeMin}`)
 console.log(`timeMax is ${timeMax}`)
 
+/**
+ * Not inclusive of all parameters! Only the ones that are relevant are included. See {@link https://developers.google.com/workspace/calendar/api/v3/reference/events#resource-representations} for more details.
+ * @typedef {Object} CalendarEvent
+ * @property {"calendar#event"} kind This property isn't checked, but if it isn't exactly `calendar#event`, expect problems.
+ * @property {string} summary Summary of the calendar event.
+ */
+/**
+ * This function fetches the calendar events for today from the Google Calendar API.
+ * Fun fact! This is one of the only pieces of code that (somewhat) dates back to version 2.0 (in the original codebase).
+ * @returns {CalendarEvent[]}
+ */
 export async function getTodaysEvents() {
     // You need to define this function based on your application logic.
     // Assuming it fetches events from Google Calendar API or similar
@@ -29,6 +40,11 @@ export async function getTodaysEvents() {
 }
 
 // Stolen from https://stackoverflow.com/a/68593283
+/**
+ * This function gets the offset of a time zone based on its IANA tz database name.
+ * @param {string} timeZone IANA tz database time zone to get the offset for
+ * @returns {number} 
+ */
 function getTimeZoneOffsetFromName(timeZone) {
     const date = new Date()
     const utcDate = new Date(date.toLocaleString("en-US", { timeZone: "UTC" }))
@@ -41,10 +57,15 @@ function getTimeZoneOffsetFromName(timeZone) {
     }
 }
 
-function convertOffsetToISO(offsetSeconds) {
+/**
+ * This function gets the ISO 8601 formatted offset from a minute value (`offsetMinutes`).
+ * @param {number} offsetMinutes Number of minutes offset from UTC, probably taken from `getTimeZoneOffsetFromName()`.
+ * @returns {string} ISO 8601 formatted offset, relative to UTC.
+ */
+function convertOffsetToISO(offsetMinutes) {
     let newOffset
-    let offsetAbsoluteSeconds = Math.abs(offsetSeconds)
-    switch (Math.sign(offsetSeconds)) {
+    let offsetAbsoluteSeconds = Math.abs(offsetMinutes)
+    switch (Math.sign(offsetMinutes)) {
         case -1:
             newOffset = "+"
             break
@@ -63,6 +84,10 @@ function convertOffsetToISO(offsetSeconds) {
     return newOffset
 }
 
+/**
+ * This function returns the _current_ date, formatted as MM/DD/YYYY
+ * @returns {string} The current date, formatted as MM/DD/YYYY
+ */
 export function getCurrentDateString() {
     // Get the current date in UTC
     const currentDateUTC = new Date()

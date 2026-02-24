@@ -2,6 +2,9 @@
 import { getInternalConfigMode } from "./config-mode.js"
 import { migrationVersion, migrationToast } from "./global-constants.js"
 
+/**
+ * This function migrates local storage (used in pre-4.0 versions) to extension storage (which is used in this version). It should not be called directly outside this file, rather only through the `runMigrations()` function.
+ */
 async function migrateLocalStorage() {
     console.log("🚚 Migrating localStorage to extension storage")
     const lastExecutionDate = localStorage.getItem("lastExecutionDate")
@@ -42,6 +45,9 @@ async function migrateLocalStorage() {
     console.log("✅ Migrated localStorage to extension storage!")
 }
 
+/**
+ * This function runs migrations, which ensure that settings and other extension data are preserved through extension updates (which may store things in different places and formats). This function should be the (one of) the first things run on page load, to ensure that the migrations are applied _before_ any settings are loaded.
+ */
 export async function runMigrations() {
     try {
         console.log("🔍 Running migrations")

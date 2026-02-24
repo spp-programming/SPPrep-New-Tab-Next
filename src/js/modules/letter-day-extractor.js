@@ -1,4 +1,10 @@
 "use strict"
+
+/**
+ * 
+ * @param {import("./calendar-api.js").CalendarEvent[]} todaysEvents 
+ * @returns {("A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"🤷‍♂️"|"😐")} Returns letters A-H (inclusive) when there is a letter day today (as specified in `todaysEvents`), otherwise returns man shrugging emoji (🤷‍♂️). If there are multiple letter days today, it returns neutral face emoji (😐) instead.
+ */
 export function getLetterDay(todaysEvents) {
     console.log(todaysEvents)
 
@@ -29,6 +35,11 @@ export function getLetterDay(todaysEvents) {
     }
 }
 
+/**
+ * 
+ * @param {string} eventName Event name to extract the letter day from.
+ * @returns {("A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"🤷‍♂️")} Returns letters A-H (inclusive) when there is a letter day (as specified in `eventName`), otherwise returns man shrugging emoji (🤷‍♂️).
+ */
 function extractLetterDay(eventName) {
     const eventNameTrimmed = eventName.trim()
     // Is there any way to optimize this atrocity? Update: Nvm, I actually did optimize it :)
