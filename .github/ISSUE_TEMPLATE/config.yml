@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/spp-programming/SPPrep-New-Tab-Next/discussions
+    about: Questions, general discussions, feature requests, etc. should go here.

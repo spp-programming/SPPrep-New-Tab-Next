@@ -1,0 +1,55 @@
+name: Bug Report
+description: File a bug report. Feature requests or other types of issues should be placed in GitHub Discussions instead.
+type: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: version
+    attributes:
+      label: Extension Version + Edition
+      description: Open SPP New Tab, click on the three-line menu at the top left, then on "About SPP New Tab". Please specify the edition (Staff or Student) as well, which is displayed on the right of the version number.
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Which browser are you using?
+      description: Although listed, Microsoft Edge and Brave are not officially supported. Support for browsers other than Chrome and Firefox will be given on an as-is basis.
+      options:
+        - Firefox
+        - Chrome
+        - Edge
+        - Brave
+        - Other (please specify in the box below)
+  - type: markdown
+    attributes:
+      value: |
+        > [!IMPORTANT]
+        > Uploading a support data file is recommended, but not strictly required because it could contain identifiable information. If you don't upload one, we may ask for it _only if it is required to__ troubleshoot your issue, and provide options to upload it privately instead of publicly on GitHub. If you do want to upload one, you can do so using the text area below.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Explain what you expected to happen, and what actually happened instead.
+      placeholder: Please type in something here.
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Before you continue!
+      description: Please read and check the boxes below that apply to you.
+      options:
+        - label: I have [searched for existing issues](https://github.com/spp-programming/SPPrep-New-Tab-Next/issues?q=is%3Aissue) and my issue is **NOT** a duplicate of any of those issues
+          required: true
+        - label: I agree that my issue will be closed if it is found to be a duplicate of an existing issue
+          required: true
+        - label: My issue is a bug report, not a feature request or other type of issue
+          required: true
+        - label: I agree that my issue will be closed if it is found to _not_ be an actual bug report
+          required: true
+        - label: I _did not_ answer the checkboxes above honestly
+          required: false
