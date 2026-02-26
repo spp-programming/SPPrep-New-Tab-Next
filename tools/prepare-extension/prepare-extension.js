@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict"
 import { argv } from "node:process"
-import { join } from "node:path"
+import { basename, join } from "node:path"
 import { cpSync, rmSync, statSync } from "node:fs"
 
 let selectedAction
@@ -53,8 +53,21 @@ if (!statSync(srcFolder).isDirectory()) {
     throw Error("srcFolder \"${srcPreparedFolder}\" isn't a directory!")
 }
 
+console.log(`Removing srcPreparedFolder \"${srcPreparedFolder}\"`)
+rmSync(srcPreparedFolder, {force: true, recursive: true})
+
 console.log(`Copying srcFolder \"${srcFolder}\" to srcPreparedFolder \"${srcPreparedFolder}\"`)
-cpSync(srcFolder, srcPreparedFolder, {force: true, recursive: true})
+cpSync(srcFolder, srcPreparedFolder, {
+    force: true,
+    recursive: true,
+    filter: (srcFileName) => {
+        if (basename(srcFileName) === ".DS_Store") {
+            console.log(`File was skipped: ${srcFileName}`)
+            return false
+        }
+        return true
+    }
+})
 
 switch (selectedAction) {
     case "student":
