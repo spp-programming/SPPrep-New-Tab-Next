@@ -149,6 +149,12 @@ async function loadSecretSettings() {
 
 async function saveSecretSettings() {
     try {
+        // element.src gets the absolute URL, but we need the relative URL so element.getAttribute("src") is used instead
+        if (secretSettingsBackgroundPreview.getAttribute("src") === selectImageImage) {
+            secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Please upload a custom background before saving. If you don't want to save your changes, you can close this tab.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            secretSettingsCustomBackgroundAlertWrapper.scrollIntoView({ behavior: "smooth" })
+            return
+        }
         secretSettingsDisableSwitch.disabled = true
         secretSettingsFontSelection.disabled = true
         secretSettingsBackgroundSelection.disabled = true
