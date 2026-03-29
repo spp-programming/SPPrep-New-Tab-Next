@@ -34,6 +34,7 @@ secretSettingsGradientSelectionReset.addEventListener("click", () => {
 
 secretSettingsGradientDisableSwitch.addEventListener("change", () => {
     handleBeforeUnload()
+    handleGradientColorDisablement()
 })
 
 secretSettingsBackgroundSelection.addEventListener("change", () => {
@@ -141,6 +142,7 @@ async function loadSecretSettings() {
         if (storedGradientDisabled === true) {
             secretSettingsGradientDisableSwitch.checked = true
         }
+        handleGradientColorDisablement()
     } catch (error) {
         console.error(error)
         alert(`Oops, something went wrong while loading secret settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
@@ -308,6 +310,20 @@ function handleBeforeUnload() {
             }
             event.preventDefault()
         })
+    }
+}
+
+function handleGradientColorDisablement() {
+    if (secretSettingsGradientDisableSwitch.checked === true) {
+        secretSettingsGradientSelection.disabled = true
+        secretSettingsGradientSelection.style.cursor = "not-allowed"
+        secretSettingsGradientSelectionReset.disabled = true
+        secretSettingsGradientSelectionReset.style.cursor = "not-allowed"
+    } else {
+        secretSettingsGradientSelection.disabled = false
+        secretSettingsGradientSelection.style.removeProperty("cursor")
+        secretSettingsGradientSelectionReset.disabled = false
+        secretSettingsGradientSelectionReset.style.removeProperty("cursor")
     }
 }
 
