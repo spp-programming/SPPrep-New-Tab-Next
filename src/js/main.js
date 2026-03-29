@@ -37,7 +37,7 @@ async function loadLetterDay() {
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
                     setPopoverText(letterDayElement, `No letter day found for today.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")}. Refresh the page to check again.</div>`)
                 } else {
-                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone})</div>No letter day found for today.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>No letter day found for today.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
                 break
@@ -49,7 +49,7 @@ async function loadLetterDay() {
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
                     setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")}. Refresh the page to check again.</div>`)
                 } else {
-                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone})</div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
             letterDay = `${letterDay}-DAY`
