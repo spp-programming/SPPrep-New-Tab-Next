@@ -1,14 +1,14 @@
-#background-image {
+#background-image.split-layout {
     background: var(--selected-background);
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-#content-element {
+#content-element.split-layout {
 	background-color: #880024;
 	width: 75vw;
 }
 
-#button-container {
+#button-container.split-layout {
     width: 70vw;
 }
