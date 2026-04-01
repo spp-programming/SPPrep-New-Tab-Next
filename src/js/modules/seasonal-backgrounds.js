@@ -25,7 +25,7 @@ export function getSeasonalBackground(month, day) {
         imageUrl = backgroundSnow
     }
     // April Fools functionality
-    if (month == 4 && day == 1) {
+    if (month === 4 && day === 1) {
         console.log("rainbow mode activated")
         imageUrl = backgroundRainbow
     }
