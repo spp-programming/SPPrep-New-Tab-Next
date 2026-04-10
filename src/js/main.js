@@ -227,8 +227,28 @@ async function loadBackgroundSettings() {
             case "custom":
                 if (storedSecretSettingsCustomBackground !== undefined) {
                     try {
-                        const backgroundBlob = (await (await fetch(storedSecretSettingsCustomBackground)).blob())
-                        staticBackground.src = URL.createObjectURL(backgroundBlob)
+                        const backgroundData = await fetch(storedSecretSettingsCustomBackground)
+                        const contentType = backgroundData.headers.get("Content-Type")
+                        if (contentType.startsWith("image/") === true) {
+                            const backgroundBlob = await backgroundData.blob()
+                            staticBackground.src = URL.createObjectURL(backgroundBlob)
+                            backgroundElement.appendChild(staticBackground)
+                        }
+                        if (contentType.startsWith("video/") === true) {
+                            const videoBackground = document.createElement("video")
+                            videoBackground.id = "video-background"
+                            videoBackground.autoplay = true
+                            videoBackground.muted = true
+                            videoBackground.loop = true
+                            videoBackground.playsInline = true
+                            videoBackground.tabIndex = -1
+                            videoBackground.ariaHidden = true
+                            const videoBackgroundSource = document.createElement("source")
+                            const backgroundBlob = await backgroundData.blob()
+                            videoBackgroundSource.src = URL.createObjectURL(backgroundBlob)
+                            videoBackground.appendChild(videoBackgroundSource)
+                            backgroundElement.appendChild(videoBackground)
+                        }
                     } catch (error) {
                         // If fetch() fails for whatever reason (for example, on an invalid data URL), just log the error but move on with the rest of the function.
                         console.error(error)
@@ -238,47 +258,60 @@ async function loadBackgroundSettings() {
             // Yes, the extra dot in the URL is intentional. This shit is so stupid
             case "seasonal":
                 staticBackground.src = `.${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "bliss":
                 staticBackground.src = `.${backgroundBliss}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "osx-tiger":
                 staticBackground.src = `.${backgroundOsxTiger}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "osx-leopard":
                 staticBackground.src = `.${backgroundOsxLeopard}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "osx-lion":
                 staticBackground.src = `.${backgroundOsxLion}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "osx-yosemite":
                 staticBackground.src = `.${backgroundOsxYosemite}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "msc-building":
                 staticBackground.src = `.${backgroundMscBuilding}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "snow":
                 staticBackground.src = `.${backgroundSnow}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "snow-low-quality":
                 staticBackground.src = `.${backgroundSnowLowQuality}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "original-fall-winter":
                 staticBackground.src = `.${backgroundStaffStaring}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "street-view":
                 staticBackground.src = `.${backgroundStreetView}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "street-view-better":
                 staticBackground.src = `.${backgroundStreetViewBetter}`
+                backgroundElement.appendChild(staticBackground)
                 break
             case "rainbow":
                 staticBackground.src = `.${backgroundRainbow}`
+                backgroundElement.appendChild(staticBackground)
                 break
             default:
                 staticBackground.src = `.${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}`
+                backgroundElement.appendChild(staticBackground)
         }
-        backgroundElement.appendChild(staticBackground)
         if (/^#[0-9A-F]{6}$/i.test(storedSecretSettingsGradientSelection)) {
             document.documentElement.style.setProperty("--gradient-color", storedSecretSettingsGradientSelection)
         } else {

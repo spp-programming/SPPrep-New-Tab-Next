@@ -1,9 +1,9 @@
 "use strict"
-import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsSaveButton, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
+import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsSaveButton, secretSettingsVideoBackgroundPreview, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
-import { secretSettingsFontSelection, secretSettingsFontPreview, secretSettingsBackgroundPreview, secretSettingsBackgroundSelection, secretSettingsBackgroundPreviewNotes, secretSettingsGradientSelection, secretSettingsGradientSelectionReset} from "./modules/secret-settings-constants.js"
+import { secretSettingsFontSelection, secretSettingsFontPreview, secretSettingsStaticBackgroundPreview, secretSettingsBackgroundSelection, secretSettingsBackgroundPreviewNotes, secretSettingsGradientSelection, secretSettingsGradientSelectionReset} from "./modules/secret-settings-constants.js"
 import { backgroundBliss, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundRainbow, backgroundSnow, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, selectImageImage, validBackgrounds, validFonts } from "./modules/global-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -38,7 +38,7 @@ secretSettingsGradientDisableSwitch.addEventListener("change", () => {
 })
 
 secretSettingsBackgroundSelection.addEventListener("change", () => {
-    secretSettingsBackgroundPreview.hidden = false
+    secretSettingsStaticBackgroundPreview.hidden = false
     secretSettingsBackgroundPreviewNotes.hidden = false
     handleBeforeUnload()
     updateBackgroundPreview()
@@ -76,14 +76,17 @@ async function handleCustomBackgroundUploaderChange() {
     secretSettingsCustomBackgroundUploader.disabled = true
     secretSettingsSaveButton.disabled = true
     let backgroundURL
-    if (!validateCustomBackgroundFileList()) {
-        secretSettingsCustomBackgroundUploader.value = ""
-        secretSettingsBackgroundPreview.setAttribute("src", selectImageImage)
-        uploadedCustomBackground = undefined
-    } else {
+    if (validateCustomBackgroundFileList() === true) {
         backgroundURL = await constructCustomBackgroundURL()
-        secretSettingsBackgroundPreview.setAttribute("src", backgroundURL)
         uploadedCustomBackground = backgroundURL
+        updateBackgroundPreview()
+    } else {
+        secretSettingsCustomBackgroundUploader.value = ""
+        secretSettingsVideoBackgroundPreview.innerHTML = ""
+        secretSettingsVideoBackgroundPreview.parentElement.hidden = true
+        secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
+        secretSettingsStaticBackgroundPreview.parentElement.hidden = false
+        uploadedCustomBackground = undefined
     }
     secretSettingsBackgroundSelection.disabled = false
     secretSettingsCustomBackgroundUploader.disabled = false
@@ -96,9 +99,9 @@ function validateCustomBackgroundFileList() {
         console.log("Custom background validator: No files selected.")
         return false
     }
-    if (secretSettingsCustomBackgroundUploader.files[0].type.startsWith("image/") === false) {
+    if (secretSettingsCustomBackgroundUploader.files[0].type.startsWith("image/") === false && secretSettingsCustomBackgroundUploader.files[0].type.startsWith("video/") === false) {
         console.error(`Custom background validator: File "${secretSettingsCustomBackgroundUploader.files[0].name}" is not an image! (Unexpected MIME type of "${secretSettingsCustomBackgroundUploader.files[0].type}")`)
-        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is not an image! Your background needs to use an image format supported by your browser.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is not an image or video! Your background needs to be in a format supported by your browser.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         return false
     }
     if (secretSettingsCustomBackgroundUploader.files[0].size > 5000000) {
@@ -133,9 +136,6 @@ async function loadSecretSettings() {
             secretSettingsBackgroundSelection.value = storedBackgroundSelection
         }
         if (storedBackgroundSelection === "custom") {
-            if (storedCustomBackground !== undefined) {
-                secretSettingsBackgroundPreview.setAttribute("src", storedCustomBackground)
-            }
             secretSettingsCustomBackgroundSection.hidden = false
         }
         if (validFonts.includes(storedFontSelection)) {
@@ -157,7 +157,7 @@ async function loadSecretSettings() {
 async function saveSecretSettings() {
     try {
         // element.src gets the absolute URL, but we need the relative URL so element.getAttribute("src") is used instead
-        if (secretSettingsBackgroundPreview.getAttribute("src") === selectImageImage) {
+        if (secretSettingsStaticBackgroundPreview.getAttribute("src") === selectImageImage && secretSettingsVideoBackgroundPreview.children.length === 0) {
             secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Please upload a custom background before saving. If you don't want to save your changes, you can close this tab.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             secretSettingsCustomBackgroundAlertWrapper.scrollIntoView({ behavior: "smooth" })
             return
@@ -200,73 +200,104 @@ async function saveSecretSettings() {
 }
 
 function updateBackgroundPreview() {
+    secretSettingsStaticBackgroundPreview.parentElement.hidden = false
+    secretSettingsVideoBackgroundPreview.innerHTML = ""
+    secretSettingsVideoBackgroundPreview.parentElement.hidden = true
     secretSettingsCustomBackgroundSection.hidden = true
     switch (secretSettingsBackgroundSelection.value) {
         case "custom":
             secretSettingsCustomBackgroundSection.hidden = false
-            secretSettingsBackgroundPreview.setAttribute("src", selectImageImage)
-            if (storedCustomBackground !== undefined) {
-                secretSettingsBackgroundPreview.setAttribute("src", storedCustomBackground)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
+            if (typeof storedCustomBackground !== "string" | "undefined") {
+                console.error(`Stored custom background is an invalid type (got "${typeof storedCustomBackground}", expected "string" or "undefined")`)
+                if (uploadedCustomBackground === undefined) {
+                    return
+                }
+            }
+            if (uploadedCustomBackground === undefined && storedCustomBackground.startsWith("data:image/") === true) {
+                secretSettingsStaticBackgroundPreview.setAttribute("src", storedCustomBackground)
+            }
+            if (uploadedCustomBackground === undefined && storedCustomBackground.startsWith("data:video/") === true) {
+                secretSettingsStaticBackgroundPreview.parentElement.hidden = true
+                secretSettingsVideoBackgroundPreview.innerHTML = ""
+                secretSettingsVideoBackgroundPreview.parentElement.hidden = false
+                const source = document.createElement("source")
+                source.src = storedCustomBackground
+                secretSettingsVideoBackgroundPreview.appendChild(source)
             }
             if (uploadedCustomBackground !== undefined) {
-                secretSettingsBackgroundPreview.setAttribute("src", uploadedCustomBackground)
+                if (uploadedCustomBackground.startsWith("data:image/") === true) {
+                    secretSettingsStaticBackgroundPreview.setAttribute("src", uploadedCustomBackground)
+                    return
+                }
+                if (uploadedCustomBackground.startsWith("data:video/") === true) {
+                    secretSettingsStaticBackgroundPreview.parentElement.hidden = true
+                    secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
+                    secretSettingsVideoBackgroundPreview.innerHTML = ""
+                    secretSettingsVideoBackgroundPreview.parentElement.hidden = false
+                    const source = document.createElement("source")
+                    source.src = uploadedCustomBackground
+                    secretSettingsVideoBackgroundPreview.appendChild(source)
+                    return
+                }
+                console.error("Unable to load custom background, probably because of an invalid MIME type.")
             }
             secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
             break
         case "seasonal":
-            secretSettingsBackgroundPreview.setAttribute("src", getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate()))
+            secretSettingsStaticBackgroundPreview.setAttribute("src", getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate()))
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background will change automatically based on the seasons. There are only two images we can use, so a given image is actually used for two seasons."
             break
         case "bliss":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundBliss)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundBliss)
             secretSettingsBackgroundPreviewNotes.innerHTML = "I added this in because nostalgia."
             break
         case "osx-tiger":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundOsxTiger)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundOsxTiger)
             secretSettingsBackgroundPreviewNotes.innerHTML = "I added the OS X Leopard one, so there was no reason not to include this one too.<br>Image attribution: &copy; 2024 Apple<br>Source: <a href=\"https://512pixels.net/projects/default-mac-wallpapers-in-5k/\" target=\"_blank\">512pixels.net</a>"
             break
         case "osx-leopard":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundOsxLeopard)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundOsxLeopard)
             secretSettingsBackgroundPreviewNotes.innerHTML = "One of the people in the Programming Club Discord server suggested this one.<br>Image attribution: &copy; 2024 Apple<br>Source: <a href=\"https://512pixels.net/projects/default-mac-wallpapers-in-5k/\" target=\"_blank\">512pixels.net</a>"
             break
         case "osx-lion":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundOsxLion)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundOsxLion)
             secretSettingsBackgroundPreviewNotes.innerHTML = "I think the same guy who suggested the OS X Leopard one would like this one too.<br>Image attribution: &copy; 2024 Apple<br>Source: <a href=\"https://512pixels.net/projects/default-mac-wallpapers-in-5k/\" target=\"_blank\">512pixels.net</a>"
             break
         case "osx-yosemite":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundOsxYosemite)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundOsxYosemite)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This one is the most different from the rest of the OS X wallpapers. It's also actually the largest wallpaper (by file size) in here!<br>Image attribution: &copy; 2024 Apple<br>Source: <a href=\"https://512pixels.net/projects/default-mac-wallpapers-in-5k/\" target=\"_blank\">512pixels.net</a>"
             break
         case "msc-building":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundMscBuilding)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundMscBuilding)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background was brought over from the older version of the extension. There is no higher quality version because I couldn't get AI upscaling to get usable results."
             break
         case "snow":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundSnow)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundSnow)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background was introduced in version 3.0. It's also AI upscaled, but you can also use the original, low quality version instead if you want."
             break
         case "snow-low-quality":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundSnow)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundSnow)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background was introduced in version 3.0. This version of the image was shared on the Programming Club Discord server and is included as-is."
             break
         case "original-fall-winter":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundStaffStaring)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundStaffStaring)
             secretSettingsBackgroundPreviewNotes.innerHTML = "Although this background was in the older version of the extension, you never actually saw it because the seasonal background feature wasn't functional at the time."
             break
         case "street-view":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundStreetView)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundStreetView)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This is a Google Street View screenshot, dating back to 2012. This version of the background was shared on the Programming Club Discord server and is included as-is.<br>Image attribution: &copy; 2024 Google"
             break
         case "street-view-better":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundStreetViewBetter)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundStreetViewBetter)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This is a Google Street View screenshot, dating back to 2012. This background has a greater field of view and resolution, compared to the other version.<br>Image attribution: &copy; 2024 Google"
             break
         case "rainbow":
-            secretSettingsBackgroundPreview.setAttribute("src", backgroundRainbow)
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundRainbow)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background is an SVG. I could've just used CSS to make an animation like this, but the SVG works anywhere images do, which makes this the lazy option."
             break
         default:
-            secretSettingsBackgroundPreview.hidden = true
+            secretSettingsStaticBackgroundPreview.hidden = true
             secretSettingsBackgroundPreviewNotes.hidden = true
     }
 }
@@ -339,7 +370,7 @@ async function loadStuff() {
     handleSecretSettingsVisibility()
     updateFontPreview()
     updateBackgroundPreview()
-    secretSettingsBackgroundPreview.hidden = false
+    secretSettingsStaticBackgroundPreview.hidden = false
     secretSettingsBackgroundPreviewNotes.hidden = false
 }
 loadStuff()
