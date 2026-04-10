@@ -4,7 +4,7 @@ import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { secretSettingsFontSelection, secretSettingsFontPreview, secretSettingsStaticBackgroundPreview, secretSettingsBackgroundSelection, secretSettingsBackgroundPreviewNotes, secretSettingsGradientSelection, secretSettingsGradientSelectionReset} from "./modules/secret-settings-constants.js"
-import { backgroundBliss, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundRainbow, backgroundSnow, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, selectImageImage, validBackgrounds, validFonts } from "./modules/global-constants.js"
+import { backgroundBliss, backgroundMissingTexture, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundRainbow, backgroundSnow, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, selectImageImage, validBackgrounds, validFonts } from "./modules/global-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -295,6 +295,10 @@ function updateBackgroundPreview() {
         case "rainbow":
             secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundRainbow)
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background is an SVG. I could've just used CSS to make an animation like this, but the SVG works anywhere images do, which makes this the lazy option."
+            break
+        case "missing-texture":
+            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundMissingTexture)
+            secretSettingsBackgroundPreviewNotes.innerHTML = "Looks like you forgot to install Counter-Strike: Source. I know that it <a href=\"https://store.steampowered.com/news/app/4000/view/521971443730220876?l=english#:~:text=The%20biggest,content,-%2E\">isn't necessary anymore</a> but I really don't care. Also, does anyone else at this school still play Garry's Mod?"
             break
         default:
             secretSettingsStaticBackgroundPreview.hidden = true

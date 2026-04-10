@@ -1,0 +1,3 @@
+The missing texture image does use 4K resolution, but the image itself is so basic that I opted for lossless WebP compression instead of the default lossy one, for the highest possible quality. Using lossless compression on any of the other backgrounds would have an unacceptable increase in file size, with little to no perceivable difference in image quality.
+
+**For most backgrounds, the default lossy compression should be used, this missing texture background is the only exception to this rule.**
