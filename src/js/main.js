@@ -16,7 +16,7 @@ export function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
-import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, backgroundImage, contentElement } from "./modules/global-constants.js"
+import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
@@ -104,7 +104,7 @@ async function loadLayoutSettings() {
             previewLayoutToastSelected.innerText = "stacked"
             bootstrap.Toast.getOrCreateInstance(previewLayoutToast).show()
         } else if (storedSettingsEnableSplitLayoutSelection === true || new URLSearchParams(document.location.search).get("preview-layout") === "split") {
-            backgroundImage.classList.add("split-layout")
+            backgroundOverlay.hidden = true
             contentElement.classList.add("split-layout")
             buttonContainer.classList.add("split-layout")
         }
@@ -219,12 +219,16 @@ async function loadBackgroundSettings() {
         const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
         const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
         const storedSecretSettingsGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
+        const staticBackground = document.createElement("img")
+        staticBackground.id = "static-background"
+        staticBackground.alt = ""
+        staticBackground.ariaHidden = true
         switch (storedSecretSettingsBackgroundSelection) {
             case "custom":
                 if (storedSecretSettingsCustomBackground !== undefined) {
                     try {
                         const backgroundBlob = (await (await fetch(storedSecretSettingsCustomBackground)).blob())
-                        document.documentElement.style.setProperty("--selected-background", `url("${URL.createObjectURL(backgroundBlob)}")`)
+                        staticBackground.src = URL.createObjectURL(backgroundBlob)
                     } catch (error) {
                         // If fetch() fails for whatever reason (for example, on an invalid data URL), just log the error but move on with the rest of the function.
                         console.error(error)
@@ -233,57 +237,57 @@ async function loadBackgroundSettings() {
                 break
             // Yes, the extra dot in the URL is intentional. This shit is so stupid
             case "seasonal":
-                document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
+                staticBackground.src = `.${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}`
                 break
             case "bliss":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundBliss}")`)
+                staticBackground.src = `.${backgroundBliss}`
                 break
             case "osx-tiger":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxTiger}")`)
+                staticBackground.src = `.${backgroundOsxTiger}`
                 break
             case "osx-leopard":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxLeopard}")`)
+                staticBackground.src = `.${backgroundOsxLeopard}`
                 break
             case "osx-lion":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxLion}")`)
+                staticBackground.src = `.${backgroundOsxLion}`
                 break
             case "osx-yosemite":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundOsxYosemite}")`)
+                staticBackground.src = `.${backgroundOsxYosemite}`
                 break
             case "msc-building":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundMscBuilding}")`)
+                staticBackground.src = `.${backgroundMscBuilding}`
                 break
             case "snow":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundSnow}")`)
+                staticBackground.src = `.${backgroundSnow}`
                 break
             case "snow-low-quality":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundSnowLowQuality}")`)
+                staticBackground.src = `.${backgroundSnowLowQuality}`
                 break
             case "original-fall-winter":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStaffStaring}")`)
+                staticBackground.src = `.${backgroundStaffStaring}`
                 break
             case "street-view":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStreetView}")`)
+                staticBackground.src = `.${backgroundStreetView}`
                 break
             case "street-view-better":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundStreetViewBetter}")`)
+                staticBackground.src = `.${backgroundStreetViewBetter}`
                 break
             case "rainbow":
-                document.documentElement.style.setProperty("--selected-background", `url(".${backgroundRainbow}")`)
+                staticBackground.src = `.${backgroundRainbow}`
                 break
             default:
-                document.documentElement.style.setProperty("--selected-background", `url(".${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}")`)
+                staticBackground.src = `.${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}`
         }
+        backgroundElement.appendChild(staticBackground)
         if (/^#[0-9A-F]{6}$/i.test(storedSecretSettingsGradientSelection)) {
             document.documentElement.style.setProperty("--gradient-color", storedSecretSettingsGradientSelection)
         } else {
             document.documentElement.style.setProperty("--gradient-color", "#9b042a")
         }
         if (storedSecretSettingsGradientDisabled === true) {
-            // The background-image property overrides the background property set in main.css, this is easier than overriding background because it doesn't unset background-size or background-repeat in the process
-            backgroundImage.style.backgroundImage = "var(--selected-background)"
+            backgroundOverlay.hidden = true
         }
-        backgroundImage.classList.add("fade-in")
+        backgroundElement.classList.add("fade-in")
     } catch (error) {
         console.error(error)
         alert(`Oops, something went wrong while loading background settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
