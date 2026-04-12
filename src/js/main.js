@@ -16,7 +16,7 @@ export function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
-import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture } from "./modules/global-constants.js"
+import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
@@ -248,6 +248,17 @@ async function loadBackgroundSettings() {
                             videoBackgroundSource.src = URL.createObjectURL(backgroundBlob)
                             videoBackground.appendChild(videoBackgroundSource)
                             backgroundElement.appendChild(videoBackground)
+                            videoBackgroundToggleButton.parentElement.hidden = false
+                            videoBackgroundToggleButton.addEventListener("click", (event) => {
+                                event.preventDefault()
+                                if (videoBackground.paused === false) {
+                                    videoBackground.pause()
+                                    videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-play-circle\" aria-hidden=\"true\"></i> Unpause video background</a>"
+                                } else {
+                                    videoBackground.play()
+                                    videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-pause-circle\" aria-hidden=\"true\"></i> Pause video background</a>"
+                                }
+                            })
                         }
                     } catch (error) {
                         // If fetch() fails for whatever reason (for example, on an invalid data URL), just log the error but move on with the rest of the function.
