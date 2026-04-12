@@ -84,6 +84,7 @@ async function handleCustomBackgroundUploaderChange() {
         secretSettingsCustomBackgroundUploader.value = ""
         secretSettingsVideoBackgroundPreview.innerHTML = ""
         secretSettingsVideoBackgroundPreview.parentElement.hidden = true
+        secretSettingsVideoBackgroundPreview.load()
         secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
         secretSettingsStaticBackgroundPreview.parentElement.hidden = false
         uploadedCustomBackground = undefined
@@ -203,6 +204,7 @@ function updateBackgroundPreview() {
     secretSettingsStaticBackgroundPreview.parentElement.hidden = false
     secretSettingsVideoBackgroundPreview.innerHTML = ""
     secretSettingsVideoBackgroundPreview.parentElement.hidden = true
+    secretSettingsVideoBackgroundPreview.load()
     secretSettingsCustomBackgroundSection.hidden = true
     switch (secretSettingsBackgroundSelection.value) {
         case "custom":
@@ -221,6 +223,7 @@ function updateBackgroundPreview() {
                 secretSettingsStaticBackgroundPreview.parentElement.hidden = true
                 secretSettingsVideoBackgroundPreview.innerHTML = ""
                 secretSettingsVideoBackgroundPreview.parentElement.hidden = false
+                secretSettingsVideoBackgroundPreview.load()
                 const source = document.createElement("source")
                 source.src = storedCustomBackground
                 secretSettingsVideoBackgroundPreview.appendChild(source)
@@ -235,6 +238,7 @@ function updateBackgroundPreview() {
                     secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
                     secretSettingsVideoBackgroundPreview.innerHTML = ""
                     secretSettingsVideoBackgroundPreview.parentElement.hidden = false
+                    secretSettingsVideoBackgroundPreview.load()
                     const source = document.createElement("source")
                     source.src = uploadedCustomBackground
                     secretSettingsVideoBackgroundPreview.appendChild(source)
