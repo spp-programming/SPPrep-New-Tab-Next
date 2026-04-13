@@ -36,4 +36,7 @@ export const settingsCustomLink3URLInputAlertWrapper = document.getElementById("
 export const settingsClockModeRadio12hour = document.getElementById("clock-mode-radio-12hour")
 export const settingsClockModeRadioAmPm = document.getElementById("clock-mode-radio-ampm")
 export const settingsClockModeRadio24hour = document.getElementById("clock-mode-radio-24hour")
+export const settingsSaveCloudButton = document.getElementById("save-cloud-button")
+export const settingsLoadCloudButton = document.getElementById("load-cloud-button")
+export const settingsSaveCloudAlertWrapper = document.getElementById("save-cloud-alert-wrapper")
 export const settingsSaveButton = document.getElementById("save-button")

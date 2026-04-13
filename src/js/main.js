@@ -19,7 +19,7 @@ import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/cl
 import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
-import { runMigrations } from "./modules/migrations.js"
+import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { getInternalConfigMode } from "./modules/config-mode.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { handleTourButton } from "./tour.js"

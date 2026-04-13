@@ -15,4 +15,7 @@ export const secretSettingsStaticBackgroundPreview = document.getElementById("st
 export const secretSettingsVideoBackgroundPreview = document.getElementById("video-background-preview")
 export const secretSettingsBackgroundPreviewNotes = document.getElementById("background-preview-notes")
 export const secretSettingsDisableSwitch = document.getElementById("secret-settings-disable-switch")
+export const secretSettingsSaveCloudButton = document.getElementById("save-cloud-button")
+export const secretSettingsLoadCloudButton = document.getElementById("load-cloud-button")
+export const secretSettingsSaveCloudAlertWrapper = document.getElementById("save-cloud-alert-wrapper")
 export const secretSettingsSaveButton = document.getElementById("save-button")

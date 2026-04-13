@@ -1,6 +1,7 @@
 "use strict"
 import { getInternalConfigMode } from "./config-mode.js"
 import { migrationVersion, migrationToast } from "./global-constants.js"
+import { getVersionParts, isNewerVersion, isSameVersion } from "./versioning.js"
 
 /**
  * This function migrates local storage (used in pre-4.0 versions) to extension storage (which is used in this version). It should not be called directly outside this file, rather only through the `runMigrations()` function.
@@ -50,13 +51,10 @@ async function migrateLocalStorage() {
  */
 export async function runMigrations() {
     try {
+        const timeStart = performance.now()
         console.log("🔍 Running migrations")
-        const storedMigrationVersion = (await chrome.storage.local.get())["migrationVersion"]
-        if (storedMigrationVersion === migrationVersion) {
-            console.log(`✅ migrationVersion is ${migrationVersion}, no migrations necessary.`)
-            return
-        }
-        if (storedMigrationVersion === undefined) {
+        const storedMigrationVersionInitial = (await chrome.storage.local.get())["migrationVersion"]
+        if (storedMigrationVersionInitial === undefined) {
             console.log(`💾 migrationVersion is undefined, migrating localStorage to extension storage...`)
             await migrateLocalStorage()
             console.log(`👨‍🔧 Setting default layout mode...`)
@@ -71,6 +69,19 @@ export async function runMigrations() {
                     console.log("✅ Set the default layout mode to \"split\"!")
                     break
             }
+        } else {
+            if (typeof storedMigrationVersionInitial === "number") {
+                console.log(`📝 storedMigrationVersion is a number, migrating it to a string...`)
+                await chrome.storage.local.set({ migrationVersion: storedMigrationVersionInitial.toString() })
+            }
+            const storedMigrationVersion = (await chrome.storage.local.get())["migrationVersion"]
+            if (isSameVersion(storedMigrationVersion, migrationVersion)) {
+                console.log(`✅ migrationVersion is ${migrationVersion}, no migrations necessary.`)
+                return
+            }
+            if (isNewerVersion(migrationVersion, storedMigrationVersion)) {
+                console.log(`🕒 migrationVersion "${migrationVersion}" is newer than storedMigrationVersion "${storedMigrationVersion}", going to run migrations...`)
+            }
         }
         // Run any specific migrations for certain migrationVersion values here. There aren't any right now, but this is just for futureproofing.
         try {
@@ -80,9 +91,45 @@ export async function runMigrations() {
         }
         await chrome.storage.local.set({ migrationVersion: migrationVersion })
         const storedMigrationVersionNew = (await chrome.storage.local.get())["migrationVersion"]
-        console.log(`✅ Migrations finished! migrationVersion is ${storedMigrationVersionNew}`)
+        const timeEnd = performance.now()
+        console.log(`✅ Migrations finished! migrationVersion is ${storedMigrationVersionNew} and took ${timeEnd - timeStart} ms`)
     } catch (error) {
         console.error(error)
         alert(`Oops, something went wrong while running migrations. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
+    }
+}
+
+/**
+ * This function runs cloud migrations. These are similar to regular migrations, just for cloud (sync) storage.
+ */
+export async function runCloudMigrations() {
+    try {
+        const timeStart = performance.now()
+        console.log("☁️ Running cloud migrations")
+        const storedMigrationVersionInitial = (await chrome.storage.sync.get())["migrationVersion"]
+        if (storedMigrationVersionInitial === undefined) {
+            console.log(`💾 cloud migrationVersion is undefined, going to set it...`)
+            await chrome.storage.sync.set({ migrationVersion: migrationVersion })
+        }
+        const storedMigrationVersion = (await chrome.storage.sync.get())["migrationVersion"]
+        if (isSameVersion(storedMigrationVersion, migrationVersion)) {
+            console.log(`✅ cloud migrationVersion is ${migrationVersion}, no migrations necessary.`)
+            return
+        }
+        if (isNewerVersion(migrationVersion, storedMigrationVersion)) {
+            console.log(`🕒 cloud migrationVersion "${migrationVersion}" is newer than storedMigrationVersion "${storedMigrationVersion}", going to run migrations...`)
+        }
+        if (isNewerVersion(storedMigrationVersion, migrationVersion)) {
+            console.error(`🕒 cloud migrationVersion "${migrationVersion}" is older than storedMigrationVersion "${storedMigrationVersion}", going to bail out!`)
+            return
+        }
+        // Run any specific migrations for certain migrationVersion values here. There aren't any right now, but this is just for futureproofing.
+        await chrome.storage.sync.set({ migrationVersion: migrationVersion })
+        const storedMigrationVersionNew = (await chrome.storage.sync.get())["migrationVersion"]
+        const timeEnd = performance.now()
+        console.log(`✅ Cloud migrations finished! migrationVersion is ${storedMigrationVersionNew} and took ${timeEnd - timeStart} ms`)
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while running cloud migrations. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
 }

@@ -1,7 +1,7 @@
 "use strict"
-import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsSaveButton, secretSettingsVideoBackgroundPreview, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
+import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsLoadCloudButton, secretSettingsSaveButton, secretSettingsSaveCloudAlertWrapper, secretSettingsSaveCloudButton, secretSettingsVideoBackgroundPreview, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
-import { runMigrations } from "./modules/migrations.js"
+import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { secretSettingsFontSelection, secretSettingsFontPreview, secretSettingsStaticBackgroundPreview, secretSettingsBackgroundSelection, secretSettingsBackgroundPreviewNotes, secretSettingsGradientSelection, secretSettingsGradientSelectionReset} from "./modules/secret-settings-constants.js"
 import { backgroundBliss, backgroundMissingTexture, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundRainbow, backgroundSnow, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, selectImageImage, validBackgrounds, validFonts } from "./modules/global-constants.js"
@@ -47,6 +47,23 @@ secretSettingsBackgroundSelection.addEventListener("change", () => {
 secretSettingsFontSelection.addEventListener("change", () => {
     handleBeforeUnload()
     updateFontPreview()
+})
+
+secretSettingsSaveCloudButton.addEventListener("click", () => {
+    if (confirm("If you continue, your settings in the cloud will be overwritten with the ones set on this page.") === false) {
+        return
+    }
+    saveCloudSecretSettings()
+})
+
+secretSettingsLoadCloudButton.addEventListener("click", () => {
+    if (confirm("WARNING WARNING WARNING\nIf you continue, local settings will be OVERWRITTEN with the ones stored in the cloud.") === false) {
+        return
+    }
+    const targetUrl = new URL(location.href)
+    targetUrl.searchParams.set("loadCloudSettings", "true")
+    aboutToReload = true
+    location.href = targetUrl
 })
 
 secretSettingsSaveButton.addEventListener("click", () => {
@@ -126,6 +143,33 @@ async function constructCustomBackgroundURL() {
     })
 }
 
+async function loadCloudSecretSettings() {
+    try {
+        const storedBackgroundSelection = (await chrome.storage.sync.get())["secretSettings_backgroundSelection"]
+        const storedFontSelection = (await chrome.storage.sync.get())["secretSettings_fontSelection"]
+        const storedGradientSelection = (await chrome.storage.sync.get())["secretSettings_gradientSelection"]
+        const storedGradientDisabled = (await chrome.storage.sync.get())["secretSettings_gradientDisabled"]
+        if (validBackgrounds.includes(storedBackgroundSelection) && storedBackgroundSelection !== "custom") {
+            secretSettingsBackgroundSelection.value = storedBackgroundSelection
+        }
+        if (validFonts.includes(storedFontSelection)) {
+            secretSettingsFontSelection.value = storedFontSelection
+        }
+        if (/^#[0-9A-F]{6}$/i.test(storedGradientSelection)) {
+            secretSettingsGradientSelection.value = storedGradientSelection
+        }
+        if (storedGradientDisabled === true) {
+            secretSettingsGradientDisableSwitch.checked = true
+        }
+        handleGradientColorDisablement()
+        handleBeforeUnload()
+        secretSettingsSaveCloudAlertWrapper.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Loaded from the cloud!</strong> Please inspect your loaded settings before saving them locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while loading secret settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
+    }
+}
+
 async function loadSecretSettings() {
     try {
         const storedBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
@@ -152,6 +196,55 @@ async function loadSecretSettings() {
     } catch (error) {
         console.error(error)
         alert(`Oops, something went wrong while loading secret settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
+    }
+}
+
+async function saveCloudSecretSettings() {
+    try {
+        // element.src gets the absolute URL, but we need the relative URL so element.getAttribute("src") is used instead
+        if (secretSettingsStaticBackgroundPreview.getAttribute("src") === selectImageImage && secretSettingsVideoBackgroundPreview.children.length === 0) {
+            secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Please upload a custom background before saving. If you don't want to save your changes, you can close this tab.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            secretSettingsCustomBackgroundAlertWrapper.scrollIntoView({ behavior: "smooth" })
+            return
+        }
+        secretSettingsDisableSwitch.disabled = true
+        secretSettingsFontSelection.disabled = true
+        secretSettingsBackgroundSelection.disabled = true
+        secretSettingsCustomBackgroundUploader.disabled = true
+        secretSettingsGradientSelection.disabled = true
+        secretSettingsGradientDisableSwitch.disabled = true
+        secretSettingsLoadCloudButton.disabled = true
+        secretSettingsSaveCloudButton.disabled = true
+        secretSettingsSaveButton.disabled = true
+        if (secretSettingsDisableSwitch.checked) {
+            await chrome.storage.sync.remove(["secretSettings_backgroundSelection"])
+            await chrome.storage.sync.remove(["secretSettings_fontSelection"])
+            await chrome.storage.sync.remove(["secretSettings_gradientSelection"])
+            await chrome.storage.sync.remove(["secretSettings_gradientDisabled"])
+            await chrome.storage.sync.remove(["secretSettingsVisible"])
+        } else {
+            if (secretSettingsBackgroundSelection.value === "custom") {
+                await chrome.storage.sync.remove(["secretSettings_backgroundSelection"])
+            } else {
+                await chrome.storage.sync.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection.value })
+            }
+            await chrome.storage.sync.set({ secretSettings_fontSelection: secretSettingsFontSelection.value })
+            await chrome.storage.sync.set({ secretSettings_gradientSelection: secretSettingsGradientSelection.value })
+            await chrome.storage.sync.set({ secretSettings_gradientDisabled: secretSettingsGradientDisableSwitch.checked })
+        }
+        secretSettingsDisableSwitch.disabled = false
+        secretSettingsFontSelection.disabled = false
+        secretSettingsBackgroundSelection.disabled = false
+        secretSettingsCustomBackgroundUploader.disabled = false
+        secretSettingsGradientSelection.disabled = false
+        secretSettingsGradientDisableSwitch.disabled = false
+        secretSettingsLoadCloudButton.disabled = false
+        secretSettingsSaveCloudButton.disabled = false
+        secretSettingsSaveCloudAlertWrapper.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Saved to the cloud!</strong> However, your changes have not been saved locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        secretSettingsSaveButton.disabled = false
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while saving secret settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
     }
 }
 
@@ -373,9 +466,25 @@ function handleGradientColorDisablement() {
 
 async function loadStuff() {
     await runMigrations()
+    await runCloudMigrations()
     handleFakeLinks()
-    await loadSecretSettings()
-    handleSecretSettingsVisibility()
+    if (new URL(location.href).searchParams.get("loadCloudSettings") === "true") {
+        const targetUrl = new URL(location.href)
+        targetUrl.searchParams.delete("loadCloudSettings")
+        history.replaceState(null, null, targetUrl)
+        await loadCloudSecretSettings()
+        await handleSecretSettingsVisibility()
+        // All of this ResizeObserver stuff is needed because the images loading in would screw up scrollIntoView's initial calculations and push the target element offscreen
+        secretSettingsSaveCloudAlertWrapper.scrollIntoView({ behavior: "smooth" })
+        const observer = new ResizeObserver(() => {
+            secretSettingsSaveCloudAlertWrapper.scrollIntoView({ behavior: "smooth" })
+            observer.disconnect()
+        })
+        observer.observe(document.body)
+    } else {
+        await loadSecretSettings()
+        handleSecretSettingsVisibility()
+    }
     updateFontPreview()
     updateBackgroundPreview()
     secretSettingsStaticBackgroundPreview.hidden = false

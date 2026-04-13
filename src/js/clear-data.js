@@ -1,5 +1,5 @@
 "use strict"
-import { clearEverythingModalButton } from "./modules/clear-data-constants.js"
+import { clearCloudModal, clearCloudModalButton, clearEverythingModalButton } from "./modules/clear-data-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -18,8 +18,23 @@ async function clearExtensionData() {
     }
 }
 
+async function clearCloudData() {
+    try {
+        await chrome.storage.sync.clear()
+        console.log("cleared sync storage!")
+    } catch (error) {
+        console.error(error)
+        alert(`Oops, something went wrong while clearing extension data. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
+    }
+}
+
 clearEverythingModalButton.addEventListener("click", () => {
     clearExtensionData()
+})
+
+clearCloudModalButton.addEventListener("click", async() => {
+    await clearCloudData()
+    bootstrap.Modal.getOrCreateInstance(clearCloudModal).hide()
 })
 
 handleFakeLinks()
