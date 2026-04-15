@@ -35,32 +35,31 @@ try {
     errorsEncountered.push(JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error))))
 }
 
-collectSupportDataButton.addEventListener("click", () => {
+collectSupportDataButton.addEventListener("click", async () => {
     try {
-        // Stolen from https://stackoverflow.com/a/23167789
-        chrome.storage.local.get(null, async (items) => {
-            const data = {
-                supportDataVersion: 2,
-                extensionVersion: chrome.runtime.getManifest().version,
-                extensionId: chrome.runtime.id,
-                platformInfo: await chrome.runtime.getPlatformInfo(),
-                internalConfigMode: internalConfigMode,
-                date: Date.now(),
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                extensionStorage: items,
-                localStorage: localStorage,
-                errorsEncountered: errorsEncountered
-            }
-            const result = JSON.stringify(data)
-            const url = "data:application/json;base64," + btoa(result)
-            const bogusAnchor = document.createElement("a")
-            bogusAnchor.href = url
-            bogusAnchor.download = "supportData.json"
-            bogusAnchor.style.display = "none"
-            document.body.appendChild(bogusAnchor)
-            bogusAnchor.click()
-            bogusAnchor.remove()
-        })
+        const data = {
+            supportDataVersion: 3,
+            extensionVersion: chrome.runtime.getManifest().version,
+            extensionId: chrome.runtime.id,
+            platformInfo: await chrome.runtime.getPlatformInfo(),
+            userAgent: navigator.userAgent,
+            internalConfigMode: internalConfigMode,
+            date: Date.now(),
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            extensionLocalStorage: await chrome.storage.local.get(null),
+            extensionSyncStorage: await chrome.storage.sync.get(null),
+            localStorage: localStorage,
+            errorsEncountered: errorsEncountered
+        }
+        const result = JSON.stringify(data)
+        const url = "data:application/json;base64," + btoa(result)
+        const bogusAnchor = document.createElement("a")
+        bogusAnchor.href = url
+        bogusAnchor.download = "supportData.json"
+        bogusAnchor.style.display = "none"
+        document.body.appendChild(bogusAnchor)
+        bogusAnchor.click()
+        bogusAnchor.remove()
     } catch (error) {
         alert(`Oops, something went wrong while collecting support data. This is not supposed to be happening! Please include the message that is displayed below in your issue report.\n\n${error}`)
         console.error(error)
