@@ -1,7 +1,8 @@
 "use strict"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
-import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideClubHubSwitch, settingsHideSchoolCalendarSwitch, settingsLoadCloudButton, settingsSaveButton, settingsSaveCloudAlertWrapper, settingsSaveCloudButton } from "./modules/settings-constants.js"
+import { createMonogram, getSignificantLetter } from "./modules/monogram.js"
+import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1MonogramLink, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2MonogramLink, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3MonogramLink, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideClubHubSwitch, settingsHideSchoolCalendarSwitch, settingsLoadCloudButton, settingsSaveButton, settingsSaveCloudAlertWrapper, settingsSaveCloudButton } from "./modules/settings-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -213,6 +214,42 @@ settingsCustomLink3IconUploaderReal.addEventListener("change", async () => {
     settingsCustomLink3IconUploader.classList.remove("disabled")
     settingsCustomLink3IconUploader.removeAttribute("aria-disabled")
     settingsCustomLink3IconUploader.removeAttribute("tabindex")
+})
+
+settingsCustomLink1MonogramLink.addEventListener("click", async () => {
+    handleBeforeUnload()
+    try {
+        const monogramLink = await createMonogram(getSignificantLetter(settingsCustomLink1URLInput.value))
+        settingsCustomLink1IconUploader.querySelector("img").src = monogramLink
+    } catch (error) {
+        console.error(error)
+        console.log("Using the default icon instead of the monogram.")
+        settingsCustomLink1IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
+    }
+})
+
+settingsCustomLink2MonogramLink.addEventListener("click", async () => {
+    handleBeforeUnload()
+    try {
+        const monogramLink = await createMonogram(getSignificantLetter(settingsCustomLink2URLInput.value))
+        settingsCustomLink2IconUploader.querySelector("img").src = monogramLink
+    } catch (error) {
+        console.error(error)
+        console.log("Using the default icon instead of the monogram.")
+        settingsCustomLink2IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
+    }
+})
+
+settingsCustomLink3MonogramLink.addEventListener("click", async () => {
+    handleBeforeUnload()
+    try {
+        const monogramLink = await createMonogram(getSignificantLetter(settingsCustomLink3URLInput.value))
+        settingsCustomLink3IconUploader.querySelector("img").src = monogramLink
+    } catch (error) {
+        console.error(error)
+        console.log("Using the default icon instead of the monogram.")
+        settingsCustomLink3IconUploader.querySelector("img").src = "./img/icons/globe2.svg"
+    }
 })
 
 settingsCustomLink1IconResetter.addEventListener("click", () => {
