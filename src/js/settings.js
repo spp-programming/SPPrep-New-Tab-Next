@@ -2,7 +2,7 @@
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { createMonogram, getSignificantLetter } from "./modules/monogram.js"
-import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1MonogramLink, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2MonogramLink, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3MonogramLink, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideClubHubSwitch, settingsHideSchoolCalendarSwitch, settingsLoadCloudButton, settingsSaveButton, settingsSaveCloudAlertWrapper, settingsSaveCloudButton } from "./modules/settings-constants.js"
+import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1MonogramLink, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2MonogramLink, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3MonogramLink, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideClubHubSwitch, settingsHideSchoolCalendarSwitch, settingsLoadCloudButton, settingsNewBellScheduleButtonSwitch, settingsSaveButton, settingsSaveCloudAlertWrapper, settingsSaveCloudButton } from "./modules/settings-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -86,6 +86,10 @@ function disableCustomLink3CardContent() {
     settingsCustomLink3URLInputAlertWrapper.innerHTML = ""
 }
 settingsEnableSplitLayoutSwitch.addEventListener("change", () => {
+    handleBeforeUnload()
+})
+
+settingsNewBellScheduleButtonSwitch.addEventListener("change", () => {
     handleBeforeUnload()
 })
 
@@ -386,6 +390,7 @@ async function constructCustomLinkIconURL(file) {
 async function loadCloudSettings() {
     try {
         const storedEnableSplitLayoutSelection = (await chrome.storage.sync.get())["settings_enableSplitLayoutSelection"]
+        const storedNewBellScheduleButtonSelection = (await chrome.storage.sync.get())["settings_newBellScheduleButtonSelection"]
         const storedHideSchoolCalendarSelection = (await chrome.storage.sync.get())["settings_hideSchoolCalendarSelection"]
         const storedHideClubHubSelection = (await chrome.storage.sync.get())["settings_hideClubHubSelection"]
         const storedEnableCustomLinksSelection = (await chrome.storage.sync.get())["settings_enableCustomLinksSelection"]
@@ -401,6 +406,9 @@ async function loadCloudSettings() {
         const storedClockModeSelection = (await chrome.storage.sync.get())["settings_clockModeSelection"]
         if (storedEnableSplitLayoutSelection === true) {
             settingsEnableSplitLayoutSwitch.checked = true
+        }
+        if (storedNewBellScheduleButtonSelection === true) {
+            settingsNewBellScheduleButtonSwitch.checked = true
         }
         if (storedHideSchoolCalendarSelection === true) {
             settingsHideSchoolCalendarSwitch.checked = true
@@ -468,6 +476,7 @@ async function loadCloudSettings() {
 async function loadSettings() {
     try {
         const storedEnableSplitLayoutSelection = (await chrome.storage.local.get())["settings_enableSplitLayoutSelection"]
+        const storedNewBellScheduleButtonSelection = (await chrome.storage.local.get())["settings_newBellScheduleButtonSelection"]
         const storedHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
         const storedHideClubHubSelection = (await chrome.storage.local.get())["settings_hideClubHubSelection"]
         const storedEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
@@ -486,6 +495,9 @@ async function loadSettings() {
         const storedClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
         if (storedEnableSplitLayoutSelection === true) {
             settingsEnableSplitLayoutSwitch.checked = true
+        }
+        if (storedNewBellScheduleButtonSelection === true) {
+            settingsNewBellScheduleButtonSwitch.checked = true
         }
         if (storedHideSchoolCalendarSelection === true) {
             settingsHideSchoolCalendarSwitch.checked = true
@@ -578,6 +590,7 @@ async function saveCloudSettings() {
             return
         }
         settingsEnableSplitLayoutSwitch.disabled = true
+        settingsNewBellScheduleButtonSwitch.disabled = true
         settingsHideSchoolCalendarSwitch.disabled = true
         settingsHideClubHubSwitch.disabled = true
         settingsEnableCustomLinksSwitch.disabled = true
@@ -635,6 +648,11 @@ async function saveCloudSettings() {
         } else {
             await chrome.storage.sync.remove(["settings_enableSplitLayoutSelection"])
         }
+        if (settingsNewBellScheduleButtonSwitch.checked === true) {
+            await chrome.storage.sync.set({ settings_newBellScheduleButtonSelection: settingsNewBellScheduleButtonSwitch.checked })
+        } else {
+            await chrome.storage.sync.remove(["settings_newBellScheduleButtonSelection"])
+        }
         if (settingsHideSchoolCalendarSwitch.checked === true) {
             await chrome.storage.sync.set({ settings_hideSchoolCalendarSelection: settingsHideSchoolCalendarSwitch.checked })
         } else {
@@ -669,6 +687,7 @@ async function saveCloudSettings() {
             await chrome.storage.sync.set({ settings_clockModeSelection: "24hour" })
         }
         settingsEnableSplitLayoutSwitch.disabled = false
+        settingsNewBellScheduleButtonSwitch.disabled = false
         settingsHideSchoolCalendarSwitch.disabled = false
         settingsHideClubHubSwitch.disabled = false
         settingsEnableCustomLinksSwitch.disabled = false
@@ -710,6 +729,7 @@ async function saveSettings() {
             return
         }
         settingsEnableSplitLayoutSwitch.disabled = true
+        settingsNewBellScheduleButtonSwitch.disabled = true
         settingsHideSchoolCalendarSwitch.disabled = true
         settingsHideClubHubSwitch.disabled = true
         settingsEnableCustomLinksSwitch.disabled = true
@@ -776,6 +796,11 @@ async function saveSettings() {
             await chrome.storage.local.set({ settings_enableSplitLayoutSelection: settingsEnableSplitLayoutSwitch.checked })
         } else {
             await chrome.storage.local.remove(["settings_enableSplitLayoutSelection"])
+        }
+        if (settingsNewBellScheduleButtonSwitch.checked === true) {
+            await chrome.storage.local.set({ settings_newBellScheduleButtonSelection: settingsNewBellScheduleButtonSwitch.checked })
+        } else {
+            await chrome.storage.local.remove(["settings_newBellScheduleButtonSelection"])
         }
         if (settingsHideSchoolCalendarSwitch.checked === true) {
             await chrome.storage.local.set({ settings_hideSchoolCalendarSelection: settingsHideSchoolCalendarSwitch.checked })

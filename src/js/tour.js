@@ -1,6 +1,6 @@
 "use strict"
 import { setPopoverText } from "./main.js"
-import { bellScheduleButtonTourTarget, buttonContainer, changelogButtonTourTarget, clockElement, letterDayTourTarget, migrationToast, migrationToastTourLink, sealElement, toggleTourButton } from "./modules/global-constants.js"
+import { bellScheduleButtonTourTarget, bellScheduleOldButtonTourTarget, buttonContainer, changelogButtonTourTarget, clockElement, letterDayTourTarget, migrationToast, migrationToastTourLink, sealElement, toggleTourButton } from "./modules/global-constants.js"
 
 let isTourActive = false
 let tourCurrentIndex = 0
@@ -41,6 +41,11 @@ const tourData = [
         name: "bell-schedule",
         element: bellScheduleButtonTourTarget,
         html: "<strong>Click this button to view the Bell Schedule.</strong><p class=\"form-text\">Before version 4.0, this button was grouped in with the other quick links. It has been moved here to have the quick links be less of a mess.</p><a href=\"#\" role=\"button\" class=\"btn btn-primary btn-sm float-end mb-3 tour-next-button\">Next ></a>"
+    },
+    {
+        name: "bell-schedule-old",
+        element: bellScheduleOldButtonTourTarget,
+        html: "<strong>Click this button to view the Bell Schedule.</strong><p class=\"form-text\">Before version 4.2, this button was on the bottom right corner, but has since been moved back to its pre version 4.0 location (next to the other shortcuts)</p><a href=\"#\" role=\"button\" class=\"btn btn-primary btn-sm float-end mb-3 tour-next-button\">Next ></a>"
     },
     {
         name: "letter-day",
@@ -106,6 +111,16 @@ function handleTourNextButton(currentTour) {
         throw Error("Tour next button clicked while tour is inactive!")
     }
     const tour = tourData[tourNextIndex]
+    // There are two bell schedule buttons, and we don't want to display a message for the one that's hidden
+    // So we call handleTourNextButton() when this is the case to skip displaying the message
+    if (tour.name === "bell-schedule" && tour.element.parentElement.hidden === true) {
+        handleTourNextButton("bell-schedule")
+        return
+    }
+    if (tour.name === "bell-schedule-old" && tour.element.parentElement.hidden === true) {
+        handleTourNextButton("bell-schedule-old")
+        return
+    }
     const popover = new bootstrap.Popover(tour.element, {
         trigger: "manual",
         html: true

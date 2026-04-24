@@ -1,6 +1,7 @@
 "use strict"
 export const settingsContent = document.getElementsByClassName("content")[0]
 export const settingsEnableSplitLayoutSwitch = document.getElementById("enable-split-layout-switch")
+export const settingsNewBellScheduleButtonSwitch = document.getElementById("new-bell-schedule-button-switch")
 export const settingsHideSchoolCalendarSwitch = document.getElementById("hide-school-calendar-switch")
 export const settingsHideClubHubSwitch = document.getElementById("hide-club-hub-switch")
 export const settingsEnableCustomLinksSwitch = document.getElementById("enable-custom-links-switch")

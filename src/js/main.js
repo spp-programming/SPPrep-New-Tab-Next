@@ -16,7 +16,7 @@ export function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
-import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton } from "./modules/global-constants.js"
+import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
@@ -132,6 +132,7 @@ async function loadFontSettings() {
 
 async function loadButtonSettings() {
     try {
+        const storedSettingsNewBellScheduleButtonSelection = (await chrome.storage.local.get())["settings_newBellScheduleButtonSelection"]
         const storedSettingsHideSchoolCalendarSelection = (await chrome.storage.local.get())["settings_hideSchoolCalendarSelection"]
         const storedSettingsHideClubHubSelection = (await chrome.storage.local.get())["settings_hideClubHubSelection"]
         const storedSettingsEnableCustomLinksSelection = (await chrome.storage.local.get())["settings_enableCustomLinksSelection"]
@@ -147,6 +148,10 @@ async function loadButtonSettings() {
         const storedSettingsCustomLink1URL = (await chrome.storage.local.get())["settings_customLink1URL"]
         const storedSettingsCustomLink2URL = (await chrome.storage.local.get())["settings_customLink2URL"]
         const storedSettingsCustomLink3URL = (await chrome.storage.local.get())["settings_customLink3URL"]
+        if (storedSettingsNewBellScheduleButtonSelection === true) {
+            bellScheduleOldButtonTourTarget.parentElement.hidden = true
+            bellScheduleButtonTourTarget.parentElement.hidden = false
+        }
         if (storedSettingsHideSchoolCalendarSelection === true) {
             schoolCalendarButton.hidden = true
         }

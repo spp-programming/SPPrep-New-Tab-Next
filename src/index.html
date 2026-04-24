@@ -53,6 +53,16 @@
                 </div>
                 <span class="visually-hidden">Google Drive</span>
             </a>
+            <span data-bs-toggle="modal" data-bs-target="#bell-schedule-modal">
+                <div id="bell-schedule-old-button-tour-target">
+                    <button class="btn bg-white p-1 border-0 rounded" id="bell-schedule-old-button" type="button" title="Bell Schedule" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                        <div class="p-3 bg-white rounded">
+                            <img src="./img/icons/bell.svg" alt="" aria-hidden="true" class="rounded button-img">
+                        </div>
+                        <span class="visually-hidden">Bell Schedule</span>
+                    </button>
+                </div>
+            </span>
             <a class="btn bg-white p-1 border-0 rounded" id="canvas-button" href="https://accounts.google.com/o/saml2/initsso?idpid=C04abkbep&spid=58097645075&forceauthn=false" role="button" title="Canvas" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/canvas.png" alt="" aria-hidden="true" class="rounded button-img">
@@ -93,7 +103,7 @@
         </a>
     </div>
 
-    <span data-bs-toggle="modal" data-bs-target="#bell-schedule-modal">
+    <span data-bs-toggle="modal" data-bs-target="#bell-schedule-modal" hidden>
         <div class="fixed-bottom" style="left: unset;" id="bell-schedule-button-tour-target">
             <a class="btn btn-dark rounded-start-pill fake-link" role="button" href="#" id="bell-schedule-button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Bell Schedule">
                 <i class="bi bi-bell" aria-hidden="true"></i>
