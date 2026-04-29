@@ -1,7 +1,8 @@
 {
     "typeAcquisition": {
         "include": [
-            "chrome" // TypeScript definitions for the Chrome Extension API (DefinitelyTyped version, not the official chrome-types from Google)
+            "chrome", // TypeScript definitions for the Chrome Extension API (DefinitelyTyped version, not the official chrome-types from Google)
+            "bootstrap" // The same for Bootstrap as well
         ]
     }
 }
