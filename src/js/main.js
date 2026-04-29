@@ -16,7 +16,7 @@ export function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
-import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget } from "./modules/global-constants.js"
+import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget, performanceCountersButton } from "./modules/global-constants.js"
 import { openPasscodeModal } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
@@ -25,6 +25,44 @@ import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { handleTourButton } from "./tour.js"
 
 let checkLetterDayChangeInterval
+const performanceCounters = {
+    /**
+     * The time, in milliseconds it took for everything to load (excluding migrations, which are `await` and stall the loading function on purpose)
+     */
+    everything: null,
+    /**
+     * The time, in milliseconds it took to run migrations.
+     */
+    runMigrations: null,
+    /**
+     * The time, in milliseconds it took for the letter day to load
+     */
+    loadLetterDay: null,
+    /**
+     * The time, in milliseconds it took for internal config mode changes to load
+     */
+    applyInternalConfigModeChanges: null,
+    /**
+     * The time, in milliseconds it took for the clock to load
+     */
+    handleClock: null,
+    /**
+     * The time, in milliseconds it took for layout settings to load
+     */
+    loadLayoutSettings: null,
+    /**
+     * The time, in milliseconds it took for button settings to load
+     */
+    loadButtonSettings: null,
+    /**
+     * The time, in milliseconds it took for font settings to load
+     */
+    loadFontSettings: null,
+    /**
+     * The time, in milliseconds it took for background settings to load
+     */
+    loadBackgroundSettings: null
+}
 
 async function loadLetterDay() {
     try {
@@ -378,19 +416,60 @@ async function handleClock() {
 }
 
 async function loadStuff() {
+    const runMigrationsTimeStart = performance.now()
     await runMigrations()
+    performanceCounters.runMigrations = Number((performance.now() - runMigrationsTimeStart).toFixed(2))
+    const everythingTimeStart = performance.now()
     handleFakeLinks()
-    loadLetterDay() // Don't use await here, we don't want to wait for this to finish before continuing.
-    applyInternalConfigModeChanges()
-    handleClock()
-    loadLayoutSettings()
-    loadButtonSettings()
-    loadFontSettings()
-    loadBackgroundSettings()
+    const loadLetterDayTask = measureTask("loadLetterDay", loadLetterDay())
+    const applyInternalConfigModeChangesTask = measureTask("applyInternalConfigModeChanges", applyInternalConfigModeChanges())
+    const handleClockTask = measureTask("handleClock", handleClock())
+    const loadLayoutSettingsTask = measureTask("loadLayoutSettings", loadLayoutSettings())
+    const loadButtonSettingsTask = measureTask("loadButtonSettings", loadButtonSettings())
+    const loadFontSettingsTask = measureTask("loadFontSettings", loadFontSettings())
+    const loadBackgroundSettingsTask = measureTask("loadBackgroundSettings", loadBackgroundSettings())
+    Promise.allSettled([loadLetterDayTask, applyInternalConfigModeChangesTask, handleClockTask, loadLayoutSettingsTask, loadButtonSettingsTask, loadFontSettingsTask, loadBackgroundSettingsTask]).then(() => {
+        performanceCounters.everything = Number((performance.now() - everythingTimeStart).toFixed(2))
+        console.log(performanceCounters)
+    })
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
     handleTourButton()
 }
+
+/**
+ * This function is used to measure how load each loading task takes
+ * @param {string} name Name of the task, used when setting the corresponding entry in `performanceCounters`
+ * @param {Promise} task A task that returns a promise
+ */
+async function measureTask(name, task) {
+    const timeStart = performance.now()
+    try {
+        await task
+    } finally {
+        const duration = performance.now() - timeStart
+        if (performanceCounters[name] === null) {
+            performanceCounters[name] = Number(duration.toFixed(2))
+        }
+    }
+}
+
+performanceCountersButton.addEventListener("click", (event) => {
+    event.preventDefault()
+    let message = `The task "everything" represents how long it took to load everything (except migrations). All other tasks except "runMigrations" are ran asynchronously, so adding up the runtime for those tasks won't result in the actual wall clock time for loading (the "everything" task serves that purpose instead)\n\n`
+    Object.keys(performanceCounters).forEach(entry => {
+        if (typeof performanceCounters[entry] === "number") {
+            message = message.concat(`Task "${entry}" took ${performanceCounters[entry]} ms\n`)
+            return
+        }
+        if (performanceCounters[entry] === null) {
+            message = message.concat(`Task "${entry}" didn't finish yet\n`)
+            return
+        }
+        message = message.concat(`Task "${entry}" has value of "${performanceCounters[entry]}"\n`)
+    })
+    alert(message)
+})
 
 sealElement.addEventListener("dblclick", () => {
     console.log("open passcode modal")
