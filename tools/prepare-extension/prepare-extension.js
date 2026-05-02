@@ -2,7 +2,8 @@
 "use strict"
 import { argv } from "node:process"
 import { basename, join } from "node:path"
-import { cpSync, rmSync, statSync } from "node:fs"
+import { cpSync, rmSync, statSync, writeFileSync } from "node:fs"
+import { execSync } from "node:child_process"
 
 let selectedAction
 let sanityCounter = 0
@@ -17,6 +18,41 @@ const srcPreparedFolderManifestStaff = join(srcPreparedFolder, "manifest.staff.j
 const srcPreparedFolderInternalConfig = join(srcPreparedFolder, "internal-config.json")
 const srcPreparedFolderInternalConfigStudent = join(srcPreparedFolder, "internal-config.student.json")
 const srcPreparedFolderInternalConfigStaff = join(srcPreparedFolder, "internal-config.staff.json")
+
+function constructRevisionName() {
+    let latestRev = ""
+    let isDirty = false
+    console.log("Running \"git rev-parse --short HEAD\" to find HEAD's rev value")
+    try {
+        latestRev = execSync(`git -C "${srcFolder}" rev-parse --short HEAD`, {encoding: "utf-8"}).trim()
+        console.log(`HEAD's rev value is ${latestRev}`)
+        if (/[0-9a-f]/.test(latestRev) === false) {
+            throw Error("\"git rev-parse\" returned an invalid rev value!")
+        }
+    } catch (error) {
+        console.error(error)
+        console.log("Something went wrong while trying to run \"git rev-parse --short HEAD\". Assuming this is the non_git version.")
+        latestRev = "non_git"
+    }
+    console.log("Running \"git status --porcelain\" to see if the working tree is dirty")
+    try {
+        const isDirtyCommand = execSync(`git -C "${srcFolder}" status --porcelain`, {encoding: "utf-8"}).trim()
+        if (isDirtyCommand !== "") {
+            console.log("The working tree is dirty.")
+            isDirty = true
+        } else {
+            console.log("The working tree is clean.")
+        }
+    } catch (error) {
+        console.error(error)
+        console.log("Something went wrong while trying to run \"git status --porcelain\". Assuming the working tree is clean.")
+    }
+    if (isDirty === true) {
+        return `${latestRev}-dirty`
+    } else {
+        return latestRev
+    }
+}
 
 argv.forEach((val, _index) => {
     if (val === "student") {
@@ -105,6 +141,12 @@ switch (selectedAction) {
     default:
         throw Error(`Unknown value for selectedAction (${selectedAction}). This should not be happening!`)
 }
+
+console.log(`Inserting version_name into srcPreparedFolderManifest "${srcPreparedFolderManifest}"`)
+const srcPreparedFolderManifestContent = await import(srcPreparedFolderManifest, { with: { type: "json" } })
+const srcPreparedFolderManifestContentNew = JSON.parse(JSON.stringify(srcPreparedFolderManifestContent.default))
+srcPreparedFolderManifestContentNew.version_name = `${srcPreparedFolderManifestContentNew.version} (${selectedAction}, ${constructRevisionName()})`
+writeFileSync(srcPreparedFolderManifest, JSON.stringify(srcPreparedFolderManifestContentNew, null, 2))
 
 console.log(`Deleting srcPreparedFolderManifestStudent \"${srcPreparedFolderManifestStudent}\"`)
 rmSync(srcPreparedFolderManifestStudent)
