@@ -142,11 +142,13 @@ switch (selectedAction) {
         throw Error(`Unknown value for selectedAction (${selectedAction}). This should not be happening!`)
 }
 
-console.log(`Inserting version_name into srcPreparedFolderManifest "${srcPreparedFolderManifest}"`)
-const srcPreparedFolderManifestContent = await import(srcPreparedFolderManifest, { with: { type: "json" } })
-const srcPreparedFolderManifestContentNew = JSON.parse(JSON.stringify(srcPreparedFolderManifestContent.default))
-srcPreparedFolderManifestContentNew.version_name = `${srcPreparedFolderManifestContentNew.version} (${selectedAction}, ${constructRevisionName()})`
-writeFileSync(srcPreparedFolderManifest, JSON.stringify(srcPreparedFolderManifestContentNew, null, 2))
+if (selectedAction === "student" || selectedAction === "staff") {
+    console.log(`Inserting version_name into srcPreparedFolderManifest "${srcPreparedFolderManifest}"`)
+    const srcPreparedFolderManifestContent = await import(srcPreparedFolderManifest, { with: { type: "json" } })
+    const srcPreparedFolderManifestContentNew = JSON.parse(JSON.stringify(srcPreparedFolderManifestContent.default))
+    srcPreparedFolderManifestContentNew.version_name = `${srcPreparedFolderManifestContentNew.version} (${selectedAction}, ${constructRevisionName()})`
+    writeFileSync(srcPreparedFolderManifest, JSON.stringify(srcPreparedFolderManifestContentNew, null, 2))
+}
 
 console.log(`Deleting srcPreparedFolderManifestStudent \"${srcPreparedFolderManifestStudent}\"`)
 rmSync(srcPreparedFolderManifestStudent)
