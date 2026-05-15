@@ -29,7 +29,7 @@ console.log(`timeMax is ${timeMax}`)
 /**
  * This function fetches the calendar events for today from the Google Calendar API.
  * Fun fact! This is one of the only pieces of code that (somewhat) dates back to version 2.0 (in the original codebase).
- * @returns {CalendarEvent[]}
+ * @returns {Promise<CalendarEvent[]>}
  */
 export async function getTodaysEvents() {
     // You need to define this function based on your application logic.
