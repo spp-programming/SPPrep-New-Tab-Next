@@ -1,4 +1,5 @@
 "use strict"
+import { startListeningOnGamepads, stopListeningOnGamepads } from "./gamepad-handler.js"
 import { passcodeModal, passcodeModalInput, passcodeModalInputClearButton, passcodeModalControllerButtons, passcodeModalVerifyButton, passcodeModalPasscode, passcodeModalTitle, passcodeModalBody, passcodeModalAlertWrapper } from "./global-constants.js"
 const passcodeModalBS = new bootstrap.Modal(passcodeModal)
 
@@ -6,12 +7,19 @@ export async function openPasscodeModal() {
     const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
     if (secretSettingsVisible === true) {
         showSecretSettingsContent()
+    } else {
+        startListeningOnGamepads()
+        document.addEventListener("gamepad-pressed", handleGamepadPressed)
     }
     passcodeModalBS.show()
 }
 
 export async function enableSecretSettings() {
     await chrome.storage.local.set({ secretSettingsVisible: true })
+}
+
+function handleGamepadPressed(event) {
+    passcodeModalInput.value += event.detail?.code + " "
 }
 
 function showSecretSettingsContent() {
@@ -23,6 +31,11 @@ function showSecretSettingsContent() {
 passcodeModal.addEventListener("shown.bs.modal", () => {
     console.log("resizing image map...")
     imageMapResize()
+})
+
+passcodeModal.addEventListener("hidden.bs.modal", () => {
+    stopListeningOnGamepads()
+    document.removeEventListener("gamepad-pressed", handleGamepadPressed)
 })
 
 Array.from(passcodeModalControllerButtons).forEach(element => {
