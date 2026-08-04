@@ -342,7 +342,7 @@ function updateBackgroundPreview() {
             secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
             break
         case "seasonal":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate()))
+            secretSettingsStaticBackgroundPreview.setAttribute("src", getSeasonalBackground(Temporal.Now.plainDateISO().month, Temporal.Now.plainDateISO().day))
             secretSettingsBackgroundPreviewNotes.innerHTML = "This background will change automatically based on the seasons. There are only two images we can use, so a given image is actually used for two seasons."
             break
         case "bliss":

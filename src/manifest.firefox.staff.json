@@ -23,7 +23,7 @@
     "browser_specific_settings": {
       "gecko": {
         "id": "newtab_next_staff@spp-programming.github.io",
-        "strict_min_version": "138.0",
+        "strict_min_version": "139.0",
         "data_collection_permissions": {
           "required": ["none"]
         }

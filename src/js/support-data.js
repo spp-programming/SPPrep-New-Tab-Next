@@ -38,14 +38,13 @@ try {
 collectSupportDataButton.addEventListener("click", async () => {
     try {
         const data = {
-            supportDataVersion: 3,
+            supportDataVersion: 4,
             extensionVersion: chrome.runtime.getManifest().version,
             extensionId: chrome.runtime.id,
             platformInfo: await chrome.runtime.getPlatformInfo(),
             userAgent: navigator.userAgent,
             internalConfigMode: internalConfigMode,
-            date: Date.now(),
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            dateString: Temporal.Now.zonedDateTimeISO().toString(),
             extensionLocalStorage: await chrome.storage.local.get(null),
             extensionSyncStorage: await chrome.storage.sync.get(null),
             localStorage: localStorage,
