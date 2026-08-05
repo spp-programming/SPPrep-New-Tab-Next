@@ -73,9 +73,9 @@ async function loadLetterDay() {
             case "🤷‍♂️":
                 // "US/Eastern" and "EST5EDT" are linked to "America/New_York" so we have to check for them too. This may not be necessary, but I don't care. https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
-                    setPopoverText(letterDayElement, `No letter day found for today.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")}. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `No letter day found for today.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")}. Refresh the page to check again.</div>`)
                 } else {
-                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>No letter day found for today.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>No letter day found for today.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
                 break
@@ -85,9 +85,9 @@ async function loadLetterDay() {
             default:
                 // "US/Eastern" and "EST5EDT" are linked to "America/New_York" so we have to check for them too. This may not be necessary, but I don't care. https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
-                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")}. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")}. Refresh the page to check again.</div>`)
                 } else {
-                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${(new Date()).toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
             letterDay = `${letterDay}-DAY`
@@ -311,7 +311,7 @@ async function loadBackgroundSettings() {
                 break
             // Yes, the extra dot in the URL is intentional. This shit is so stupid
             case "seasonal":
-                staticBackground.src = `.${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}`
+                staticBackground.src = `.${getSeasonalBackground(Temporal.Now.plainDateISO().month, Temporal.Now.plainDateISO().day)}`
                 backgroundElement.appendChild(staticBackground)
                 break
             case "bliss":
@@ -367,7 +367,7 @@ async function loadBackgroundSettings() {
                 backgroundElement.appendChild(staticBackground)
                 break
             default:
-                staticBackground.src = `.${getSeasonalBackground((new Date()).getMonth(), (new Date()).getDate())}`
+                staticBackground.src = `.${getSeasonalBackground(Temporal.Now.plainDateISO().month, Temporal.Now.plainDateISO().day)}`
                 backgroundElement.appendChild(staticBackground)
         }
         if (/^#[0-9A-F]{6}$/i.test(storedSecretSettingsGradientSelection)) {

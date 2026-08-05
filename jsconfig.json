@@ -4,5 +4,8 @@
             "chrome", // TypeScript definitions for the Chrome Extension API (DefinitelyTyped version, not the official chrome-types from Google)
             "bootstrap" // The same for Bootstrap as well
         ]
+    },
+    "compilerOptions": {
+        "target": "esnext" // Required for Temporal API support in IntelliSense
     }
 }

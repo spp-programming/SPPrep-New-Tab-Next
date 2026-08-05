@@ -1,21 +1,9 @@
 "use strict"
 import { calendarApiKey, calendarApiId, primaryTimeZone } from "./global-constants.js"
 
-// Get the current date in UTC
-const currentDateUTC = new Date()
-
-// Get the time zone offset in minutes for the current date
-const timeZoneOffsetMinutes = getTimeZoneOffsetFromName(primaryTimeZone)
-
-// Extract the date parts for the EST Timezone
-const year = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, year: "numeric"}).format(currentDateUTC)
-const month = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, month: "2-digit"}).format(currentDateUTC)
-const day = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, day: "2-digit"}).format(currentDateUTC)
-
-const timeZoneOffsetISO = convertOffsetToISO(timeZoneOffsetMinutes)
-const timeMin = `${year}-${month}-${day}T00:00:00${timeZoneOffsetISO}` // Start of the day in EST
-const timeMax = `${year}-${month}-${day}T23:59:59${timeZoneOffsetISO}` // End of the day in EST
-export const dateString = `${month}/${day}/${year}` // Date string is used in several places (probably) and is compared against the current date in those places
+const timeMin = Temporal.Now.zonedDateTimeISO("America/New_York").startOfDay().toString({calendarName: "never", smallestUnit: "seconds", timeZoneName: "never"}) // Start of the day in New York time
+const timeMax = Temporal.Now.zonedDateTimeISO("America/New_York").startOfDay().add({days: 1}).startOfDay().subtract({nanoseconds: 1}).toString({calendarName: "never", smallestUnit: "seconds", timeZoneName: "never"}) // End of the day in New York time
+export const dateString = getCurrentDateString() // Date string is used in several places (probably) and is compared against the current date in those places
 
 console.log(`timeMin is ${timeMin}`)
 console.log(`timeMax is ${timeMax}`)
@@ -39,62 +27,10 @@ export async function getTodaysEvents() {
     return data.items
 }
 
-// Stolen from https://stackoverflow.com/a/68593283
 /**
- * This function gets the offset of a time zone based on its IANA tz database name.
- * @param {string} timeZone IANA tz database time zone to get the offset for
- * @returns {number} 
- */
-function getTimeZoneOffsetFromName(timeZone) {
-    const date = new Date()
-    const utcDate = new Date(date.toLocaleString("en-US", { timeZone: "UTC" }))
-    const tzDate = new Date(date.toLocaleString("en-US", { timeZone }))
-    // This is the worst code I have written.
-    if (-(tzDate.getTime() - utcDate.getTime()) === -0) {
-        return 0
-    } else {
-        return -(tzDate.getTime() - utcDate.getTime()) / 6e4
-    }
-}
-
-/**
- * This function gets the ISO 8601 formatted offset from a minute value (`offsetMinutes`).
- * @param {number} offsetMinutes Number of minutes offset from UTC, probably taken from `getTimeZoneOffsetFromName()`.
- * @returns {string} ISO 8601 formatted offset, relative to UTC.
- */
-function convertOffsetToISO(offsetMinutes) {
-    let newOffset
-    let offsetAbsoluteSeconds = Math.abs(offsetMinutes)
-    switch (Math.sign(offsetMinutes)) {
-        case -1:
-            newOffset = "+"
-            break
-        case 0:
-            newOffset = "+"
-            break
-        case 1:
-            newOffset = "-"
-            break
-    }
-    let hours = Math.floor(offsetAbsoluteSeconds / 60)
-    let minutes = offsetAbsoluteSeconds % 60
-    hours = String(hours).padStart(2, "0")
-    minutes = String(minutes).padStart(2, "0")
-    newOffset = newOffset.concat(`${hours}:${minutes}`)
-    return newOffset
-}
-
-/**
- * This function returns the _current_ date, formatted as MM/DD/YYYY
- * @returns {string} The current date, formatted as MM/DD/YYYY
+ * This function returns the _current_ date, formatted in RFC 9557 format with the time set to midnight.
+ * @returns {string} The current date, formatted in RFC 9557 format with the time set to midnight.
  */
 export function getCurrentDateString() {
-    // Get the current date in UTC
-    const currentDateUTC = new Date()
-
-    // Extract the date parts for the EST Timezone
-    const year = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, year: "numeric"}).format(currentDateUTC)
-    const month = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, month: "2-digit"}).format(currentDateUTC)
-    const day = new Intl.DateTimeFormat("en-US", {timeZone: primaryTimeZone, day: "2-digit"}).format(currentDateUTC)
-    return `${month}/${day}/${year}`
+    return Temporal.Now.zonedDateTimeISO("America/New_York").startOfDay().toString({smallestUnit: "seconds", calendarName: "always"})
 }

@@ -2,8 +2,7 @@
 import { clockElement } from "./global-constants.js"
 
 export function updateTime12hour() {
-    const date = new Date()
-    const currentTime = date.toLocaleTimeString("en-US").replace(/ AM| PM/,"")
+    const currentTime = Temporal.Now.plainTimeISO().toLocaleString("en-US").replace(/ AM| PM/, "")
     // Although updateTime is called every millisecond, we should only update the DOM when it's needed
     if (clockElement.textContent !== currentTime) {
         clockElement.innerHTML = currentTime
@@ -11,8 +10,7 @@ export function updateTime12hour() {
 }
 
 export function updateTimeAmPm() {
-    const date = new Date()
-    const currentTime = date.toLocaleTimeString("en-US")
+    const currentTime = Temporal.Now.plainTimeISO().toLocaleString("en-US")
     // Although updateTime is called every millisecond, we should only update the DOM when it's needed
     if (clockElement.textContent !== currentTime) {
         clockElement.innerHTML = currentTime
@@ -20,8 +18,7 @@ export function updateTimeAmPm() {
 }
 
 export function updateTime24hour() {
-    const date = new Date()
-    const currentTime = date.toLocaleTimeString("en-GB")
+    const currentTime = Temporal.Now.plainTimeISO().toLocaleString("en-GB")
     // Although updateTime is called every millisecond, we should only update the DOM when it's needed
     if (clockElement.textContent !== currentTime) {
         clockElement.innerHTML = currentTime

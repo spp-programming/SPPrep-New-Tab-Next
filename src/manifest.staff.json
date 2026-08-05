@@ -20,6 +20,6 @@
       "newtab": "index.html"
     },
     "incognito": "not_allowed",
-    "minimum_chrome_version": "123",
+    "minimum_chrome_version": "144",
     "manifest_version": 3
 }
