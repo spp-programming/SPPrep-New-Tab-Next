@@ -32,6 +32,5 @@ export async function getTodaysEvents() {
  * @returns {string} The current date, formatted in RFC 9557 format with the time set to midnight.
  */
 export function getCurrentDateString() {
-    // By including the time zone in this string, time zone changes are now accounted for and will be treated as if the date changed, without any extra code
-    return Temporal.Now.zonedDateTimeISO().startOfDay().toString({smallestUnit: "seconds", calendarName: "always"})
+    return Temporal.Now.zonedDateTimeISO("America/New_York").startOfDay().toString({smallestUnit: "seconds", calendarName: "always"})
 }
