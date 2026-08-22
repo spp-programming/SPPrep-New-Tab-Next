@@ -23,6 +23,7 @@ import { runMigrations } from "./modules/migrations.js"
 import { getInternalConfigMode } from "./modules/config-mode.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { handleTourButton } from "./tour.js"
+import { getCustomBackgroundData } from "./modules/background-fetcher.js"
 
 let checkLetterDayChangeInterval
 const performanceCounters = {
@@ -259,7 +260,6 @@ async function loadButtonSettings() {
 async function loadBackgroundSettings() {
     try {
         const storedSecretSettingsBackgroundSelection = (await chrome.storage.local.get())["secretSettings_backgroundSelection"]
-        const storedSecretSettingsCustomBackground = (await chrome.storage.local.get())["secretSettings_customBackground"]
         const storedSecretSettingsGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
         const storedSecretSettingsGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
         const staticBackground = document.createElement("img")
@@ -268,16 +268,14 @@ async function loadBackgroundSettings() {
         staticBackground.ariaHidden = true
         switch (storedSecretSettingsBackgroundSelection) {
             case "custom":
-                if (storedSecretSettingsCustomBackground !== undefined) {
+                const backgroundData = await getCustomBackgroundData()
+                if (backgroundData.type !== "none") {
                     try {
-                        const backgroundData = await fetch(storedSecretSettingsCustomBackground)
-                        const contentType = backgroundData.headers.get("Content-Type")
-                        if (contentType.startsWith("image/") === true) {
-                            const backgroundBlob = await backgroundData.blob()
-                            staticBackground.src = URL.createObjectURL(backgroundBlob)
+                        if (backgroundData.type === "image") {
+                            staticBackground.src = backgroundData.url
                             backgroundElement.appendChild(staticBackground)
                         }
-                        if (contentType.startsWith("video/") === true) {
+                        if (backgroundData.type === "video") {
                             const videoBackground = document.createElement("video")
                             videoBackground.id = "video-background"
                             videoBackground.autoplay = true
@@ -287,8 +285,7 @@ async function loadBackgroundSettings() {
                             videoBackground.tabIndex = -1
                             videoBackground.ariaHidden = true
                             const videoBackgroundSource = document.createElement("source")
-                            const backgroundBlob = await backgroundData.blob()
-                            videoBackgroundSource.src = URL.createObjectURL(backgroundBlob)
+                            videoBackgroundSource.src = backgroundData.url
                             videoBackground.appendChild(videoBackgroundSource)
                             backgroundElement.appendChild(videoBackground)
                             videoBackgroundToggleButton.parentElement.hidden = false
