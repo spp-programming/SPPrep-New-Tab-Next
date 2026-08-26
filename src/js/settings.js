@@ -2,7 +2,7 @@
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { createMonogram, getSignificantLetter } from "./modules/monogram.js"
-import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1MonogramLink, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2MonogramLink, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3MonogramLink, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideClubHubSwitch, settingsHideSchoolCalendarSwitch, settingsLoadCloudButton, settingsNewBellScheduleButtonSwitch, settingsSaveButton, settingsSaveCloudAlertWrapper, settingsSaveCloudButton } from "./modules/settings-constants.js"
+import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1MonogramLink, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2MonogramLink, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3MonogramLink, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideClubHubSwitch, settingsHideSchoolCalendarSwitch, settingsLoadCloudButton, settingsLoadingOverlayContent, settingsNewBellScheduleButtonSwitch, settingsSaveButton, settingsSaveCloudAlertWrapper, settingsSaveCloudButton, settingsUnsavedChangesIndicator } from "./modules/settings-constants.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -132,7 +132,7 @@ settingsEnableCustomLinksSwitch.addEventListener("change", () => {
         settingsEnableCustomLinksAlertWrapper.innerHTML = ""
     } else {
         settingsCustomLinkCards.hidden = true
-        settingsEnableCustomLinksAlertWrapper.innerHTML = `<div class="alert alert-info alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-info-circle" aria-hidden="true"></i> <span>Turning the custom links option off will delete all of your custom links when you save.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        settingsEnableCustomLinksAlertWrapper.innerHTML = `<div class="alert alert-info alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-info-circle" aria-hidden="true"></i> <span>Turning the custom links option off will delete all of your custom links when you save, and cannot be restored without adding them back manually.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
     }
 })
 
@@ -466,6 +466,7 @@ async function loadCloudSettings() {
         }
         handleBeforeUnload()
         settingsSaveCloudAlertWrapper.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Loaded from the cloud!</strong> Please inspect your loaded settings before saving them locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        settingsLoadingOverlayContent.hidden = true
         settingsContent.hidden = false
     } catch (error) {
         console.error(error)
@@ -559,6 +560,7 @@ async function loadSettings() {
                 settingsClockModeRadio24hour.checked = true
                 break
         }
+        settingsLoadingOverlayContent.hidden = true
         settingsContent.hidden = false
     } catch (error) {
         console.error(error)
@@ -849,6 +851,7 @@ async function saveSettings() {
 function handleBeforeUnload() {
     if (changesWereMade === false) {
         changesWereMade = true
+        settingsUnsavedChangesIndicator.hidden = false
         window.addEventListener("beforeunload", (event) => {
             if (aboutToReload === true) {
                 return

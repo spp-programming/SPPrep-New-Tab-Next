@@ -1,5 +1,5 @@
 "use strict"
-import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsLoadCloudButton, secretSettingsSaveButton, secretSettingsSaveCloudAlertWrapper, secretSettingsSaveCloudButton, secretSettingsVideoBackgroundPreview, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
+import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsLoadCloudButton, secretSettingsLoadingOverlayContent, secretSettingsSaveButton, secretSettingsSaveCloudAlertWrapper, secretSettingsSaveCloudButton, secretSettingsUnsavedChangesIndicator, secretSettingsVideoBackgroundPreview, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
@@ -73,7 +73,7 @@ secretSettingsSaveButton.addEventListener("click", () => {
 async function handleSecretSettingsVisibility() {
     try {
         const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
-
+        secretSettingsLoadingOverlayContent.hidden = true
         if (secretSettingsVisible === true) {
             secretSettingsContent.hidden = false
         } else {
@@ -94,6 +94,7 @@ async function handleCustomBackgroundUploaderChange() {
     secretSettingsSaveButton.disabled = true
     let backgroundURL
     if (validateCustomBackgroundFileList() === true) {
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = '<div class="alert alert-info alert-dismissible mt-3" role="alert"><div><div class="spinner-border spinner-border-sm" role="status"></div> <span>Loading the file (this may take a few seconds)</span></div></div>'
         backgroundURL = await constructCustomBackgroundURL()
         uploadedCustomBackground = backgroundURL
         updateBackgroundPreview()
@@ -109,6 +110,14 @@ async function handleCustomBackgroundUploaderChange() {
     secretSettingsBackgroundSelection.disabled = false
     secretSettingsCustomBackgroundUploader.disabled = false
     secretSettingsSaveButton.disabled = false
+    secretSettingsCustomBackgroundAlertWrapper.innerHTML = ""
+    // All of this ResizeObserver stuff is needed because the images loading in would screw up scrollIntoView's initial calculations and push the target element offscreen
+    secretSettingsStaticBackgroundPreview.parentElement.parentElement.scrollIntoView({ behavior: "smooth" })
+    const observer = new ResizeObserver(() => {
+        secretSettingsStaticBackgroundPreview.parentElement.parentElement.scrollIntoView({ behavior: "smooth" })
+        observer.disconnect()
+    })
+    observer.observe(document.body)
 }
 
 function validateCustomBackgroundFileList() {
@@ -441,6 +450,7 @@ function updateFontPreview() {
 function handleBeforeUnload() {
     if (changesWereMade === false) {
         changesWereMade = true
+        secretSettingsUnsavedChangesIndicator.hidden = false
         window.addEventListener("beforeunload", (event) => {
             if (aboutToReload === true) {
                 return

@@ -1,5 +1,7 @@
 "use strict"
 export const settingsContent = document.getElementsByClassName("content")[0]
+export const settingsLoadingOverlayContent = document.getElementsByClassName("loading-overlay-content")[0]
+export const settingsUnsavedChangesIndicator = document.getElementById("unsaved-changes-indicator")
 export const settingsEnableSplitLayoutSwitch = document.getElementById("enable-split-layout-switch")
 export const settingsNewBellScheduleButtonSwitch = document.getElementById("new-bell-schedule-button-switch")
 export const settingsHideSchoolCalendarSwitch = document.getElementById("hide-school-calendar-switch")
