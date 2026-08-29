@@ -11,74 +11,75 @@ export function startListeningOnGamepads() {
     function gamepadLoop() {
         if (gamepads.length !== 0) {
             gamepads.forEach(gamepad => {
-                if (gamepad.buttons[12]?.pressed === true) {
+                const gamepadReChecked = navigator.getGamepads()[gamepad.index] // For some reason gamepad doesn't update so I have to query it again every time we poll for changes
+                if (gamepadReChecked?.buttons[12]?.pressed === true) {
                     console.log("up was pressed")
                     gamepads[gamepad.index].lastButton = 12
                 }
-                if (gamepad.buttons[12]?.pressed === false && gamepad.lastButton === 12) {
+                if (gamepadReChecked?.buttons[12]?.pressed === false && gamepad.lastButton === 12) {
                     console.log("up was released, sending event")
                     gamepad.lastButton = null
                     document.dispatchEvent(new CustomEvent("gamepad-pressed", { detail: { button: "up", code: "\u{1F53C}" } }))
                 }
-                if (gamepad.buttons[13]?.pressed === true) {
+                if (gamepadReChecked?.buttons[13]?.pressed === true) {
                     console.log("down was pressed")
                     gamepads[gamepad.index].lastButton = 13
                 }
-                if (gamepad.buttons[13]?.pressed === false && gamepad.lastButton === 13) {
+                if (gamepadReChecked?.buttons[13]?.pressed === false && gamepad.lastButton === 13) {
                     console.log("down was released, sending event")
                     gamepad.lastButton = null
                     document.dispatchEvent(new CustomEvent("gamepad-pressed", { detail: { button: "down", code: "\u{1F53D}" } }))
                 }
-                if (gamepad.buttons[14]?.pressed === true) {
+                if (gamepadReChecked?.buttons[14]?.pressed === true) {
                     console.log("left was pressed")
                     gamepads[gamepad.index].lastButton = 14
                 }
-                if (gamepad.buttons[14]?.pressed === false && gamepad.lastButton === 14) {
+                if (gamepadReChecked?.buttons[14]?.pressed === false && gamepad.lastButton === 14) {
                     console.log("left was released, sending event")
                     gamepad.lastButton = null
                     document.dispatchEvent(new CustomEvent("gamepad-pressed", { detail: { button: "left", code: "\u{25C0}\u{FE0F}" } }))
                 }
-                if (gamepad.buttons[15]?.pressed === true) {
+                if (gamepadReChecked?.buttons[15]?.pressed === true) {
                     console.log("right was pressed")
                     gamepads[gamepad.index].lastButton = 15
                 }
-                if (gamepad.buttons[15]?.pressed === false && gamepad.lastButton === 15) {
+                if (gamepadReChecked?.buttons[15]?.pressed === false && gamepad.lastButton === 15) {
                     console.log("right was released, sending event")
                     gamepad.lastButton = null
                     document.dispatchEvent(new CustomEvent("gamepad-pressed", { detail: { button: "right", code: "\u{25B6}\u{FE0F}" } }))
                 }
-                if (gamepad.buttons[0]?.pressed === true) {
+                if (gamepadReChecked?.buttons[0]?.pressed === true) {
                     console.log("Button A was pressed")
                     gamepads[gamepad.index].lastButton = 0
                 }
-                if (gamepad.buttons[0]?.pressed === false && gamepad.lastButton === 0) {
+                if (gamepadReChecked?.buttons[0]?.pressed === false && gamepad.lastButton === 0) {
                     console.log("Button A was released, sending event")
                     gamepad.lastButton = null
                     document.dispatchEvent(new CustomEvent("gamepad-pressed", { detail: { button: "a", code: "\u{1F170}\u{FE0F}" } }))
                 }
-                if (gamepad.buttons[1]?.pressed === true) {
+                if (gamepadReChecked?.buttons[1]?.pressed === true) {
                     console.log("Button B was pressed")
                     gamepads[gamepad.index].lastButton = 1
                 }
-                if (gamepad.buttons[1]?.pressed === false && gamepad.lastButton === 1) {
+                if (gamepadReChecked?.buttons[1]?.pressed === false && gamepad.lastButton === 1) {
                     console.log("Button B was released, sending event")
                     gamepad.lastButton = null
                     document.dispatchEvent(new CustomEvent("gamepad-pressed", { detail: { button: "b", code: "\u{1F171}\u{FE0F}" } }))
                 }
-                if (gamepad.buttons[8]?.pressed === true) {
+                if (gamepadReChecked?.buttons[8]?.pressed === true) {
                     console.log("Select was pressed")
                     gamepads[gamepad.index].lastButton = 8
                 }
-                if (gamepad.buttons[8]?.pressed === false && gamepad.lastButton === 8) {
+                if (gamepadReChecked?.buttons[8]?.pressed === false && gamepad.lastButton === 8) {
                     console.log("Select was released, sending event")
                     gamepad.lastButton = null
                     document.dispatchEvent(new CustomEvent("gamepad-pressed", { detail: { button: "select", code: "\u{1F914}" } }))
                 }
-                if (gamepad.buttons[9]?.pressed === true) {
+                if (gamepadReChecked?.buttons[9]?.pressed === true) {
                     console.log("Start was pressed")
                     gamepads[gamepad.index].lastButton = 9
                 }
-                if (gamepad.buttons[9]?.pressed === false && gamepad.lastButton === 9) {
+                if (gamepadReChecked?.buttons[9]?.pressed === false && gamepad.lastButton === 9) {
                     console.log("Start was released, sending event")
                     gamepad.lastButton = null
                     document.dispatchEvent(new CustomEvent("gamepad-pressed", { detail: { button: "start", code: "\u{1F3C3}\u{200D}\u{27A1}\u{FE0F}" } }))
