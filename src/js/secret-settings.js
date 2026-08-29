@@ -313,6 +313,7 @@ async function updateBackgroundPreview() {
         case "custom":
             secretSettingsCustomBackgroundSection.hidden = false
             secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
+            secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
             const storedBackgroundData = await getCustomBackgroundData()
             if (storedBackgroundData.type === "none") {
                 console.error(`Stored custom background is an invalid type`)
@@ -351,7 +352,6 @@ async function updateBackgroundPreview() {
                 }
                 console.error("Unable to load custom background, probably because of an invalid MIME type.")
             }
-            secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
             break
         case "seasonal":
             secretSettingsStaticBackgroundPreview.setAttribute("src", getSeasonalBackground(Temporal.Now.plainDateISO().month, Temporal.Now.plainDateISO().day))
