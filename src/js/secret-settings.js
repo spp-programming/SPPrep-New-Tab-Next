@@ -1,5 +1,5 @@
 "use strict"
-import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsLoadCloudButton, secretSettingsSaveButton, secretSettingsSaveCloudAlertWrapper, secretSettingsSaveCloudButton, secretSettingsVideoBackgroundPreview, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
+import { secretSettingsContent, secretSettingsCustomBackgroundAlertWrapper, secretSettingsCustomBackgroundSection, secretSettingsCustomBackgroundUploader, secretSettingsDisabledContent, secretSettingsDisableSwitch, secretSettingsGradientDisableSwitch, secretSettingsLoadCloudButton, secretSettingsLoadingOverlayContent, secretSettingsSaveButton, secretSettingsSaveCloudAlertWrapper, secretSettingsSaveCloudButton, secretSettingsUnsavedChangesIndicator, secretSettingsVideoBackgroundPreview, secretSettingsWhenEnabled } from "./modules/secret-settings-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
@@ -73,7 +73,7 @@ secretSettingsSaveButton.addEventListener("click", () => {
 async function handleSecretSettingsVisibility() {
     try {
         const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
-
+        secretSettingsLoadingOverlayContent.hidden = true
         if (secretSettingsVisible === true) {
             secretSettingsContent.hidden = false
         } else {
@@ -94,9 +94,11 @@ async function handleCustomBackgroundUploaderChange() {
     secretSettingsSaveButton.disabled = true
     let backgroundURL
     if (validateCustomBackgroundFileList() === true) {
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = '<div class="alert alert-info alert-dismissible mt-3" role="alert"><div><div class="spinner-border spinner-border-sm" role="status"></div> <span>Loading the file (this may take a few seconds)</span></div></div>'
         backgroundURL = await constructCustomBackgroundURL()
         uploadedCustomBackground = backgroundURL
         updateBackgroundPreview()
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = ""
     } else {
         secretSettingsCustomBackgroundUploader.value = ""
         secretSettingsVideoBackgroundPreview.innerHTML = ""
@@ -109,6 +111,13 @@ async function handleCustomBackgroundUploaderChange() {
     secretSettingsBackgroundSelection.disabled = false
     secretSettingsCustomBackgroundUploader.disabled = false
     secretSettingsSaveButton.disabled = false
+    // All of this ResizeObserver stuff is needed because the images loading in would screw up scrollIntoView's initial calculations and push the target element offscreen
+    secretSettingsStaticBackgroundPreview.parentElement.parentElement.scrollIntoView({ behavior: "smooth" })
+    const observer = new ResizeObserver(() => {
+        secretSettingsStaticBackgroundPreview.parentElement.parentElement.scrollIntoView({ behavior: "smooth" })
+        observer.disconnect()
+    })
+    observer.observe(document.body)
 }
 
 function validateCustomBackgroundFileList() {
@@ -412,11 +421,26 @@ function updateFontPreview() {
         case "sans-serif":
             secretSettingsFontPreview.classList.add("font-sans-serif")
             break
+        case "comic-relief":
+            secretSettingsFontPreview.classList.add("font-comic-relief")
+            break
+        case "ibm-plex-sans":
+            secretSettingsFontPreview.classList.add("font-ibm-plex-sans")
+            break
+        case "inconsolata":
+            secretSettingsFontPreview.classList.add("font-inconsolata")
+            break
         case "inter":
             secretSettingsFontPreview.classList.add("font-inter")
-        break
+            break
+        case "jetbrains-mono":
+            secretSettingsFontPreview.classList.add("font-jetbrains-mono")
+            break
         case "lato":
             secretSettingsFontPreview.classList.add("font-lato")
+            break
+        case "lexend":
+            secretSettingsFontPreview.classList.add("font-lexend")
             break
         case "montserrat":
             secretSettingsFontPreview.classList.add("font-montserrat")
@@ -430,8 +454,20 @@ function updateFontPreview() {
         case "raleway":
             secretSettingsFontPreview.classList.add("font-raleway")
             break
+        case "roboto-mono":
+            secretSettingsFontPreview.classList.add("font-roboto-mono")
+            break
         case "rubik":
             secretSettingsFontPreview.classList.add("font-rubik")
+            break
+        case "source-code-pro":
+            secretSettingsFontPreview.classList.add("font-source-code-pro")
+            break
+        case "space-grotesk":
+            secretSettingsFontPreview.classList.add("font-space-grotesk")
+            break
+        case "ubuntu":
+            secretSettingsFontPreview.classList.add("font-ubuntu")
             break
         default:
             secretSettingsFontPreview.classList.add("font-azeret-mono")
@@ -441,6 +477,7 @@ function updateFontPreview() {
 function handleBeforeUnload() {
     if (changesWereMade === false) {
         changesWereMade = true
+        secretSettingsUnsavedChangesIndicator.hidden = false
         window.addEventListener("beforeunload", (event) => {
             if (aboutToReload === true) {
                 return

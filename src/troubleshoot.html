@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
-    <title>SPP New Tab | Collect support data</title>
+    <title>SPP New Tab | Troubleshoot</title>
     <link rel="preload" href="./fonts/bootstrap-icons/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
     <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./css/support-data.css">
+    <link rel="stylesheet" href="./css/troubleshoot.css">
     <link rel="stylesheet" href="./css/colors.css">
 </head>
 <body>
@@ -49,14 +49,19 @@
         </div>
     </nav>
     <div class="content">
-        <h1><i class="bi bi-bug" aria-hidden="true"></i> Collect support data</h1>
-        <p>This data may be requested by our team if we need it for debugging an issue report. You can file an issue report by clicking on "GitHub Issues" in the navbar.</p>
-        <div class="alert alert-warning" role="alert">
-            The support data file contains all data stored by the extension, which includes all settings, custom links, and backgrounds. <strong>Keep in mind that anybody with this file will be able to know which background you've set and the custom links that you've added.</strong>
-        </div>
-        <button type="button" class="btn btn-primary" id="collect-support-data-button"><i class="bi bi-download" aria-hidden="true"></i> Collect support data</button>
+        <h1><i class="bi bi-tools" aria-hidden="true"></i> Troubleshoot</h1>
+        <p>If you're experiencing issues with SPP New Tab, you can try these things to fix them:</p>
+        <h4>Try this step first:</h4>
+        <button type="button" class="btn btn-success" id="reload-extension-button"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Reload extension</button>
+        <div class="form-text mb-3">This won't delete any data. Any other new tabs that are open will load into Chrome's default one, you can close them or press back when they are focused to get back to SPP New Tab.</div>
+        <h4>If you're filing an issue report:</h4>
+        <a href="./support-data.html" role="button" class="btn btn-primary"><i class="bi bi-bug" aria-hidden="true"></i> Collect support data...</a>
+        <div class="form-text mb-3">We may ask for your support data to help us figure out your issue. If asked for it, you can use this button to get it.</div>
+        <h4>If all else fails:</h4>
+        <a href="./clear-data.html" role="button" class="btn btn-danger"><i class="bi bi-trash3" aria-hidden="true"></i> Clear extension data...</a>
+        <div class="form-text mb-3">This option WILL delete your extension data. In some extreme cases, this may be the only option that works. You can clear your local and cloud data separately.</div>
     </div>
     <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./js/support-data.js"></script>
+    <script type="module" src="./js/troubleshoot.js"></script>
 </body>
 </html>

@@ -63,7 +63,7 @@ export const backgroundRainbow = "./img/backgrounds/rainbow.svg"
 export const backgroundMissingTexture = "./img/backgrounds/missing_texture.webp"
 export const selectImageImage = "./img/resources/select_image.svg"
 export const validBackgrounds = [ "custom", "seasonal", "bliss", "osx-tiger", "osx-leopard", "osx-lion", "osx-yosemite", "msc-building", "snow", "snow-low-quality", "original-fall-winter", "street-view", "street-view-better", "rainbow", "missing-texture" ]
-export const validFonts = [ "azeret-mono", "sans-serif", "inter", "lato", "montserrat", "nunito", "poppins", "raleway", "rubik" ]
+export const validFonts = [ "azeret-mono", "sans-serif", "comic-relief", "ibm-plex-sans", "inconsolata", "inter", "jetbrains-mono", "lato", "lexend", "montserrat", "nunito", "poppins", "raleway", "roboto-mono", "rubik", "source-code-pro", "space-grotesk", "ubuntu" ]
 
 // DO NOT touch this unless you also change the version number. It should match the extension's version number and be a string.
 export const migrationVersion = "4.2"
