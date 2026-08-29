@@ -421,11 +421,26 @@ function updateFontPreview() {
         case "sans-serif":
             secretSettingsFontPreview.classList.add("font-sans-serif")
             break
+        case "comic-relief":
+            secretSettingsFontPreview.classList.add("font-comic-relief")
+            break
+        case "ibm-plex-sans":
+            secretSettingsFontPreview.classList.add("font-ibm-plex-sans")
+            break
+        case "inconsolata":
+            secretSettingsFontPreview.classList.add("font-inconsolata")
+            break
         case "inter":
             secretSettingsFontPreview.classList.add("font-inter")
-        break
+            break
+        case "jetbrains-mono":
+            secretSettingsFontPreview.classList.add("font-jetbrains-mono")
+            break
         case "lato":
             secretSettingsFontPreview.classList.add("font-lato")
+            break
+        case "lexend":
+            secretSettingsFontPreview.classList.add("font-lexend")
             break
         case "montserrat":
             secretSettingsFontPreview.classList.add("font-montserrat")
@@ -439,8 +454,20 @@ function updateFontPreview() {
         case "raleway":
             secretSettingsFontPreview.classList.add("font-raleway")
             break
+        case "roboto-mono":
+            secretSettingsFontPreview.classList.add("font-roboto-mono")
+            break
         case "rubik":
             secretSettingsFontPreview.classList.add("font-rubik")
+            break
+        case "source-code-pro":
+            secretSettingsFontPreview.classList.add("font-source-code-pro")
+            break
+        case "space-grotesk":
+            secretSettingsFontPreview.classList.add("font-space-grotesk")
+            break
+        case "ubuntu":
+            secretSettingsFontPreview.classList.add("font-ubuntu")
             break
         default:
             secretSettingsFontPreview.classList.add("font-azeret-mono")
