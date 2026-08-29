@@ -5,6 +5,7 @@ import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { secretSettingsFontSelection, secretSettingsFontPreview, secretSettingsStaticBackgroundPreview, secretSettingsBackgroundSelection, secretSettingsBackgroundPreviewNotes, secretSettingsGradientSelection, secretSettingsGradientSelectionReset} from "./modules/secret-settings-constants.js"
 import { backgroundBliss, backgroundMissingTexture, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundRainbow, backgroundSnow, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, selectImageImage, validBackgrounds, validFonts } from "./modules/global-constants.js"
+import { getCustomBackgroundData, getCustomBackgroundDataFromURL } from "./modules/background-fetcher.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -37,11 +38,11 @@ secretSettingsGradientDisableSwitch.addEventListener("change", () => {
     handleGradientColorDisablement()
 })
 
-secretSettingsBackgroundSelection.addEventListener("change", () => {
+secretSettingsBackgroundSelection.addEventListener("change", async () => {
     secretSettingsStaticBackgroundPreview.hidden = false
     secretSettingsBackgroundPreviewNotes.hidden = false
     handleBeforeUnload()
-    updateBackgroundPreview()
+    await updateBackgroundPreview()
 })
 
 secretSettingsFontSelection.addEventListener("change", () => {
@@ -97,7 +98,7 @@ async function handleCustomBackgroundUploaderChange() {
         secretSettingsCustomBackgroundAlertWrapper.innerHTML = '<div class="alert alert-info alert-dismissible mt-3" role="alert"><div><div class="spinner-border spinner-border-sm" role="status"></div> <span>Loading the file (this may take a few seconds)</span></div></div>'
         backgroundURL = await constructCustomBackgroundURL()
         uploadedCustomBackground = backgroundURL
-        updateBackgroundPreview()
+        await updateBackgroundPreview()
         secretSettingsCustomBackgroundAlertWrapper.innerHTML = ""
     } else {
         secretSettingsCustomBackgroundUploader.value = ""
@@ -302,7 +303,7 @@ async function saveSecretSettings() {
     }
 }
 
-function updateBackgroundPreview() {
+async function updateBackgroundPreview() {
     secretSettingsStaticBackgroundPreview.parentElement.hidden = false
     secretSettingsVideoBackgroundPreview.innerHTML = ""
     secretSettingsVideoBackgroundPreview.parentElement.hidden = true
@@ -312,43 +313,45 @@ function updateBackgroundPreview() {
         case "custom":
             secretSettingsCustomBackgroundSection.hidden = false
             secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
-            if (typeof storedCustomBackground !== "string" | "undefined") {
-                console.error(`Stored custom background is an invalid type (got "${typeof storedCustomBackground}", expected "string" or "undefined")`)
+            secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
+            const storedBackgroundData = await getCustomBackgroundData()
+            if (storedBackgroundData.type === "none") {
+                console.error(`Stored custom background is an invalid type`)
                 if (uploadedCustomBackground === undefined) {
                     return
                 }
             }
-            if (uploadedCustomBackground === undefined && storedCustomBackground.startsWith("data:image/") === true) {
-                secretSettingsStaticBackgroundPreview.setAttribute("src", storedCustomBackground)
+            if (uploadedCustomBackground === undefined && storedBackgroundData.type === "image") {
+                secretSettingsStaticBackgroundPreview.setAttribute("src", storedBackgroundData.url)
             }
-            if (uploadedCustomBackground === undefined && storedCustomBackground.startsWith("data:video/") === true) {
+            if (uploadedCustomBackground === undefined && storedBackgroundData.type === "video") {
                 secretSettingsStaticBackgroundPreview.parentElement.hidden = true
                 secretSettingsVideoBackgroundPreview.innerHTML = ""
                 secretSettingsVideoBackgroundPreview.parentElement.hidden = false
                 secretSettingsVideoBackgroundPreview.load()
                 const source = document.createElement("source")
-                source.src = storedCustomBackground
+                source.src = storedBackgroundData.url
                 secretSettingsVideoBackgroundPreview.appendChild(source)
             }
             if (uploadedCustomBackground !== undefined) {
-                if (uploadedCustomBackground.startsWith("data:image/") === true) {
-                    secretSettingsStaticBackgroundPreview.setAttribute("src", uploadedCustomBackground)
+                const uploadedBackgroundData = await getCustomBackgroundDataFromURL(uploadedCustomBackground)
+                if (uploadedBackgroundData.type === "image") {
+                    secretSettingsStaticBackgroundPreview.setAttribute("src", uploadedBackgroundData.url)
                     return
                 }
-                if (uploadedCustomBackground.startsWith("data:video/") === true) {
+                if (uploadedBackgroundData.type === "video") {
                     secretSettingsStaticBackgroundPreview.parentElement.hidden = true
                     secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
                     secretSettingsVideoBackgroundPreview.innerHTML = ""
                     secretSettingsVideoBackgroundPreview.parentElement.hidden = false
                     secretSettingsVideoBackgroundPreview.load()
                     const source = document.createElement("source")
-                    source.src = uploadedCustomBackground
+                    source.src = uploadedBackgroundData.url
                     secretSettingsVideoBackgroundPreview.appendChild(source)
                     return
                 }
                 console.error("Unable to load custom background, probably because of an invalid MIME type.")
             }
-            secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
             break
         case "seasonal":
             secretSettingsStaticBackgroundPreview.setAttribute("src", getSeasonalBackground(Temporal.Now.plainDateISO().month, Temporal.Now.plainDateISO().day))
@@ -523,7 +526,7 @@ async function loadStuff() {
         handleSecretSettingsVisibility()
     }
     updateFontPreview()
-    updateBackgroundPreview()
+    await updateBackgroundPreview()
     secretSettingsStaticBackgroundPreview.hidden = false
     secretSettingsBackgroundPreviewNotes.hidden = false
 }
