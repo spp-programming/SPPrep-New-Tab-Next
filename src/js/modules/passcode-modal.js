@@ -20,6 +20,7 @@ export async function enableSecretSettings() {
 
 function handleGamepadPressed(event) {
     passcodeModalInput.value += event.detail?.code + " "
+    passcodeModalInput.scrollLeft = passcodeModalInput.scrollWidth
 }
 
 function showSecretSettingsContent() {
