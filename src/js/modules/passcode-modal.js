@@ -53,6 +53,7 @@ passcodeModalInputClearButton.addEventListener("click", () => {
 passcodeModalVerifyButton.addEventListener("click", () => {
     if (passcodeModalInput.value === passcodeModalPasscode) {
         console.log("passcode verified!")
+        stopListeningOnGamepads()
         enableSecretSettings()
         showSecretSettingsContent()
     } else {
