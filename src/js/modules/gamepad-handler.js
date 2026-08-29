@@ -1,6 +1,11 @@
 "use strict"
 /**
- * @type {Gamepad[]?}
+ * @typedef {Object} LastButtons
+ * @property {[number]?} lastButtons Array of numbers representing the last buttons that were held down
+ * @typedef {Gamepad & LastButtons} GamepadExtended
+ */
+/**
+ * @type {GamepadExtended[]?}
  */
 const gamepads = []
 let gamepadLoopID
