@@ -98,6 +98,7 @@ async function handleCustomBackgroundUploaderChange() {
         backgroundURL = await constructCustomBackgroundURL()
         uploadedCustomBackground = backgroundURL
         updateBackgroundPreview()
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = ""
     } else {
         secretSettingsCustomBackgroundUploader.value = ""
         secretSettingsVideoBackgroundPreview.innerHTML = ""
@@ -110,7 +111,6 @@ async function handleCustomBackgroundUploaderChange() {
     secretSettingsBackgroundSelection.disabled = false
     secretSettingsCustomBackgroundUploader.disabled = false
     secretSettingsSaveButton.disabled = false
-    secretSettingsCustomBackgroundAlertWrapper.innerHTML = ""
     // All of this ResizeObserver stuff is needed because the images loading in would screw up scrollIntoView's initial calculations and push the target element offscreen
     secretSettingsStaticBackgroundPreview.parentElement.parentElement.scrollIntoView({ behavior: "smooth" })
     const observer = new ResizeObserver(() => {
