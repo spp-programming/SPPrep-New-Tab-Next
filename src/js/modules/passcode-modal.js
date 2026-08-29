@@ -41,6 +41,7 @@ passcodeModal.addEventListener("hidden.bs.modal", () => {
 Array.from(passcodeModalControllerButtons).forEach(element => {
     element.addEventListener("click", () => {
         passcodeModalInput.value += element.dataset.buttonCode + " "
+        passcodeModalInput.scrollLeft = passcodeModalInput.scrollWidth
     })
 })
 
