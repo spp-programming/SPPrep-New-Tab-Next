@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>SPP New Tab | Troubleshoot</title>
+    <link rel="preload" href="./fonts/bootstrap-icons/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/troubleshoot.css">
+    <link rel="stylesheet" href="./css/colors.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md sticky-top bg-maroon-brand-color">
+        <div class="container-fluid">
+            <a class="navbar-brand fake-link" href="#">
+                <img src="./img/icons/extension/48.png" alt="SPP New Tab Logo" width="24" height="24" class="d-inline-block align-text-top">
+                SPP New Tab
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-content">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fake-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span></a></li>
+                            <li><a class="dropdown-item" href="secret-settings.html"><i class="bi bi-file-lock" aria-hidden="true"></i> <span>Secret Settings</span></a></li>
+                            <li><a class="dropdown-item" href="clear-data.html"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear extension data</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="changelog.html"><i class="bi bi-megaphone" aria-hidden="true"></i> <span>What's New</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="bi bi-info-circle" aria-hidden="true"></i> <span>About</span></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" id="github-nav-link" href="https://github.com/spp-programming/SPPrep-New-Tab-Next/issues" title="GitHub account required! Please check if your issue has already been reported before opening an issue report." data-bs-toggle="tooltip"><i class="bi bi-github" aria-hidden="true"></i> <span>GitHub Issues</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <h1><i class="bi bi-tools" aria-hidden="true"></i> Troubleshoot</h1>
+        <p>If you're experiencing issues with SPP New Tab, you can try these things to fix them:</p>
+        <h4>Try this step first:</h4>
+        <button type="button" class="btn btn-success" id="reload-extension-button"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Reload extension</button>
+        <div class="form-text mb-3">This won't delete any data. Any other new tabs that are open will load into Chrome's default one, you can close them or press back when they are focused to get back to SPP New Tab.</div>
+        <h4>If you're filing an issue report:</h4>
+        <a href="./support-data.html" role="button" class="btn btn-primary"><i class="bi bi-bug" aria-hidden="true"></i> Collect support data...</a>
+        <div class="form-text mb-3">We may ask for your support data to help us figure out your issue. If asked for it, you can use this button to get it.</div>
+        <h4>If all else fails:</h4>
+        <a href="./clear-data.html" role="button" class="btn btn-danger"><i class="bi bi-trash3" aria-hidden="true"></i> Clear extension data...</a>
+        <div class="form-text mb-3">This option WILL delete your extension data. In some extreme cases, this may be the only option that works. You can clear your local and cloud data separately.</div>
+    </div>
+    <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./js/troubleshoot.js"></script>
+</body>
+</html>
