@@ -74,9 +74,9 @@ async function loadLetterDay() {
             case "🤷‍♂️":
                 // "US/Eastern" and "EST5EDT" are linked to "America/New_York" so we have to check for them too. This may not be necessary, but I don't care. https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
-                    setPopoverText(letterDayElement, `No letter day found for today.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")}. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `No letter day found for today.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")}. <a href="#" class="refresh-link">Refresh the page</a> to check again.</div>`)
                 } else {
-                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>No letter day found for today.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>No letter day found for today.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")} in your local time zone. <a href="#" class="refresh-link">Refresh the page</a> to check again.</div>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
                 break
@@ -86,9 +86,9 @@ async function loadLetterDay() {
             default:
                 // "US/Eastern" and "EST5EDT" are linked to "America/New_York" so we have to check for them too. This may not be necessary, but I don't care. https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
-                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")}. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")}. <a href="#" class="refresh-link">Refresh the page</a> to check again.</div>`)
                 } else {
-                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")} in your local time zone. Refresh the page to check again.</div>`)
+                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")} in your local time zone. <a href="#" class="refresh-link">Refresh the page</a> to check again.</div>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
             letterDay = `${letterDay}-DAY`
@@ -100,10 +100,10 @@ async function loadLetterDay() {
         letterDayElement.innerHTML = "🤯"
         if (navigator.onLine === false) {
             setPopoverText(letterDayElement, "No internet connection!<br>Hit refresh to try again.")
-            errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">Check your internet connection. To try querying it again, refresh the page.</div>"
+            errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">Check your internet connection. To try querying it again, <a href=\"#\" class=\"refresh-link\">refresh the page</a>.</div>"
         } else {
             setPopoverText(letterDayElement, "Woah! Something went wrong.<br>Hit refresh to try again.")
-            errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">To try querying it again, refresh the page.</div>"
+            errorToastContent.innerHTML = "🤯 Couldn't query School Calendar.<div class=\"form-text\">To try querying it again, <a href=\"#\" class=\"refresh-link\">refresh the page</a>.</div>"
         }
         bootstrap.Toast.getOrCreateInstance(errorToast).show()
     }
@@ -115,7 +115,7 @@ function checkLetterDayChange() {
         console.log(`start date: ${dateString}`)
         console.log(`current date: ${getCurrentDateString()}`)
         letterDayElement.innerHTML = "⚠️"
-        setPopoverText(letterDayElement, "Date changed!<br><span class=\"form-text\">To load the letter day, refresh the page.</span>")
+        setPopoverText(letterDayElement, "Date changed!<br><span class=\"form-text\">To load the letter day, <a href=\"#\" class=\"refresh-link\">refresh the page</a>.</span>")
         clearInterval(checkLetterDayChangeInterval)
     }
 }
@@ -418,6 +418,13 @@ async function loadStuff() {
     performanceCounters.runMigrations = Number((performance.now() - runMigrationsTimeStart).toFixed(2))
     const everythingTimeStart = performance.now()
     handleFakeLinks()
+    document.body.addEventListener("click", (event) => {
+        if (event.target.matches(".refresh-link")) {
+            // This is used for the popover when you click on the letter day, as well as the various toasts.
+            // I don't want to real with adding/removing event listeners every time an element is created, so event delegation is used instead
+            location.reload()
+        }
+    })
     const loadLetterDayTask = measureTask("loadLetterDay", loadLetterDay())
     const applyInternalConfigModeChangesTask = measureTask("applyInternalConfigModeChanges", applyInternalConfigModeChanges())
     const handleClockTask = measureTask("handleClock", handleClock())
