@@ -54,6 +54,7 @@ passcodeModalVerifyButton.addEventListener("click", () => {
     if (passcodeModalInput.value === passcodeModalPasscode) {
         console.log("passcode verified!")
         stopListeningOnGamepads()
+        document.removeEventListener("gamepad-pressed", handleGamepadPressed)
         enableSecretSettings()
         showSecretSettingsContent()
     } else {
