@@ -60,12 +60,15 @@
             If you are seeing a new "footer" below SPP New Tab (with the "Customize Chrome" button), <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Disabling-Chrome's-default-footer">here's how to turn that off</a>.
         </div>
         <h3>Version 4.2 (Latest, installed version)</h3>
-        <strong>This is a minor release because it does not contain any new major features.</strong>
+        <strong>Despite being a minor release, this release is much larger in scope compared to other minor releases. It was also released sooner than expected because of the bell schedule change.</strong>
         <p>🎉 New features:</p>
         <ul>
             <li>🆕 Google product icons (Drive, Gmail, Calendar) have been updated to the current ones.</li>
             <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🎆 Added Missing Texture background.</li>
             <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 📼 Videos can now be used as a custom background.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ⏯️ When you pause a video background, your pause state and position is remembered.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 📝 Added nine new fonts.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🔐 The passcode entry field now scrolls automatically.</li>
             <li>🔔 The bell schedule button has been moved back with the rest of the shortcuts. If you preferred when it was in the bottom right corner, you can change this in Settings.</li>
             <li>💁 A tour of the basic features is now available. You can find it in the <i class="bi bi-list" aria-hidden="true"></i> Menu at the top left when you're on a new tab.</li>
             <li>☁️ Settings can now be stored in the cloud (using Chrome/Firefox sync).</li>
@@ -80,8 +83,14 @@
             <li>🚀 The split layout is now implemented more cleanly and loads faster</li>
             <li>🛟 More error handling, especially when saving and loading</li>
             <li>🦊 Introduced preliminary support for Firefox</li>
-            <li>🧹 Some code cleanup and added JSDoc annotations</li>
+            <li>🧹 Some code cleanup, new JSDoc annotations, and TypeScript types were added for Bootstrap and Chrome</li>
             <li>🖼️ Some (large) images are now lazy loaded, improving loading performance</li>
+            <li>💾 Version name (Chrome only) is now generated during build time, containing some extra version information</li>
+            <li>👷‍♀️ Custom backgrounds are now loaded (slightly) faster using a web worker.</li>
+        </ul>
+        <p>🚨 Fixed major bugs:</p>
+        <ul>
+            <li>🔔 The bell schedule has been updated to the new one, so it's actually accurate now.</li>
         </ul>
         <p>✅ Fixed small bugs:</p>
         <ul>

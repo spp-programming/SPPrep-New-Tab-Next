@@ -277,8 +277,14 @@ async function loadBackgroundSettings() {
                         }
                         if (backgroundData.type === "video") {
                             const videoBackground = document.createElement("video")
+                            const videoBackgroundPosition = (await chrome.storage.local.get())["secretSettings_customBackgroundVideoPosition"]
                             videoBackground.id = "video-background"
-                            videoBackground.autoplay = true
+                            if (typeof videoBackgroundPosition === "number") {
+                                videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-play-circle\" aria-hidden=\"true\"></i> Unpause video background</a>"
+                                videoBackground.currentTime = videoBackgroundPosition
+                            } else {
+                                videoBackground.autoplay = true
+                            }
                             videoBackground.muted = true
                             videoBackground.loop = true
                             videoBackground.playsInline = true
@@ -294,9 +300,12 @@ async function loadBackgroundSettings() {
                                 if (videoBackground.paused === false) {
                                     videoBackground.pause()
                                     videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-play-circle\" aria-hidden=\"true\"></i> Unpause video background</a>"
+                                    chrome.storage.local.set({ secretSettings_customBackgroundVideoPosition: videoBackground.currentTime })
                                 } else {
+                                    videoBackground.autoplay = true
                                     videoBackground.play()
                                     videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-pause-circle\" aria-hidden=\"true\"></i> Pause video background</a>"
+                                    chrome.storage.local.remove(["secretSettings_customBackgroundVideoPosition"])
                                 }
                             })
                         }

@@ -276,6 +276,7 @@ async function saveSecretSettings() {
         secretSettingsSaveButton.innerHTML = "<span class=\"spinner-border spinner-border-sm\" aria-hidden=\"true\"></span> <span role=\"status\">Saving...</span>"
         if (secretSettingsDisableSwitch.checked) {
             await chrome.storage.local.remove(["secretSettings_customBackground"])
+            await chrome.storage.local.remove(["secretSettings_customBackgroundVideoPosition"])
             await chrome.storage.local.remove(["secretSettings_backgroundSelection"])
             await chrome.storage.local.remove(["secretSettings_fontSelection"])
             await chrome.storage.local.remove(["secretSettings_gradientSelection"])
@@ -284,11 +285,14 @@ async function saveSecretSettings() {
         } else {
             if (uploadedCustomBackground === undefined && storedCustomBackground === undefined) {
                 await chrome.storage.local.remove(["secretSettings_customBackground"])
+                await chrome.storage.local.remove(["secretSettings_customBackgroundVideoPosition"])
             } else {
                 await chrome.storage.local.set({ secretSettings_customBackground: uploadedCustomBackground })
+                await chrome.storage.local.remove(["secretSettings_customBackgroundVideoPosition"])
             }
             if (secretSettingsBackgroundSelection.value !== "custom") {
                 await chrome.storage.local.remove(["secretSettings_customBackground"])
+                await chrome.storage.local.remove(["secretSettings_customBackgroundVideoPosition"])
             }
             await chrome.storage.local.set({ secretSettings_backgroundSelection: secretSettingsBackgroundSelection.value })
             await chrome.storage.local.set({ secretSettings_fontSelection: secretSettingsFontSelection.value })
