@@ -66,4 +66,4 @@ export const validBackgrounds = [ "custom", "seasonal", "bliss", "osx-tiger", "o
 export const validFonts = [ "azeret-mono", "sans-serif", "comic-relief", "ibm-plex-sans", "inconsolata", "inter", "jetbrains-mono", "lato", "lexend", "montserrat", "nunito", "poppins", "raleway", "roboto-mono", "rubik", "source-code-pro", "space-grotesk", "ubuntu" ]
 
 // DO NOT touch this unless you also change the version number. It should match the extension's version number and be a string.
-export const migrationVersion = "4.2"
+export const migrationVersion = "4.2.1"
