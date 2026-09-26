@@ -144,7 +144,7 @@ switch (selectedAction) {
 }
 
 console.log(`Loading contents of srcPreparedFolderManifest "${srcPreparedFolderManifest}`)
-const srcPreparedFolderManifestContent = (await import(srcPreparedFolderManifest, { with: { type: "json" } })).default
+const srcPreparedFolderManifestContent = (await import("file://" + srcPreparedFolderManifest, { with: { type: "json" } })).default
 
 if (selectedAction === "student" || selectedAction === "staff") {
     console.log(`Inserting version_name into srcPreparedFolderManifest "${srcPreparedFolderManifest}"`)
