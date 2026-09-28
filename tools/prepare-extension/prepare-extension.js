@@ -11,6 +11,7 @@ let sanityCounter = 0
 const srcFolder = join(import.meta.dirname, "..", "..", "src")
 const srcPreparedFolder = join(import.meta.dirname, "..", "..", "src.prepared")
 const srcPreparedFolderManifest = join(srcPreparedFolder, "manifest.json")
+const srcPreparedFolderManifestDev = join(srcPreparedFolder, "manifest.dev.json")
 const srcPreparedFolderManifestFirefoxStudent = join(srcPreparedFolder, "manifest.firefox.student.json")
 const srcPreparedFolderManifestFirefoxStaff = join(srcPreparedFolder, "manifest.firefox.staff.json")
 const srcPreparedFolderManifestStudent = join(srcPreparedFolder, "manifest.student.json")
@@ -19,14 +20,15 @@ const srcPreparedFolderInternalConfig = join(srcPreparedFolder, "internal-config
 const srcPreparedFolderInternalConfigStudent = join(srcPreparedFolder, "internal-config.student.json")
 const srcPreparedFolderInternalConfigStaff = join(srcPreparedFolder, "internal-config.staff.json")
 const srcPreparedFolderBuildInfo = join(srcPreparedFolder, "build-info.json")
+const srcPreparedFolderBuildInfoDev = join(srcPreparedFolder, "build-info.dev.json")
 
 function constructRevisionName() {
     let latestRev = ""
     let isDirty = false
-    console.log("Running \"git rev-parse --short HEAD\" to find HEAD's rev value")
+    console.log("Running \"git rev-parse --short HEAD\" to find HEAD's short rev value")
     try {
         latestRev = execSync(`git -C "${srcFolder}" rev-parse --short HEAD`, {encoding: "utf-8"}).trim()
-        console.log(`HEAD's rev value is ${latestRev}`)
+        console.log(`HEAD's short rev value is ${latestRev}`)
         if (/[0-9a-f]/.test(latestRev) === false) {
             throw Error("\"git rev-parse\" returned an invalid rev value!")
         }
@@ -52,6 +54,22 @@ function constructRevisionName() {
         return `${latestRev}-dirty`
     } else {
         return latestRev
+    }
+}
+
+function constructFullRevision() {
+    console.log("Running \"git rev-parse HEAD\" to find HEAD's full rev value")
+    try {
+        const latestRev = execSync(`git -C "${srcFolder}" rev-parse HEAD`, {encoding: "utf-8"}).trim()
+        console.log(`HEAD's full rev value is ${latestRev}`)
+        if (/[0-9a-f]/.test(latestRev) === false) {
+            throw Error("\"git rev-parse\" returned an invalid rev value!")
+        }
+        return latestRev
+    } catch (error) {
+        console.error(error)
+        console.log("Something went wrong while trying to run \"git rev-parse HEAD\". Assuming this is the non_git version.")
+        return "non_git"
     }
 }
 
@@ -144,7 +162,7 @@ switch (selectedAction) {
 }
 
 console.log(`Loading contents of srcPreparedFolderManifest "${srcPreparedFolderManifest}`)
-const srcPreparedFolderManifestContent = (await import(srcPreparedFolderManifest, { with: { type: "json" } })).default
+const srcPreparedFolderManifestContent = (await import("file://" + srcPreparedFolderManifest, { with: { type: "json" } })).default
 
 if (selectedAction === "student" || selectedAction === "staff") {
     console.log(`Inserting version_name into srcPreparedFolderManifest "${srcPreparedFolderManifest}"`)
@@ -157,15 +175,22 @@ console.log(`Creating srcPreparedFolderBuildInfo "${srcPreparedFolderBuildInfo}"
 const buildInfo = {
     version: srcPreparedFolderManifestContent.version,
     edition: selectedAction,
-    revision: constructRevisionName()
+    revision: constructRevisionName(),
+    fullRevision: constructFullRevision()
 }
 writeFileSync(srcPreparedFolderBuildInfo, JSON.stringify(buildInfo, null, 2))
+
+console.log(`Deleting srcPreparedFolderBuildInfoDev \"${srcPreparedFolderBuildInfoDev}\"`)
+rmSync(srcPreparedFolderBuildInfoDev)
 
 console.log(`Deleting srcPreparedFolderManifestStudent \"${srcPreparedFolderManifestStudent}\"`)
 rmSync(srcPreparedFolderManifestStudent)
 
 console.log(`Deleting srcPreparedFolderManifestStaff \"${srcPreparedFolderManifestStaff}\"`)
 rmSync(srcPreparedFolderManifestStaff)
+
+console.log(`Deleting srcPreparedFolderManifestDev \"${srcPreparedFolderManifestDev}\"`)
+rmSync(srcPreparedFolderManifestDev)
 
 console.log(`Deleting srcPreparedFolderManifestFirefoxStudent \"${srcPreparedFolderManifestFirefoxStudent}\"`)
 rmSync(srcPreparedFolderManifestFirefoxStudent)
