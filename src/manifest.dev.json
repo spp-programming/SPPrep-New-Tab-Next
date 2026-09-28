@@ -1,0 +1,26 @@
+{
+    "name": "SPP New Tab",
+    "version": "4.2",
+    "version_name": "4.2 (student, dev)",
+    "description": "A full rewrite of SPP New Tab.",
+    "homepage_url": "https://github.com/spp-programming/SPPrep-New-Tab-Next",
+    "icons": {
+      "16": "img/icons/extension/16.png",
+      "32": "img/icons/extension/32.png",
+      "48": "img/icons/extension/48.png",
+      "128": "img/icons/extension/128.png"
+    },
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "permissions": [
+      "storage"
+    ],
+    "options_page": "settings.html",
+    "chrome_url_overrides": {
+      "newtab": "index.html"
+    },
+    "incognito": "not_allowed",
+    "minimum_chrome_version": "144",
+    "manifest_version": 3
+}

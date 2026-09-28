@@ -4,6 +4,7 @@ export const currentTimeZone = Temporal.Now.timeZoneId()
 export const calendarApiKey = "AIzaSyD3GwU8oQO5OEgUO6DbwgdsaO8SShJYkQ8"
 export const calendarApiId = "144grand@gmail.com"
 export const internalConfigFile = "/internal-config.json"
+export const buildInfoFile = "/build-info.json"
 export const powerSchoolStudentURL = "https://spprep.powerschool.com/public/"
 export const powerSchoolTeacherURL = "https://spprep.powerschool.com/teachers/"
 export const contentElement = document.getElementById("content-element")
