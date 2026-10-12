@@ -1,3 +1,60 @@
+:root {
+    --maroon-brand-color: #880024;
+    --bell-schedule-red: #58151c;
+    --bell-schedule-red-darker: #2c0b0e;
+    --bell-schedule-green: #0a3622;
+    --bell-schedule-green-darker: #051b11;
+    --bell-schedule-orange: #653208;
+    --bell-schedule-orange-darker: #331904;
+    --bell-schedule-cyan: #055160;
+    --bell-schedule-cyan-darker: #032830;
+    --bell-schedule-card: #181818;
+}
+
 .bg-maroon-brand-color {
-    background-color: #880024;
+    background-color: var(--maroon-brand-color);
+}
+
+.bg-bell-schedule-red {
+    background-color: var(--bell-schedule-red) !important;
+}
+
+.bg-bell-schedule-red-darker {
+    background-color: var(--bell-schedule-red-darker) !important;
+}
+
+.bg-bell-schedule-green {
+    background-color: var(--bell-schedule-green) !important;
+}
+
+.bg-bell-schedule-green-darker {
+    background-color: var(--bell-schedule-green-darker) !important;
+}
+
+.bg-bell-schedule-orange {
+    background-color: var(--bell-schedule-orange) !important;
+}
+
+.bg-bell-schedule-orange-darker {
+    background-color: var(--bell-schedule-orange-darker) !important;
+}
+
+.bg-bell-schedule-cyan {
+    background-color: var(--bell-schedule-cyan) !important;
+}
+
+.bg-bell-schedule-cyan-darker {
+    background-color: var(--bell-schedule-cyan-darker) !important;
+}
+
+.bg-bell-schedule-card {
+    background-color: var(--bell-schedule-card);
+}
+
+.bg-bell-schedule-card > table > thead > tr > th {
+    background-color: var(--bell-schedule-card);
+}
+
+.bg-bell-schedule-card > table > tbody > tr > td {
+    background-color: var(--bell-schedule-card);
 }
