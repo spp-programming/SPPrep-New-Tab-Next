@@ -4,8 +4,8 @@
 .github-corner {
     position: sticky;
     float: right;
-    top: 56px;
-    z-index: 9999;
+    top: 58px;
+    z-index: 1;
 }
 #internal-config-mode-text {
     text-decoration-style: dotted;
