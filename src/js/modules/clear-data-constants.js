@@ -1,5 +1,5 @@
 "use strict"
 export const extensionDataClearedAlert = document.getElementById("extension-data-cleared-alert")
-export const clearEverythingModalButton = document.getElementById("clear-everything-modal-button")
-export const clearCloudModal = document.getElementById("clear-cloud-modal")
-export const clearCloudModalButton = document.getElementById("clear-cloud-modal-button")
+export const clearEverythingDialogButton = document.getElementById("clear-everything-dialog-button")
+export const clearCloudDialog = document.getElementById("clear-cloud-dialog")
+export const clearCloudDialogButton = document.getElementById("clear-cloud-dialog-button")

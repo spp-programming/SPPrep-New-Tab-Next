@@ -1,6 +1,7 @@
 "use strict"
-import { clearCloudModal, clearCloudModalButton, clearEverythingModalButton } from "./modules/clear-data-constants.js"
+import { clearCloudDialog, clearCloudDialogButton, clearEverythingDialogButton } from "./modules/clear-data-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
+import * as bootstrap from "./thirdparty/bootstrap.v6.bundle.min.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -28,13 +29,13 @@ async function clearCloudData() {
     }
 }
 
-clearEverythingModalButton.addEventListener("click", () => {
+clearEverythingDialogButton.addEventListener("click", () => {
     clearExtensionData()
 })
 
-clearCloudModalButton.addEventListener("click", async() => {
+clearCloudDialogButton.addEventListener("click", async() => {
     await clearCloudData()
-    bootstrap.Modal.getOrCreateInstance(clearCloudModal).hide()
+    bootstrap.Dialog.getOrCreateInstance(clearCloudDialog).hide()
 })
 
 handleFakeLinks()
