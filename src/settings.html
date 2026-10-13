@@ -11,208 +11,259 @@
             navigation: auto;
         }
     </style>
-    <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap.v6.min.css">
     <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./css/settings.css">
     <link rel="stylesheet" href="./css/colors.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg sticky-top bg-maroon-brand-color">
+    <nav class="navbar md:navbar-expand sticky-top bg-maroon-brand-color text-md">
         <div class="container-fluid">
-            <a class="navbar-brand fake-link" href="#">
+            <a class="navbar-brand fake-link text-lg" href="#">
                 <img src="./img/icons/extension/48.png" alt="SPP New Tab Logo" width="24" height="24" class="d-inline-block align-text-top">
                 SPP New Tab
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbar-drawer" aria-controls="navbar-drawer" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" aria-hidden="true"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar-content">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active fake-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="settings.html" aria-current="page"><i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span></a></li>
-                            <li><a class="dropdown-item" href="secret-settings.html"><i class="bi bi-file-lock" aria-hidden="true"></i> <span>Secret Settings</span></a></li>
-                            <li><a class="dropdown-item" href="clear-data.html"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear extension data</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="changelog.html"><i class="bi bi-megaphone" aria-hidden="true"></i> <span>What's New</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html"><i class="bi bi-info-circle" aria-hidden="true"></i> <span>About</span></a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                    <li class="nav-item" id="unsaved-changes-indicator" hidden>
-                        <div style="padding-top: 0.4rem; padding-bottom: 0.5rem; padding-right: 0.5rem;">
-                            <span class="badge rounded-pill text-bg-warning" data-bs-toggle="tooltip" title="Don't forget to save your changes by pressing the Save button at the bottom of the page."><i class="bi bi-circle" aria-hidden="true"></i> Unsaved changes!</span>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/spp-programming/SPPrep-New-Tab-Next/discussions" title="GitHub account required!" data-bs-toggle="tooltip"><i class="bi bi-send" aria-hidden="true"></i> <span>Send feedback</span></a>
-                    </li>
-                </ul>
-            </div>
+            <dialog class="drawer drawer-end" tabindex="-1" id="navbar-drawer" aria-labelledby="navbar-drawer-label">
+                <div class="drawer-header">
+                    <h5 class="drawer-title" id="navbar-drawer-label">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
+                </div>
+                <div class="drawer-body mb-2 md:mb-0">
+                    <ul class="nav navbar-nav me-auto">
+                        <li class="nav-item">
+                            <button class="nav-link active" type="button" data-bs-toggle="menu" aria-expanded="false">
+                                <span>
+                                    <i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span>
+                                </span>
+                            </button>
+                            <div class="menu">
+                                <a class="menu-item" href="settings.html"><i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span></a>
+                                <a class="menu-item" href="secret-settings.html"><i class="bi bi-file-lock" aria-hidden="true"></i> <span>Secret Settings</span></a>
+                                <a class="menu-item" href="clear-data.html"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear extension data</span></a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="changelog.html">
+                                <span>
+                                    <i class="bi bi-megaphone" aria-hidden="true"></i> <span>What's New</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">
+                                <span>
+                                    <i class="bi bi-info-circle" aria-hidden="true"></i> <span>About</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ms-auto">
+                        <li class="nav-item" id="unsaved-changes-indicator" hidden>
+                            <div style="padding-top: 0.4rem; padding-bottom: 0.5rem; padding-right: 0.5rem;">
+                                <span class="badge rounded-pill theme-warning" data-bs-toggle="tooltip" title="Don't forget to save your changes by pressing the Save button at the bottom of the page."><i class="bi bi-circle" aria-hidden="true"></i> Unsaved changes!</span>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/spp-programming/SPPrep-New-Tab-Next/discussions" title="GitHub account required!" data-bs-toggle="tooltip">
+                                <span>
+                                    <i class="bi bi-send" aria-hidden="true"></i> <span>Send feedback</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </dialog>
         </div>
     </nav>
-    <div class="loading-overlay-content">
-        <div class="spinner-border" role="status"></div>
+    <div class="loading-overlay-content text-md">
+        <div class="spinner-border" style="width: var(--bs-font-size-2xl); height: var(--bs-font-size-2xl); --bs-spinner-border-width: 0.25em;" role="status"></div>
         <span class="h1">&nbsp;Loading...</span>
     </div>
-    <div class="content" hidden>
+    <div class="content text-md" hidden>
         <h1><i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span></h1>
-        <div class="alert alert-warning" role="alert">
-            <h3>Remember</h3>
-            Don't forget to save your changes by pressing the <i class="bi bi-floppy" aria-hidden="true"></i> Save button at the bottom of the page. If you don't want to save them, you can navigate away from this page or close this tab.
+        <div class="alert theme-warning" role="alert">
+            <span>
+                <h3>Remember</h3>
+                <span>Don't forget to save your changes by pressing the <i class="bi bi-floppy" aria-hidden="true"></i> Save button at the bottom of the page. If you don't want to save them, you can navigate away from this page or close this tab.</span>
+            </span>
         </div>
         <hr>
 
-        <h4>General Layout</h4>
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="enable-split-layout-switch" aria-describedby="enable-split-layout-switch-help" autocomplete="off">
-            <label class="form-check-label" for="enable-split-layout-switch">Use the split layout</label>
+        <h3>General Layout</h3>
+        <div class="form-field mt-4">
+            <div class="switch">
+                <input type="checkbox" role="switch" id="enable-split-layout-switch" aria-describedby="enable-split-layout-switch-help" autocomplete="off">
+            </div>
+            <div class="form-field-content">
+                <label for="enable-split-layout-switch">Use the split layout</label>
+            </div>
         </div>
-        <p class="form-text" id="enable-split-layout-switch-help">The staff version of the extension uses the split layout by default, while the student version uses the stacked layout by default. You can preview what the <a href="./index.html?preview-layout=split" target="_blank">split</a> and <a href="./index.html?preview-layout=stacked" target="_blank">stacked</a> layouts will look like.</p>
+        <small class="form-text mt-2" id="enable-split-layout-switch-help">The staff version of the extension uses the split layout by default, while the student version uses the stacked layout by default. You can preview what the <a href="./index.html?preview-layout=split" target="_blank">split</a> and <a href="./index.html?preview-layout=stacked" target="_blank">stacked</a> layouts will look like.</small>
         <hr>
 
-        <h4>Buttons</h4>
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="new-bell-schedule-button-switch" aria-describedby="new-bell-schedule-button-switch-help" autocomplete="off">
-            <label class="form-check-label" for="new-bell-schedule-button-switch">Use the new bell schedule button location</label>
+        <h3>Buttons</h3>
+        <div class="form-field mt-4">
+            <div class="switch">
+                <input type="checkbox" role="switch" id="new-bell-schedule-button-switch" aria-describedby="new-bell-schedule-button-switch-help" autocomplete="off">
+            </div>
+            <div class="form-field-content">
+                <label for="new-bell-schedule-button-switch">Use the new bell schedule button location</label>
+            </div>
         </div>
-        <p class="form-text" id="new-bell-schedule-button-switch-help">After several complaints, I have made the old bell schedule button (grouped in with the shortcuts) the default. If you preferred the "new" location (at the bottom right) you can enable this option.</p>
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="hide-school-calendar-switch" aria-describedby="hide-school-calendar-switch-help" autocomplete="off">
-            <label class="form-check-label" for="hide-school-calendar-switch">Hide the School Calendar button</label>
+        <small class="form-text mt-2" id="new-bell-schedule-button-switch-help">After several complaints, I have made the old bell schedule button (grouped in with the shortcuts) the default. If you preferred the "new" location (at the bottom right) you can enable this option.</small>
+        <div class="form-field mt-5">
+            <div class="switch">
+                <input type="checkbox" role="switch" id="hide-school-calendar-switch" aria-describedby="hide-school-calendar-switch-help" autocomplete="off">
+            </div>
+            <div class="form-field-content">
+                <label for="hide-school-calendar-switch">Hide the School Calendar button</label>
+            </div>
         </div>
-        <p class="form-text" id="hide-school-calendar-switch-help">If you are subscribed to the School Calendar in your Google Calendar, the dedicated School Calendar button becomes redundant. So you can disable it here if you want.<br>To integrate the school calendar with your own Google Calendar, <a href="https://calendar.google.com/calendar/r?cid=144grand@gmail.com&cid=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&cid=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&cid=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com">click here to subscribe</a>.</p>
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="hide-club-hub-switch" aria-describedby="hide-club-hub-switch-help" autocomplete="off">
-            <label class="form-check-label" for="hide-club-hub-switch">Hide the Club Hub button</label>
+        <small class="form-text mt-2" id="hide-school-calendar-switch-help">If you are subscribed to the School Calendar in your Google Calendar, the dedicated School Calendar button becomes redundant. So you can disable it here if you want.<br>To integrate the school calendar with your own Google Calendar, <a href="https://calendar.google.com/calendar/r?cid=144grand@gmail.com&cid=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&cid=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&cid=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com">click here to subscribe</a>.</small>
+        <div class="form-field mt-5">
+            <div class="switch">
+                <input type="checkbox" role="switch" id="hide-club-hub-switch" aria-describedby="hide-club-hub-switch-help" autocomplete="off">
+            </div>
+            <div class="form-field-content">
+                <label for="hide-club-hub-switch">Hide the Club Hub button</label>
+            </div>
         </div>
-        <p class="form-text" id="hide-club-hub-switch-help">This option hides the Club Hub button that was added in version 4.0, in case you didn't want it.</p>
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="enable-custom-links-switch" aria-describedby="enable-custom-links-switch-help" autocomplete="off">
-            <label class="form-check-label" for="enable-custom-links-switch">Use custom links</label>
+        <small class="form-text mt-2" id="hide-club-hub-switch-help">This option hides the Club Hub button that was added in version 4.0, in case you didn't want it.</small>
+        <div class="form-field mt-5">
+            <div class="switch">
+                <input type="checkbox" role="switch" id="enable-custom-links-switch" aria-describedby="enable-custom-links-switch-help" autocomplete="off">
+            </div>
+            <div class="form-field-content">
+                <label for="enable-custom-links-switch">Use custom links</label>
+            </div>
         </div>
-        <p class="form-text" id="enable-custom-links-switch-help">Custom links allow you to add your own buttons to SPP New Tab, linking you to your favorite sites. You can add up to three.</p>
-        <div id="enable-custom-links-switch-alert-wrapper"></div>
+        <small class="form-text mt-2" id="enable-custom-links-switch-help">Custom links allow you to add your own buttons to SPP New Tab, linking you to your favorite sites. You can add up to three.</small>
+        <div class="mt-5" id="enable-custom-links-switch-alert-wrapper"></div>
         <div id="custom-link-cards" hidden>
-            <div class="mb-3" id="custom-link-1-card">
+            <div class="mb-5" id="custom-link-1-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Custom link #1</h5>
+                        <h4 class="card-title">Custom link #1</h4>
                         <div class="mb-3">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-1-switch" autocomplete="off">
-                                <label class="form-check-label" for="custom-link-1-switch">Enable custom link #1</label>
+                            <div class="form-field">
+                                <div class="switch">
+                                    <input type="checkbox" role="switch" id="custom-link-1-switch" autocomplete="off">
+                                </div>
+                                <label for="custom-link-1-switch">Enable custom link #1</label>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <p><strong>Required fields are marked with an asterisk (<span class="text-danger">*</span>).</strong> They are only required when this custom link is enabled.</p>
+                            <span><strong>Required fields are marked with an asterisk (<span class="fg-danger">*</span>).</strong> They are only required when this custom link is enabled.</span>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Icon</label>
                             <br>
-                            <a class="btn bg-white p-1 border-0 rounded disabled" aria-disabled="true" tabindex="-1" role="button" id="custom-link-1-icon-uploader" title="Click to upload an icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-describedby="custom-link-1-icon-uploader-help">
+                            <a class="btn bg-white p-4 border-0 rounded disabled" aria-disabled="true" tabindex="-1" role="button" id="custom-link-1-icon-uploader" title="Click to upload an icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-describedby="custom-link-1-icon-uploader-help">
                                 <div class="p-3 bg-white rounded">
                                     <img src="./img/icons/globe2.svg" alt="" aria-hidden="true" class="rounded icon-uploader">
                                 </div>
                             </a>
                             <input type="file" id="custom-link-1-icon-uploader-real" accept="image/*" autocomplete="off" hidden>
-                            <div id="custom-link-1-icon-uploader-help" class="form-text">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link" id="custom-link-1-monogram-link">use a monogram (for easier identification)</a> or <a href="#" class="fake-link text-danger" id="custom-link-1-icon-resetter">reset the icon to the default one</a>.</span></div>
+                            <br>
+                            <small id="custom-link-1-icon-uploader-help" class="form-text mt-2">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link" id="custom-link-1-monogram-link">use a monogram (for easier identification)</a> or <a href="#" class="fake-link fg-danger" id="custom-link-1-icon-resetter">reset the icon to the default one</a>.</span></small>
                             <div id="custom-link-1-icon-uploader-alert-wrapper"></div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-1-name-input" class="form-label">Name</label>
                             <input type="text" placeholder="Default name: Custom link #1" class="form-control" id="custom-link-1-name-input" aria-describedby="custom-link-1-name-input-help" autocomplete="off" disabled>
-                            <div id="custom-link-1-name-input-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
+                            <small id="custom-link-1-name-input-help" class="form-text mt-2">Enter the name of this custom link. It will be displayed when you hover over the button.</small>
                         </div>
                         <div class="mb-3">
-                            <label for="custom-link-1-url-input" class="form-label">URL <span class="text-danger">*</span></label>
+                            <label for="custom-link-1-url-input" class="form-label">URL <span class="fg-danger">*</span></label>
                             <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-1-url-input" aria-describedby="custom-link-1-url-input-help" autocomplete="off" disabled>
-                            <div id="custom-link-1-url-input-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
+                            <small id="custom-link-1-url-input-help" class="form-text mt-2">Enter the URL of this custom link. This is where the button leads to when you click on it.</small>
                             <div id="custom-link-1-url-input-alert-wrapper"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mb-3" id="custom-link-2-card">
+            <div class="mb-5" id="custom-link-2-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Custom link #2</h5>
+                        <h4 class="card-title">Custom link #2</h4>
                         <div class="mb-3">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-2-switch" autocomplete="off">
-                                <label class="form-check-label" for="custom-link-2-switch">Enable custom link #2</label>
+                            <div class="form-field">
+                                <div class="switch">
+                                    <input type="checkbox" role="switch" id="custom-link-2-switch" autocomplete="off">
+                                </div>
+                                <label for="custom-link-2-switch">Enable custom link #2</label>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <p><strong>Required fields are marked with an asterisk (<span class="text-danger">*</span>).</strong> They are only required when this custom link is enabled.</p>
+                            <span><strong>Required fields are marked with an asterisk (<span class="fg-danger">*</span>).</strong> They are only required when this custom link is enabled.</span>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Icon</label>
                             <br>
-                            <a class="btn bg-white p-1 border-0 rounded disabled" aria-disabled="true" tabindex="-1" role="button" id="custom-link-2-icon-uploader" title="Click to upload an icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-describedby="custom-link-2-icon-uploader-help">
+                            <a class="btn bg-white p-4 border-0 rounded disabled" aria-disabled="true" tabindex="-1" role="button" id="custom-link-2-icon-uploader" title="Click to upload an icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-describedby="custom-link-2-icon-uploader-help">
                                 <div class="p-3 bg-white rounded">
                                     <img src="./img/icons/globe2.svg" alt="" aria-hidden="true" class="rounded icon-uploader">
                                 </div>
                             </a>
                             <input type="file" id="custom-link-2-icon-uploader-real" accept="image/*" autocomplete="off" hidden>
-                            <div id="custom-link-2-icon-uploader-help" class="form-text">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link" id="custom-link-2-monogram-link">use a monogram (for easier identification)</a> or <a href="#" class="fake-link text-danger" id="custom-link-2-icon-resetter">reset the icon to the default one</a>.</span></div>
+                            <br>
+                            <small id="custom-link-2-icon-uploader-help" class="form-text mt-2">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link" id="custom-link-2-monogram-link">use a monogram (for easier identification)</a> or <a href="#" class="fake-link fg-danger" id="custom-link-2-icon-resetter">reset the icon to the default one</a>.</span></small>
                             <div id="custom-link-2-icon-uploader-alert-wrapper"></div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-2-name-input" class="form-label">Name</label>
                             <input type="text" placeholder="Default name: Custom link #2" class="form-control" id="custom-link-2-name-input" aria-describedby="custom-link-2-name-input-help" autocomplete="off" disabled>
-                            <div id="custom-link-2-name-input-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
+                            <small id="custom-link-2-name-input-help" class="form-text mt-2">Enter the name of this custom link. It will be displayed when you hover over the button.</small>
                         </div>
                         <div class="mb-3">
-                            <label for="custom-link-2-url-input" class="form-label">URL <span class="text-danger">*</span></label>
+                            <label for="custom-link-2-url-input" class="form-label">URL <span class="fg-danger">*</span></label>
                             <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-2-url-input" aria-describedby="custom-link-2-url-input-help" autocomplete="off" disabled>
-                            <div id="custom-link-2-url-input-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
+                            <small id="custom-link-2-url-input-help" class="form-text mt-2">Enter the URL of this custom link. This is where the button leads to when you click on it.</small>
                             <div id="custom-link-2-url-input-alert-wrapper"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mb-3" id="custom-link-3-card">
+            <div class="mb-5" id="custom-link-3-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Custom link #3</h5>
+                        <h4 class="card-title">Custom link #3</h4>
                         <div class="mb-3">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="custom-link-3-switch" autocomplete="off">
-                                <label class="form-check-label" for="custom-link-3-switch">Enable custom link #3</label>
+                            <div class="form-field">
+                                <div class="switch">
+                                    <input type="checkbox" role="switch" id="custom-link-3-switch" autocomplete="off">
+                                </div>
+                                <label for="custom-link-3-switch">Enable custom link #3</label>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <p><strong>Required fields are marked with an asterisk (<span class="text-danger">*</span>).</strong> They are only required when this custom link is enabled.</p>
+                            <span><strong>Required fields are marked with an asterisk (<span class="fg-danger">*</span>).</strong> They are only required when this custom link is enabled.</span>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Icon</label>
                             <br>
-                            <a class="btn bg-white p-1 border-0 rounded disabled" aria-disabled="true" tabindex="-1" role="button" id="custom-link-3-icon-uploader" title="Click to upload an icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-describedby="custom-link-3-icon-uploader-help">
+                            <a class="btn bg-white p-4 border-0 rounded disabled" aria-disabled="true" tabindex="-1" role="button" id="custom-link-3-icon-uploader" title="Click to upload an icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-describedby="custom-link-3-icon-uploader-help">
                                 <div class="p-3 bg-white rounded">
                                     <img src="./img/icons/globe2.svg" alt="" aria-hidden="true" class="rounded icon-uploader">
                                 </div>
                             </a>
                             <input type="file" id="custom-link-3-icon-uploader-real" accept="image/*" autocomplete="off" hidden>
-                            <div id="custom-link-3-icon-uploader-help" class="form-text">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link" id="custom-link-3-monogram-link">use a monogram (for easier identification)</a> or <a href="#" class="fake-link text-danger" id="custom-link-3-icon-resetter">reset the icon to the default one</a>.</span></div>
+                            <br>
+                            <small id="custom-link-3-icon-uploader-help" class="form-text mt-2">Click on the button above to upload an icon. The icon you select will be previewed inside the button so you can see how it will look. The maximum file size is 512KB (512000 bytes).<br><span hidden>You can also <a href="#" class="fake-link" id="custom-link-3-monogram-link">use a monogram (for easier identification)</a> or <a href="#" class="fake-link fg-danger" id="custom-link-3-icon-resetter">reset the icon to the default one</a>.</span></small>
                             <div id="custom-link-3-icon-uploader-alert-wrapper"></div>
                         </div>
                         <div class="mb-3">
                             <label for="custom-link-3-name-input" class="form-label">Name</label>
                             <input type="text" placeholder="Default name: Custom link #3" class="form-control" id="custom-link-3-name-input" aria-describedby="custom-link-3-name-input-help" autocomplete="off" disabled>
-                            <div id="custom-link-3-name-input-help" class="form-text">Enter the name of this custom link. It will be displayed when you hover over the button.</div>
+                            <small id="custom-link-3-name-input-help" class="form-text mt-2">Enter the name of this custom link. It will be displayed when you hover over the button.</small>
                         </div>
                         <div class="mb-3">
-                            <label for="custom-link-3-url-input" class="form-label">URL <span class="text-danger">*</span></label>
+                            <label for="custom-link-3-url-input" class="form-label">URL <span class="fg-danger">*</span></label>
                             <input type="url" placeholder="Example: https://example.com" class="form-control" id="custom-link-3-url-input" aria-describedby="custom-link-3-url-input-help" autocomplete="off" disabled>
-                            <div id="custom-link-3-url-input-help" class="form-text">Enter the URL of this custom link. This is where the button leads to when you click on it.</div>
+                            <small id="custom-link-3-url-input-help" class="form-text mt-2">Enter the URL of this custom link. This is where the button leads to when you click on it.</small>
                             <div id="custom-link-3-url-input-alert-wrapper"></div>
                         </div>
                     </div>
@@ -221,42 +272,43 @@
         </div>
         <hr>
 
-        <h4>Clock</h4>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-12hour" aria-describedby="clock-mode-radio-help" autocomplete="off" checked>
-            <label class="form-check-label" for="clock-mode-radio-12hour">
+        <h3>Clock</h3>
+        <div class="form-field mb-2">
+            <input class="radio" type="radio" name="clock-mode-radio" id="clock-mode-radio-12hour" aria-describedby="clock-mode-radio-help" autocomplete="off" checked>
+            <label for="clock-mode-radio-12hour">
                 12-hour (AM/PM hidden, default)
             </label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-ampm" aria-describedby="clock-mode-radio-help" autocomplete="off">
-            <label class="form-check-label" for="clock-mode-radio-ampm">
+        <div class="form-field mb-2">
+            <input class="radio" type="radio" name="clock-mode-radio" id="clock-mode-radio-ampm" aria-describedby="clock-mode-radio-help" autocomplete="off">
+            <label for="clock-mode-radio-ampm">
                 12-hour (AM/PM visible)
             </label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="clock-mode-radio" id="clock-mode-radio-24hour" aria-describedby="clock-mode-radio-help" autocomplete="off">
-            <label class="form-check-label" for="clock-mode-radio-24hour">
+        <div class="form-field mb-2">
+            <input class="radio" type="radio" name="clock-mode-radio" id="clock-mode-radio-24hour" aria-describedby="clock-mode-radio-help" autocomplete="off">
+            <label for="clock-mode-radio-24hour">
                 24-hour
             </label>
         </div>
-        <p class="form-text" id="clock-mode-radio-help">Change how the clock is displayed.</p>
+        <small class="form-text mt-2" id="clock-mode-radio-help">Change how the clock is displayed.</small>
         <hr>
-        <h4><i class="bi bi-cloud" aria-hidden="true"></i> Cloud</h4>
+        <h3><i class="bi bi-cloud" aria-hidden="true"></i> Cloud</h3>
         <p>Cloud settings are managed separately from local settings, so you need to use the buttons below to sync them.</p>
         <p>When you save to the cloud, all changes on this page will be uploaded, even though you haven't saved them locally yet.</p>
-        <p class="text-danger"><strong>IMPORTANT!</strong> Loading from the cloud will OVERWRITE your local settings.</p>
-        <button class="btn btn-primary" id="save-cloud-button"><i class="bi bi-cloud-arrow-up" aria-hidden="true"></i> <span>Save to cloud</span></button>
-        <button class="btn btn-danger" id="load-cloud-button"><i class="bi bi-cloud-arrow-down" aria-hidden="true"></i> <span>Load from cloud</span></button>
-        <p class="form-text"><strong>Custom icons won't be saved to the cloud.</strong> Chrome/Firefox sync needs to be on for cloud settings to work.</p>
+        <p class="fg-danger"><strong>IMPORTANT!</strong> Loading from the cloud will OVERWRITE your local settings.</p>
+        <button class="btn-solid theme-primary" id="save-cloud-button"><i class="bi bi-cloud-arrow-up" aria-hidden="true"></i> <span>Save to cloud</span></button>
+        <button class="btn-solid theme-danger" id="load-cloud-button"><i class="bi bi-cloud-arrow-down" aria-hidden="true"></i> <span>Load from cloud</span></button>
+        <br>
+        <small class="form-text mt-2"><strong>Custom icons won't be saved to the cloud.</strong> Chrome/Firefox sync needs to be on for cloud settings to work.</small>
         <div id="save-cloud-alert-wrapper"></div>
         <hr>
         <div class="mb-3">
-            <button class="btn btn-primary" id="save-button"><i class="bi bi-floppy" aria-hidden="true"></i> <span>Save</span></button>
-            <div class="form-text" id="save-button-help">The extension will be reloaded once you save. Any other new tabs that are open will load into Chrome's default one, you can close them or press back when they are focused to get back to SPP New Tab.</div>
+            <button class="btn-solid theme-primary" id="save-button"><i class="bi bi-floppy" aria-hidden="true"></i> <span>Save</span></button>
+            <br>
+            <small class="form-text mt-2" id="save-button-help">The extension will be reloaded once you save. Any other new tabs that are open will load into Chrome's default one, you can close them or press back when they are focused to get back to SPP New Tab.</small>
         </div>
     </div>
-    <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
     <script type="module" src="./js/settings.js"></script>
 </body>
 </html>
