@@ -6,69 +6,89 @@
     <meta name="color-scheme" content="dark">
     <title>SPP New Tab | What's New</title>
     <link rel="preload" href="./fonts/bootstrap-icons/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap.v6.min.css">
     <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./css/changelog.css">
     <link rel="stylesheet" href="./css/colors.css">
 </head>
-<body>
-    <nav class="navbar navbar-expand-md sticky-top bg-maroon-brand-color">
+<body class="text-md">
+    <nav class="navbar md:navbar-expand sticky-top bg-maroon-brand-color text-md">
         <div class="container-fluid">
-            <a class="navbar-brand fake-link" href="#">
+            <a class="navbar-brand fake-link text-lg" href="#">
                 <img src="./img/icons/extension/48.png" alt="SPP New Tab Logo" width="24" height="24" class="d-inline-block align-text-top">
                 SPP New Tab
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbar-drawer" aria-controls="navbar-drawer" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" aria-hidden="true"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar-content">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle fake-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span></a></li>
-                            <li><a class="dropdown-item" href="secret-settings.html"><i class="bi bi-file-lock" aria-hidden="true"></i> <span>Secret Settings</span></a></li>
-                            <li><a class="dropdown-item" href="clear-data.html"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear extension data</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="changelog.html"><i class="bi bi-megaphone" aria-hidden="true"></i> <span>What's New</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html"><i class="bi bi-info-circle" aria-hidden="true"></i> <span>About</span></a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/spp-programming/SPPrep-New-Tab-Next/discussions" title="GitHub account required!" data-bs-toggle="tooltip"><i class="bi bi-send" aria-hidden="true"></i> <span>Send feedback</span></a>
-                    </li>
-                </ul>
-            </div>
+            <dialog class="drawer drawer-end" tabindex="-1" id="navbar-drawer" aria-labelledby="navbar-drawer-label">
+                <div class="drawer-header">
+                    <h5 class="drawer-title" id="navbar-drawer-label">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
+                </div>
+                <div class="drawer-body mb-2 md:mb-0">
+                    <ul class="nav navbar-nav me-auto">
+                        <li class="nav-item">
+                            <button class="nav-link" type="button" data-bs-toggle="menu" aria-expanded="false">
+                                <span>
+                                    <i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span>
+                                </span>
+                            </button>
+                            <div class="menu">
+                                <a class="menu-item" href="settings.html"><i class="bi bi-gear" aria-hidden="true"></i> <span>Settings</span></a>
+                                <a class="menu-item" href="secret-settings.html"><i class="bi bi-file-lock" aria-hidden="true"></i> <span>Secret Settings</span></a>
+                                <a class="menu-item" href="clear-data.html"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear extension data</span></a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="changelog.html">
+                                <span>
+                                    <i class="bi bi-megaphone" aria-hidden="true"></i> <span>What's New</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">
+                                <span>
+                                    <i class="bi bi-info-circle" aria-hidden="true"></i> <span>About</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/spp-programming/SPPrep-New-Tab-Next/discussions" title="GitHub account required!" data-bs-toggle="tooltip">
+                                <span>
+                                    <i class="bi bi-send" aria-hidden="true"></i> <span>Send feedback</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </dialog>
         </div>
     </nav>
-    <div class="content">
+    <div class="content text-md">
         <h1><i class="bi bi-megaphone" aria-hidden="true"></i> <span>What's New</span></h1>
-        <div class="alert alert-info" role="alert">
+        <div class="alert theme-info mt-4" role="alert">
             Last updated as of version 4.2.1. This page reflects all changes made up to the currently installed version, but not newer ones.
             <br>
             If you're looking for an update to a newer version, you can restart your device (at least on school chromebooks) if you don't want to wait around for an automatic update.
         </div>
         <hr>
-        <div class="alert alert-primary" role="alert">
-            If you are seeing a new "footer" below SPP New Tab (with the "Customize Chrome" button), <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Disabling-Chrome's-default-footer">here's how to turn that off</a>.
+        <div class="alert theme-primary mb-5" role="alert">
+            <span>If you are seeing a new "footer" below SPP New Tab (with the "Customize Chrome" button), <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Disabling-Chrome's-default-footer">here's how to turn that off</a>.</span>
         </div>
         <h3>Version 4.2 (Latest, installed version)</h3>
         <strong>Despite being a minor release, this release is much larger in scope compared to other minor releases. It was also released sooner than expected because of the bell schedule change.</strong>
         <p>🎉 New features:</p>
         <ul>
             <li>🆕 Google product icons (Drive, Gmail, Calendar) have been updated to the current ones.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🎆 Added Missing Texture background.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 📼 Videos can now be used as a custom background.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ⏯️ When you pause a video background, your pause state and position is remembered.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 📝 Added nine new fonts.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🔐 The passcode entry field now scrolls automatically.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 🎆 Added Missing Texture background.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 📼 Videos can now be used as a custom background.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> ⏯️ When you pause a video background, your pause state and position is remembered.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 📝 Added nine new fonts.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 🔐 The passcode entry field now scrolls automatically.</li>
             <li>🔔 The bell schedule button has been moved back with the rest of the shortcuts. If you preferred when it was in the bottom right corner, you can change this in Settings.</li>
             <li>💁 A tour of the basic features is now available. You can find it in the <i class="bi bi-list" aria-hidden="true"></i> Menu at the top left when you're on a new tab.</li>
             <li>☁️ Settings can now be stored in the cloud (using Chrome/Firefox sync).</li>
@@ -95,7 +115,7 @@
         <p>✅ Fixed small bugs:</p>
         <ul>
             <li>🚪 The "Hide Club Hub button" and custom link name inputs in Settings now trigger the unload handler</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ↩️ An error is now shown in the passcode modal when you get it wrong, like it did in version 3.x.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> ↩️ An error is now shown in the passcode modal when you get it wrong, like it did in version 3.x.</li>
             <li>🎞️ Custom button images are no longer cut off when using images with a non-1:1 aspect ratio.</li>
         </ul>
         <h3>Version 4.1 (Previous version)</h3>
@@ -109,7 +129,7 @@
                     <li>👉 It can be accessed from the extension popup (by clicking on the extension in the toolbar) and clicking on "Collect support data"</li>
                 </ul>
             </li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🌈 The gradient color (in the stacked layout) can now be turned off.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 🌈 The gradient color (in the stacked layout) can now be turned off.</li>
         </ul>
         <p>🧑‍💻 Behind the scenes:</p>
         <ul>
@@ -133,9 +153,9 @@
                     <li>👉 Used by default in the staff version, but not in the student version. The layout type can be switched on both versions of the extension.</li>
                 </ul>
             </li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ⚙️ Secret Settings is now a dedicated page.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 📤 You can now upload a custom background in Secret Settings.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🔀 Rickroll background has been replaced with one that cycles through colors</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> ⚙️ Secret Settings is now a dedicated page.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 📤 You can now upload a custom background in Secret Settings.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 🔀 Rickroll background has been replaced with one that cycles through colors</li>
             <li>
                 📦 The "What's New" and "Bell Schedule" buttons are now smaller and have been moved to the bottom corners.
                 <ul>
@@ -177,7 +197,7 @@
         <p>🎉 New features:</p>
         <ul>
             <li>🔄 There is now a loading spinner (because the page doesn't load instantly)</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🎆 Added rickroll, which automatically triggers on April 1st</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 🎆 Added rickroll, which automatically triggers on April 1st</li>
         </ul>
         <hr>
         <h3>Version 3.1 (Previous previous previous previous previous version)</h3>
@@ -186,15 +206,15 @@
         <ul>
             <li>🥞 Buttons now stack up more neatly as needed</li>
             <li>↔️ Added padding to this changelog page.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ↕️ Error on passcode screen looks better.</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> 🎮 Start/Select icon on passcode screen was changed. (The passcode is still the same)</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> ↕️ Error on passcode screen looks better.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> 🎮 Start/Select icon on passcode screen was changed. (The passcode is still the same)</li>
         </ul>
         <p class="secret-item" hidden>🎉 New features:</p>
         <ul class="secret-item" hidden>
-            <li><span class="badge rounded-pill text-bg-warning">Secret!</span> 🆕 Added this secret changelog page.</li>
-            <li><span class="badge rounded-pill text-bg-warning">Secret!</span> 🎆 Added four OS X wallpapers.</li>
-            <li><span class="badge rounded-pill text-bg-warning">Secret!</span> ✏️ Added font previewing in the secret settings.</li>
-            <li><span class="badge rounded-pill text-bg-warning">Secret!</span> 📝 Background preview now has a description for each picture.</li>
+            <li><span class="badge rounded-pill theme-warning">Secret!</span> 🆕 Added this secret changelog page.</li>
+            <li><span class="badge rounded-pill theme-warning">Secret!</span> 🎆 Added four OS X wallpapers.</li>
+            <li><span class="badge rounded-pill theme-warning">Secret!</span> ✏️ Added font previewing in the secret settings.</li>
+            <li><span class="badge rounded-pill theme-warning">Secret!</span> 📝 Background preview now has a description for each picture.</li>
         </ul>
         <p>🧑‍💻 Behind the scenes:</p>
         <ul>
@@ -229,13 +249,12 @@
             <li>🗓️ Added Google Calendar button (separate from school calendar)</li>
             <li>♿️ Accessibility improvements</li>
             <li>❄️ New Fall/Winter background</li>
-            <li class="secret-item" hidden><span class="badge rounded-pill text-bg-warning">Secret!</span> ⚙️ Added secret settings functionality.</li>
+            <li class="secret-item" hidden><span class="badge rounded-pill theme-warning">Secret!</span> ⚙️ Added secret settings functionality.</li>
         </ul>
         <hr>
         <h3>Version 2.0 (and below)</h3>
         <strong>These versions predate the changelog feature.</strong>
     </div>
-    <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
     <script type="module" src="./js/changelog.js"></script>
 </body>
 </html>
