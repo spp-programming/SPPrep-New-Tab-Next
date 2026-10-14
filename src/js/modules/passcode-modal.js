@@ -1,13 +1,14 @@
 "use strict"
-import { passcodeModal, passcodeModalInput, passcodeModalInputClearButton, passcodeModalControllerButtons, passcodeModalVerifyButton, passcodeModalPasscode, passcodeModalTitle, passcodeModalBody, passcodeModalAlertWrapper } from "./global-constants.js"
-const passcodeModalBS = new bootstrap.Modal(passcodeModal)
+import * as bootstrap from "../thirdparty/bootstrap.bundle.min.js"
+import { passcodeDialog, passcodeDialogInput, passcodeDialogInputClearButton, passcodeDialogControllerButtons, passcodeDialogVerifyButton, passcodeDialogPasscode, passcodeDialogTitle, passcodeDialogBody, passcodeDialogAlertWrapper } from "./global-constants.js"
+const passcodeDialogBS = new bootstrap.Dialog(passcodeDialog)
 
-export async function openPasscodeModal() {
+export async function openPasscodeDialog() {
     const secretSettingsVisible = (await chrome.storage.local.get())["secretSettingsVisible"]
     if (secretSettingsVisible === true) {
         showSecretSettingsContent()
     }
-    passcodeModalBS.show()
+    passcodeDialogBS.show()
 }
 
 export async function enableSecretSettings() {
@@ -15,34 +16,34 @@ export async function enableSecretSettings() {
 }
 
 function showSecretSettingsContent() {
-    passcodeModalTitle.innerText = "Secret Settings"
-    passcodeModalBody.innerHTML = "<h2>Secret Settings are enabled!</h2><p>They have been moved to a dedicated page.<br><a href=\"./secret-settings.html\">Check it out</a>.</p>"
-    passcodeModalVerifyButton.hidden = true
+    passcodeDialogTitle.innerText = "Secret Settings"
+    passcodeDialogBody.innerHTML = "<h2>Secret Settings are enabled!</h2><p>They have been moved to a dedicated page.<br><a href=\"./secret-settings.html\">Check it out</a>.</p>"
+    passcodeDialogVerifyButton.hidden = true
 }
 
-passcodeModal.addEventListener("shown.bs.modal", () => {
+passcodeDialog.addEventListener("shown.bs.dialog", () => {
     console.log("resizing image map...")
     imageMapResize()
 })
 
-Array.from(passcodeModalControllerButtons).forEach(element => {
+Array.from(passcodeDialogControllerButtons).forEach(element => {
     element.addEventListener("click", () => {
-        passcodeModalInput.value += element.dataset.buttonCode + " "
-        passcodeModalInput.scrollLeft = passcodeModalInput.scrollWidth
+        passcodeDialogInput.value += element.dataset.buttonCode + " "
+        passcodeDialogInput.scrollLeft = passcodeDialogInput.scrollWidth
     })
 })
 
-passcodeModalInputClearButton.addEventListener("click", () => {
-    passcodeModalInput.value = ""
+passcodeDialogInputClearButton.addEventListener("click", () => {
+    passcodeDialogInput.value = ""
 })
 
-passcodeModalVerifyButton.addEventListener("click", () => {
-    if (passcodeModalInput.value === passcodeModalPasscode) {
+passcodeDialogVerifyButton.addEventListener("click", () => {
+    if (passcodeDialogInput.value === passcodeDialogPasscode) {
         console.log("passcode verified!")
         enableSecretSettings()
         showSecretSettingsContent()
     } else {
         console.log("passcode NOT verified!")
-        passcodeModalAlertWrapper.innerHTML = '<div class="alert alert-danger alert-dismissible fade show mt-3 mb-0" role="alert"><h4 class="alert-heading"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> Incorrect passcode</h4><p>You can try entering the passcode again.</p><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+        passcodeDialogAlertWrapper.innerHTML = '<div class="alert theme-danger mt-5 mb-0" role="alert"><span><h4 class="alert-heading"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> Incorrect passcode</h4><p>You can try entering the passcode again.</p></span><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>'
     }
 })

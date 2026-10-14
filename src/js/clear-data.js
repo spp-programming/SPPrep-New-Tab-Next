@@ -1,7 +1,7 @@
 "use strict"
 import { clearCloudDialog, clearCloudDialogButton, clearEverythingDialogButton } from "./modules/clear-data-constants.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
-import * as bootstrap from "./thirdparty/bootstrap.v6.bundle.min.js"
+import * as bootstrap from "./thirdparty/bootstrap.bundle.min.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))

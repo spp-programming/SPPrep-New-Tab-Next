@@ -1,6 +1,6 @@
 "use strict"
 import { collectSupportDataButton, githubNavLink } from "./modules/support-data-constants.js"
-import * as bootstrap from "./thirdparty/bootstrap.v6.bundle.min.js"
+import * as bootstrap from "./thirdparty/bootstrap.bundle.min.js"
 
 let internalConfigMode = ""
 const errorsEncountered = []

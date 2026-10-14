@@ -10,6 +10,7 @@
     align-content: flex-start;
     justify-content: center;
     row-gap: 1.5rem;
+    column-gap: 1.5rem;
     width: 95vw;
     flex-wrap: wrap;
     opacity: 0;

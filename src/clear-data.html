@@ -11,7 +11,7 @@
             navigation: auto;
         }
     </style>
-    <link rel="stylesheet" href="./css/thirdparty/bootstrap.v6.min.css">
+    <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
     <link rel="stylesheet" href="./css/thirdparty/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./css/settings.css">
     <link rel="stylesheet" href="./css/colors.css">
@@ -79,25 +79,6 @@
         <button type="button" class="btn-solid theme-danger mb-3" data-bs-toggle="dialog" data-bs-target="#clear-everything-dialog"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear ALL extension data</span></button>
         <p>You can also clear cloud data, if you're experiencing issues with it.</p>
         <button type="button" class="btn-solid theme-secondary" data-bs-toggle="dialog" data-bs-target="#clear-cloud-dialog"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear ALL cloud data</span></button>
-        <div class="modal fade" id="clear-cloud-modal" tabindex="-1" aria-labelledby="clear-cloud-modal-label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="clear-cloud-modal-label"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Confirm</span></h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <span class="text-danger">You are about to delete <strong>ALL cloud data</strong>. Please be certain, there is <strong>no going back</strong> once you continue.</span>
-                        <br>
-                        This dialog will close automatically once this process completes.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-lg" aria-hidden="true"></i> <span>Cancel</span></button>
-                        <button type="button" class="btn btn-danger" id="clear-cloud-modal-button"><i class="bi bi-check-lg" aria-hidden="true"></i> <span>Yes, I want to continue</span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <dialog class="dialog" id="clear-everything-dialog">
             <div class="dialog-header">
                 <h1 class="dialog-title"><i class="bi bi-trash3" aria-hidden="true"></i> <span>Confirm</span></h1>
