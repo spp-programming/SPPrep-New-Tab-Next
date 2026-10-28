@@ -1,4 +1,5 @@
 "use strict"
+import * as bootstrap from "./thirdparty/bootstrap.bundle.min.js"
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerElement => new bootstrap.Popover(popoverTriggerElement))
 
@@ -16,8 +17,8 @@ export function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
-import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget, performanceCountersButton } from "./modules/global-constants.js"
-import { openPasscodeModal } from "./modules/passcode-modal.js"
+import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget, performanceCountersButton, bellScheduleButtonOuter, bellScheduleDialogSwitchButton, bellScheduleNonImageDialogSwitchButton } from "./modules/global-constants.js"
+import { openPasscodeDialog } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
 import { getInternalConfigMode } from "./modules/config-mode.js"
@@ -62,7 +63,11 @@ const performanceCounters = {
     /**
      * The time, in milliseconds it took for background settings to load
      */
-    loadBackgroundSettings: null
+    loadBackgroundSettings: null,
+    /**
+     * The time, in milliseconds it took for bell schedule settings to load
+     */
+    loadBellScheduleSettings: null
 }
 
 async function loadLetterDay() {
@@ -86,9 +91,9 @@ async function loadLetterDay() {
             default:
                 // "US/Eastern" and "EST5EDT" are linked to "America/New_York" so we have to check for them too. This may not be necessary, but I don't care. https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
                 if (currentTimeZone == "America/New_York" || currentTimeZone == "US/Eastern" || currentTimeZone == "EST5EDT") {
-                    setPopoverText(letterDayElement, `The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")}. <a href="#" class="refresh-link">Refresh the page</a> to check again.</div>`)
+                    setPopoverText(letterDayElement, `<span>The current letter day is ${letterDay}-DAY.</span><br><small class="form-text text-xs">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")}. <a href="#" class="refresh-link">Refresh the page</a> to check again.</small>`)
                 } else {
-                    setPopoverText(letterDayElement, `<div class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></div>The current letter day is ${letterDay}-DAY.<div class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")} in your local time zone. <a href="#" class="refresh-link">Refresh the page</a> to check again.</div>`)
+                    setPopoverText(letterDayElement, `<small class="form-text">⚠️ This letter day is based on Prep's time zone, which doesn't match yours (${currentTimeZone}). <a href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Handling-time-zone-issues">Learn more</a></small><br><span class="text-md">The current letter day is ${letterDay}-DAY.</span><br><small class="form-text">Last updated on ${Temporal.Now.plainDateTimeISO().toLocaleString("en-US")} in your local time zone. <a href="#" class="refresh-link">Refresh the page</a> to check again.</small>`)
                     letterDay = `⚠️ ${letterDay}`
                 }
             letterDay = `${letterDay}-DAY`
@@ -157,9 +162,9 @@ async function loadFontSettings() {
     try {
         const storedSecretSettingsFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
         if (validFonts.includes(storedSecretSettingsFontSelection)) {
-            document.documentElement.classList.add(`font-${storedSecretSettingsFontSelection}`)
+            document.body.classList.add(`font-${storedSecretSettingsFontSelection}`)
         } else {
-            document.documentElement.classList.add("font-azeret-mono")
+            document.body.classList.add("font-azeret-mono")
         }
         clockElement.classList.add("fade-in")
         letterDayElement.classList.add("fade-in")
@@ -391,6 +396,33 @@ async function loadBackgroundSettings() {
     }
 }
 
+async function loadBellScheduleSettings() {
+    const bellScheduleVariant = (await chrome.storage.local.get())["settings_bellScheduleVariant"]
+    switch (bellScheduleVariant) {
+        case "classic":
+            Array.from(bellScheduleButtonOuter).forEach(/** @param {HTMLElement} element */ element => {
+                element.dataset.bsTarget = "#bell-schedule-dialog"
+            })
+            break
+        case "non-image":
+            Array.from(bellScheduleButtonOuter).forEach(/** @param {HTMLElement} element */ element => {
+                element.dataset.bsTarget = "#bell-schedule-non-image-dialog"
+            })
+            break
+        default:
+            Array.from(bellScheduleButtonOuter).forEach(/** @param {HTMLElement} element */ element => {
+                element.dataset.bsTarget = "#bell-schedule-dialog"
+            })
+            break
+    }
+    bellScheduleDialogSwitchButton.addEventListener("click", async () => {
+        chrome.storage.local.set({ settings_bellScheduleVariant: "non-image" })
+    })
+    bellScheduleNonImageDialogSwitchButton.addEventListener("click", async () => {
+        chrome.storage.local.set({ settings_bellScheduleVariant: "classic" })
+    })
+}
+
 async function handleClock() {
     try {
         const storedSettingsClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
@@ -441,7 +473,8 @@ async function loadStuff() {
     const loadButtonSettingsTask = measureTask("loadButtonSettings", loadButtonSettings())
     const loadFontSettingsTask = measureTask("loadFontSettings", loadFontSettings())
     const loadBackgroundSettingsTask = measureTask("loadBackgroundSettings", loadBackgroundSettings())
-    Promise.allSettled([loadLetterDayTask, applyInternalConfigModeChangesTask, handleClockTask, loadLayoutSettingsTask, loadButtonSettingsTask, loadFontSettingsTask, loadBackgroundSettingsTask]).then(() => {
+    const loadBellScheduleSettingsTask = measureTask("loadBellScheduleSettings", loadBellScheduleSettings())
+    Promise.allSettled([loadLetterDayTask, applyInternalConfigModeChangesTask, handleClockTask, loadLayoutSettingsTask, loadButtonSettingsTask, loadFontSettingsTask, loadBackgroundSettingsTask, loadBellScheduleSettingsTask]).then(() => {
         performanceCounters.everything = Number((performance.now() - everythingTimeStart).toFixed(2))
         console.log(performanceCounters)
     })
@@ -486,7 +519,7 @@ performanceCountersButton.addEventListener("click", (event) => {
 
 sealElement.addEventListener("dblclick", () => {
     console.log("open passcode modal")
-    openPasscodeModal()
+    openPasscodeDialog()
 })
 
 loadStuff()

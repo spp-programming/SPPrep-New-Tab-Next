@@ -1,7 +1,3 @@
 .content {
     margin: 0.5em;
 }
-
-@view-transition {
-    navigation: auto;
-}

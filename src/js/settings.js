@@ -3,6 +3,7 @@ import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { createMonogram, getSignificantLetter } from "./modules/monogram.js"
 import { settingsClockModeRadio12hour, settingsClockModeRadio24hour, settingsClockModeRadioAmPm, settingsContent, settingsCustomLink1Card, settingsCustomLink1IconResetter, settingsCustomLink1IconUploader, settingsCustomLink1IconUploaderAlertWrapper, settingsCustomLink1IconUploaderReal, settingsCustomLink1MonogramLink, settingsCustomLink1NameInput, settingsCustomLink1Switch, settingsCustomLink1URLInput, settingsCustomLink1URLInputAlertWrapper, settingsCustomLink2Card, settingsCustomLink2IconResetter, settingsCustomLink2IconUploader, settingsCustomLink2IconUploaderAlertWrapper, settingsCustomLink2IconUploaderReal, settingsCustomLink2MonogramLink, settingsCustomLink2NameInput, settingsCustomLink2Switch, settingsCustomLink2URLInput, settingsCustomLink2URLInputAlertWrapper, settingsCustomLink3Card, settingsCustomLink3IconResetter, settingsCustomLink3IconUploader, settingsCustomLink3IconUploaderAlertWrapper, settingsCustomLink3IconUploaderReal, settingsCustomLink3MonogramLink, settingsCustomLink3NameInput, settingsCustomLink3Switch, settingsCustomLink3URLInput, settingsCustomLink3URLInputAlertWrapper, settingsCustomLinkCards, settingsEnableCustomLinksAlertWrapper, settingsEnableCustomLinksSwitch, settingsEnableSplitLayoutSwitch, settingsHideClubHubSwitch, settingsHideSchoolCalendarSwitch, settingsLoadCloudButton, settingsLoadingOverlayContent, settingsNewBellScheduleButtonSwitch, settingsSaveButton, settingsSaveCloudAlertWrapper, settingsSaveCloudButton, settingsUnsavedChangesIndicator } from "./modules/settings-constants.js"
+import * as bootstrap from "./thirdparty/bootstrap.bundle.min.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -132,7 +133,7 @@ settingsEnableCustomLinksSwitch.addEventListener("change", () => {
         settingsEnableCustomLinksAlertWrapper.innerHTML = ""
     } else {
         settingsCustomLinkCards.hidden = true
-        settingsEnableCustomLinksAlertWrapper.innerHTML = `<div class="alert alert-info alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-info-circle" aria-hidden="true"></i> <span>Turning the custom links option off will delete all of your custom links when you save, and cannot be restored without adding them back manually.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        settingsEnableCustomLinksAlertWrapper.innerHTML = `<div class="alert theme-info mb-6" role="alert"><div><i class="bi bi-info-circle" aria-hidden="true"></i> <span>Turning the custom links option off will delete all of your custom links when you save, and cannot be restored without adding them back manually.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
     }
 })
 
@@ -340,7 +341,7 @@ function validateCustomLink1IconUploaderFileList() {
     }
     if (settingsCustomLink1IconUploaderReal.files[0].size > 512000) {
         console.error(`Custom link (1) icon validator: File "${settingsCustomLink1IconUploaderReal.files[0].name}" is larger than 512000 bytes!`)
-        settingsCustomLink1IconUploaderAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 512 kilobytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        settingsCustomLink1IconUploaderAlertWrapper.innerHTML = `<div class="alert theme-danger mt-6" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 512 kilobytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         return false
     }
     return true
@@ -354,7 +355,7 @@ function validateCustomLink2IconUploaderFileList() {
     }
     if (settingsCustomLink2IconUploaderReal.files[0].size > 512000) {
         console.error(`Custom link (2) icon validator: File "${settingsCustomLink2IconUploaderReal.files[0].name}" is larger than 512000 bytes!`)
-        settingsCustomLink2IconUploaderAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 512 kilobytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        settingsCustomLink2IconUploaderAlertWrapper.innerHTML = `<div class="alert theme-danger mt-6" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 512 kilobytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         return false
     }
     return true
@@ -368,7 +369,7 @@ function validateCustomLink3IconUploaderFileList() {
     }
     if (settingsCustomLink3IconUploaderReal.files[0].size > 512000) {
         console.error(`Custom link (3) icon validator: File "${settingsCustomLink3IconUploaderReal.files[0].name}" is larger than 512000 bytes!`)
-        settingsCustomLink3IconUploaderAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 512 kilobytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        settingsCustomLink3IconUploaderAlertWrapper.innerHTML = `<div class="alert theme-danger mt-6" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 512 kilobytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         return false
     }
     return true
@@ -465,7 +466,7 @@ async function loadCloudSettings() {
                 break
         }
         handleBeforeUnload()
-        settingsSaveCloudAlertWrapper.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Loaded from the cloud!</strong> Please inspect your loaded settings before saving them locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        settingsSaveCloudAlertWrapper.innerHTML = `<div class="alert theme-success" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Loaded from the cloud!</strong> Please inspect your loaded settings before saving them locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         settingsLoadingOverlayContent.hidden = true
         settingsContent.hidden = false
     } catch (error) {
@@ -572,21 +573,21 @@ async function saveCloudSettings() {
     try {
         if (isValidURL(settingsCustomLink1URLInput.value) === false && settingsCustomLink1Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
             settingsCustomLink1URLInput.classList.add("is-invalid")
-            settingsCustomLink1URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            settingsCustomLink1URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink1URLInput.select()
             settingsCustomLink1Card.scrollIntoView({ behavior: "smooth" })
             return
         }
         if (isValidURL(settingsCustomLink2URLInput.value) === false && settingsCustomLink2Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
             settingsCustomLink2URLInput.classList.add("is-invalid")
-            settingsCustomLink2URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            settingsCustomLink2URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink2URLInput.select()
             settingsCustomLink2Card.scrollIntoView({ behavior: "smooth" })
             return
         }
         if (isValidURL(settingsCustomLink3URLInput.value) === false && settingsCustomLink3Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
             settingsCustomLink3URLInput.classList.add("is-invalid")
-            settingsCustomLink3URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            settingsCustomLink3URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink3URLInput.select()
             settingsCustomLink3Card.scrollIntoView({ behavior: "smooth" })
             return
@@ -702,7 +703,7 @@ async function saveCloudSettings() {
         settingsClockModeRadio12hour.disabled = false
         settingsClockModeRadioAmPm.disabled = false
         settingsClockModeRadio24hour.disabled = false
-        settingsSaveCloudAlertWrapper.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Saved to the cloud!</strong> However, your changes have not been saved locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        settingsSaveCloudAlertWrapper.innerHTML = `<div class="alert theme-success" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Saved to the cloud!</strong> However, your changes have not been saved locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         settingsSaveButton.disabled = false
     } catch (error) {
         console.error(error)
@@ -713,19 +714,19 @@ async function saveCloudSettings() {
 async function saveSettings() {
     try {
         if (isValidURL(settingsCustomLink1URLInput.value) === false && settingsCustomLink1Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
-            settingsCustomLink1URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            settingsCustomLink1URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink1URLInput.select()
             settingsCustomLink1Card.scrollIntoView({ behavior: "smooth" })
             return
         }
         if (isValidURL(settingsCustomLink2URLInput.value) === false && settingsCustomLink2Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
-            settingsCustomLink2URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            settingsCustomLink2URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink2URLInput.select()
             settingsCustomLink2Card.scrollIntoView({ behavior: "smooth" })
             return
         }
         if (isValidURL(settingsCustomLink3URLInput.value) === false && settingsCustomLink3Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
-            settingsCustomLink3URLInputAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            settingsCustomLink3URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink3URLInput.select()
             settingsCustomLink3Card.scrollIntoView({ behavior: "smooth" })
             return
@@ -841,7 +842,7 @@ async function saveSettings() {
             await chrome.storage.local.set({ settings_clockModeSelection: "24hour" })
         }
         aboutToReload = true
-        chrome.runtime.reload()
+        //chrome.runtime.reload()
     } catch (error) {
         console.error(error)
         alert(`Oops, something went wrong while saving settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)

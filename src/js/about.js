@@ -3,6 +3,7 @@ import { handleFakeLinks } from "./modules/fake-links.js"
 import { buildInfoCommit, buildInfoCommitURLBase, buildInfoEdition, buildInfoError, buildInfoName, buildInfoRevision, buildInfoVersion, internalConfigModeText } from "./modules/about-constants.js"
 import { getInternalConfigMode } from "./modules/config-mode.js"
 import { getBuildInfo } from "./modules/build-info.js"
+import * as bootstrap from "./thirdparty/bootstrap.bundle.min.js"
 
 handleFakeLinks()
 

@@ -134,88 +134,88 @@
 
 .font-sans-serif {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    --bs-font-sans-serif: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --bs-body-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .font-comic-relief {
     font-family: "Comic Relief", sans-serif;
-    --bs-font-sans-serif: "Comic Relief", sans-serif;
+    --bs-body-font-family: "Comic Relief", sans-serif;
 }
 
 .font-ibm-plex-sans {
     font-family: "IBM Plex Sans", sans-serif;
-    --bs-font-sans-serif: "IBM Plex Sans", sans-serif;
+    --bs-body-font-family: "IBM Plex Sans", sans-serif;
 }
 
 .font-inconsolata {
-    font-family: "Inconsolata", sans-serif;
-    --bs-font-sans-serif: "Inconsolata", sans-serif;
+    font-family: Inconsolata, sans-serif;
+    --bs-body-font-family: Inconsolata, sans-serif;
 }
 
 .font-inter {
     font-family: Inter, sans-serif;
-    --bs-font-sans-serif: Inter, sans-serif;
+    --bs-body-font-family: Inter, sans-serif;
 }
 
 
 .font-jetbrains-mono {
     font-family: "JetBrains Mono", sans-serif;
-    --bs-font-sans-serif: "JetBrains Mono", sans-serif;
+    --bs-body-font-family: "JetBrains Mono", sans-serif;
 }
 
 .font-lato {
     font-family: Lato, sans-serif;
-    --bs-font-sans-serif: Lato, sans-serif;
+    --bs-body-font-family: Lato, sans-serif;
 }
 
 .font-lexend {
     font-family: Lexend, sans-serif;
-    --bs-font-sans-serif: Lexend, sans-serif;
+    --bs-body-font-family: Lexend, sans-serif;
 }
 
 .font-montserrat {
     font-family: Montserrat, sans-serif;
-    --bs-font-sans-serif: Montserrat, sans-serif;
+    --bs-body-font-family: Montserrat, sans-serif;
 }
 
 .font-nunito {
     font-family: Nunito, sans-serif;
-    --bs-font-sans-serif: Nunito, sans-serif;
+    --bs-body-font-family: Nunito, sans-serif;
 }
 
 .font-poppins {
     font-family: Poppins, sans-serif;
-    --bs-font-sans-serif: Poppins, sans-serif;
+    --bs-body-font-family: Poppins, sans-serif;
 }
 
 .font-raleway {
     font-family: Raleway, sans-serif;
-    --bs-font-sans-serif: Raleway, sans-serif;
+    --bs-body-font-family: Raleway, sans-serif;
 }
 
 .font-roboto-mono {
     font-family: "Roboto Mono", sans-serif;
-    --bs-font-sans-serif: "Roboto Mono", sans-serif;
+    --bs-body-font-family: "Roboto Mono", sans-serif;
 }
 
 .font-rubik {
     font-family: Rubik, sans-serif;
-    --bs-font-sans-serif: Rubik, sans-serif;
+    --bs-body-font-family: Rubik, sans-serif;
 }
 
 .font-source-code-pro {
     font-family: "Source Code Pro", sans-serif;
-    --bs-font-sans-serif: "Source Code Pro", sans-serif;
+    --bs-body-font-family: "Source Code Pro", sans-serif;
 }
 
 .font-space-grotesk {
     font-family: "Space Grotesk", sans-serif;
-    --bs-font-sans-serif: "Space Grotesk", sans-serif;
+    --bs-body-font-family: "Space Grotesk", sans-serif;
 }
 
 .font-ubuntu {
     font-family: "Ubuntu", sans-serif;
-    --bs-font-sans-serif: "Ubuntu", sans-serif;
+    --bs-body-font-family: "Ubuntu", sans-serif;
 }
 
 .font-ubuntu#font-preview span {

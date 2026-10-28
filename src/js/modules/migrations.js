@@ -2,6 +2,7 @@
 import { getInternalConfigMode } from "./config-mode.js"
 import { migrationVersion, migrationToast } from "./global-constants.js"
 import { getVersionParts, isNewerVersion, isSameVersion } from "./versioning.js"
+import * as bootstrap from "../thirdparty/bootstrap.bundle.min.js"
 
 /**
  * This function migrates local storage (used in pre-4.0 versions) to extension storage (which is used in this version). It should not be called directly outside this file, rather only through the `runMigrations()` function.

@@ -6,6 +6,7 @@ import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { secretSettingsFontSelection, secretSettingsFontPreview, secretSettingsStaticBackgroundPreview, secretSettingsBackgroundSelection, secretSettingsBackgroundPreviewNotes, secretSettingsGradientSelection, secretSettingsGradientSelectionReset} from "./modules/secret-settings-constants.js"
 import { backgroundBliss, backgroundMissingTexture, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundRainbow, backgroundSnow, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, selectImageImage, validBackgrounds, validFonts } from "./modules/global-constants.js"
 import { getCustomBackgroundData, getCustomBackgroundDataFromURL } from "./modules/background-fetcher.js"
+import * as bootstrap from "./thirdparty/bootstrap.bundle.min.js"
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
@@ -95,7 +96,7 @@ async function handleCustomBackgroundUploaderChange() {
     secretSettingsSaveButton.disabled = true
     let backgroundURL
     if (validateCustomBackgroundFileList() === true) {
-        secretSettingsCustomBackgroundAlertWrapper.innerHTML = '<div class="alert alert-info alert-dismissible mt-3" role="alert"><div><div class="spinner-border spinner-border-sm" role="status"></div> <span>Loading the file (this may take a few seconds)</span></div></div>'
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = '<div class="alert theme-info mt-3" role="alert"><div><div class="spinner-border spinner-border-sm" role="status"></div> <span>Loading the file (this may take a few seconds)</span></div></div>'
         backgroundURL = await constructCustomBackgroundURL()
         uploadedCustomBackground = backgroundURL
         await updateBackgroundPreview()
@@ -129,12 +130,12 @@ function validateCustomBackgroundFileList() {
     }
     if (secretSettingsCustomBackgroundUploader.files[0].type.startsWith("image/") === false && secretSettingsCustomBackgroundUploader.files[0].type.startsWith("video/") === false) {
         console.error(`Custom background validator: File "${secretSettingsCustomBackgroundUploader.files[0].name}" is not an image! (Unexpected MIME type of "${secretSettingsCustomBackgroundUploader.files[0].type}")`)
-        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is not an image or video! Your background needs to be in a format supported by your browser.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert theme-danger mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is not an image or video! Your background needs to be in a format supported by your browser.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         return false
     }
     if (secretSettingsCustomBackgroundUploader.files[0].size > 5000000) {
         console.error(`Custom background validator: File "${secretSettingsCustomBackgroundUploader.files[0].name}" is larger than 5000000 bytes!`)
-        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 5 megabytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert theme-danger mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>File is larger than 5 megabytes! Reduce the file size of your image before trying again.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         return false
     }
     return true
@@ -173,7 +174,7 @@ async function loadCloudSecretSettings() {
         }
         handleGradientColorDisablement()
         handleBeforeUnload()
-        secretSettingsSaveCloudAlertWrapper.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Loaded from the cloud!</strong> Please inspect your loaded settings before saving them locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        secretSettingsSaveCloudAlertWrapper.innerHTML = `<div class="alert theme-success" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Loaded from the cloud!</strong> Please inspect your loaded settings before saving them locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
     } catch (error) {
         console.error(error)
         alert(`Oops, something went wrong while loading secret settings. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
@@ -213,7 +214,7 @@ async function saveCloudSecretSettings() {
     try {
         // element.src gets the absolute URL, but we need the relative URL so element.getAttribute("src") is used instead
         if (secretSettingsStaticBackgroundPreview.getAttribute("src") === selectImageImage && secretSettingsVideoBackgroundPreview.children.length === 0) {
-            secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Please upload a custom background before saving. If you don't want to save your changes, you can close this tab.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert theme-danger mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Please upload a custom background before saving. If you don't want to save your changes, you can close this tab.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             secretSettingsCustomBackgroundAlertWrapper.scrollIntoView({ behavior: "smooth" })
             return
         }
@@ -250,7 +251,7 @@ async function saveCloudSecretSettings() {
         secretSettingsGradientDisableSwitch.disabled = false
         secretSettingsLoadCloudButton.disabled = false
         secretSettingsSaveCloudButton.disabled = false
-        secretSettingsSaveCloudAlertWrapper.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Saved to the cloud!</strong> However, your changes have not been saved locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        secretSettingsSaveCloudAlertWrapper.innerHTML = `<div class="alert theme-success" role="alert"><div><i class="bi bi-check-lg" aria-hidden="true"></i> <span><strong>Saved to the cloud!</strong> However, your changes have not been saved locally. You can press the <i class="bi bi-floppy" aria-hidden="true"></i> Save button below this message to do that.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
         secretSettingsSaveButton.disabled = false
     } catch (error) {
         console.error(error)
@@ -262,7 +263,7 @@ async function saveSecretSettings() {
     try {
         // element.src gets the absolute URL, but we need the relative URL so element.getAttribute("src") is used instead
         if (secretSettingsStaticBackgroundPreview.getAttribute("src") === selectImageImage && secretSettingsVideoBackgroundPreview.children.length === 0) {
-            secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Please upload a custom background before saving. If you don't want to save your changes, you can close this tab.</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+            secretSettingsCustomBackgroundAlertWrapper.innerHTML = `<div class="alert theme-danger mt-3" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Please upload a custom background before saving. If you don't want to save your changes, you can close this tab.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             secretSettingsCustomBackgroundAlertWrapper.scrollIntoView({ behavior: "smooth" })
             return
         }

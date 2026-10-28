@@ -19,8 +19,3 @@
 #letter-day.fade-in {
     opacity: 1;
 }
-
-#letter-day-spinner {
-    --bs-spinner-width: calc(1.375rem + 1.5vw);
-    --bs-spinner-height: calc(1.375rem + 1.5vw);
-}

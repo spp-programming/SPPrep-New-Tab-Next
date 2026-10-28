@@ -5,8 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
     <title>New Tab</title>
+    <style>
+        @view-transition {
+            navigation: auto;
+        }
+        dialog:not([open]) {
+            display: none;
+        }
+        html {
+            scrollbar-width: none;
+        }
+    </style>
     <link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
     <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/colors.css">
     <link rel="stylesheet" href="./css/seal.css">
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="stylesheet" href="./css/clock.css">
@@ -17,46 +29,45 @@
 <body>
     <div id="background-overlay"></div>
     <div id="background"></div>
-    <div class="dropdown">
-        <a class="btn btn-dark fixed-top rounded-end-pill" style="right: 100%; min-width: min-content;" role="button" href="#" id="menu-button" title="Menu" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-list" aria-hidden="true"></i>
-            <span class="visually-hidden">Menu</span>
-        </a>
-        <ul class="dropdown-menu">
-            <li hidden><a class="dropdown-item" id="video-background-toggle-button" href="#"><i class="bi bi-pause-circle" aria-hidden="true"></i> Pause video background</a></li>
-            <li><a class="dropdown-item" href="settings.html" target="_blank"><i class="bi bi-gear" aria-hidden="true"></i> Settings</a></li>
-            <li><a class="dropdown-item" id="toggle-tour-button" href="#" title="The tour will guide you through the basic features of SPP New Tab." data-bs-toggle="tooltip"><i class="bi bi-map" aria-hidden="true"></i> Start tour</a></li>
-            <li><a class="dropdown-item" id="performance-counters-button" href="#" title="Displays how long each step of loading took. Mainly used for troubleshooting." data-bs-toggle="tooltip"><i class="bi bi-stopwatch" aria-hidden="true"></i> Performance counters</a></li>
-            <li><a class="dropdown-item" href="about.html" target="_blank"><i class="bi bi-info-circle" aria-hidden="true"></i> About SPP New Tab</a></li>
-        </ul>
+    <button class="btn-solid theme-dark fixed-top rounded-end-pill" style="right: 100%; min-width: min-content;" type="button" href="#" id="menu-button" title="Menu" data-bs-toggle="menu" aria-expanded="false">
+        <i class="bi bi-list" aria-hidden="true"></i>
+        <span class="visually-hidden">Menu</span>
+    </button>
+    <div class="menu text-md">
+        <li hidden><a class="menu-item" id="video-background-toggle-button" href="#"><i class="bi bi-pause-circle" aria-hidden="true"></i> Pause video background</a></li>
+        <li><a class="menu-item" href="settings.html" target="_blank"><i class="bi bi-gear" aria-hidden="true"></i> Settings</a></li>
+        <li><a class="menu-item" id="toggle-tour-button" href="#" title="The tour will guide you through the basic features of SPP New Tab." data-bs-toggle="tooltip"><i class="bi bi-map" aria-hidden="true"></i> Start tour</a></li>
+        <li><a class="menu-item" id="performance-counters-button" href="#" title="Displays how long each step of loading took. Mainly used for troubleshooting." data-bs-toggle="tooltip"><i class="bi bi-stopwatch" aria-hidden="true"></i> Performance counters</a></li>
+        <li><a class="menu-item" href="https://github.com/spp-programming/SPPrep-New-Tab-Next/wiki/Sending-feedback" target="_blank"><i class="bi bi-send" aria-hidden="true"></i> Send feedback</a></li>
+        <li><a class="menu-item" href="about.html" target="_blank"><i class="bi bi-info-circle" aria-hidden="true"></i> About SPP New Tab</a></li>
     </div>
-    <div class="d-flex flex-column min-vh-100 flex-grow-1 justify-content-center align-items-center user-select-none" id="content-element">
-        <h1 class="display-1" id="clock">&zwnj;</h1> <!-- The &zwnj; allocates the vertical space for the clock immediately, before the clock and fonts are fully loaded -->
-        <div class="display-6" id="letter-day-tour-target">
+    <div class="d-flex flex-column min-vh-100 flex-grow-1 justify-content-center align-items-center user-select-none text-md" id="content-element">
+        <h1 class="fs-6xl fw-light" id="clock">&zwnj;</h1> <!-- The &zwnj; allocates the vertical space for the clock immediately, before the clock and fonts are fully loaded -->
+        <div class="fs-3xl fw-light" id="letter-day-tour-target">
             <h1 id="letter-day" tabindex="0" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-html="true" data-bs-content="Loading the letter day.<br>This shouldn't take long.">🤔</h1>
         </div>
         <div class="user-select-none column-gap-4" id="button-container">
-            <a class="btn bg-white p-1 border-0 rounded" id="powerschool-button" href="#" role="button" title="PowerSchool" data-bs-toggle="tooltip" data-bs-placement="bottom">
+            <a class="btn bg-white p-4 border-0 rounded" id="powerschool-button" href="#" role="button" title="PowerSchool" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/powerschool.png" alt="" aria-hidden="true" class="rounded button-img">
                 </div>
                 <span class="visually-hidden">PowerSchool</span>
             </a>
-            <a class="btn bg-white p-1 border-0 rounded" id="gmail-button" href="https://mail.google.com" role="button" title="Gmail" data-bs-toggle="tooltip" data-bs-placement="bottom">
+            <a class="btn bg-white p-4 border-0 rounded" id="gmail-button" href="https://mail.google.com" role="button" title="Gmail" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/gmail.svg" alt="" aria-hidden="true" class="rounded button-img">
                 </div>
                 <span class="visually-hidden">Gmail</span>
             </a>
-            <a class="btn bg-white p-1 border-0 rounded" id="google-drive-button" href="https://drive.google.com/drive" role="button" title="Google Drive" data-bs-toggle="tooltip" data-bs-placement="bottom">
+            <a class="btn bg-white p-4 border-0 rounded" id="google-drive-button" href="https://drive.google.com/drive" role="button" title="Google Drive" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/google_drive.svg" alt="" aria-hidden="true" class="rounded button-img">
                 </div>
                 <span class="visually-hidden">Google Drive</span>
             </a>
-            <span data-bs-toggle="modal" data-bs-target="#bell-schedule-modal">
+            <span class="bell-schedule-button-outer" data-bs-toggle="dialog" data-bs-target="#bell-schedule-non-image-dialog">
                 <div id="bell-schedule-old-button-tour-target">
-                    <button class="btn bg-white p-1 border-0 rounded" id="bell-schedule-old-button" type="button" title="Bell Schedule" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                    <button class="btn bg-white p-4 border-0 rounded" id="bell-schedule-old-button" type="button" title="Bell Schedule" data-bs-toggle="tooltip" data-bs-placement="bottom">
                         <div class="p-3 bg-white rounded">
                             <img src="./img/icons/bell.svg" alt="" aria-hidden="true" class="rounded button-img">
                         </div>
@@ -64,31 +75,31 @@
                     </button>
                 </div>
             </span>
-            <a class="btn bg-white p-1 border-0 rounded" id="canvas-button" href="https://accounts.google.com/o/saml2/initsso?idpid=C04abkbep&spid=58097645075&forceauthn=false" role="button" title="Canvas" data-bs-toggle="tooltip" data-bs-placement="bottom">
+            <a class="btn bg-white p-4 border-0 rounded" id="canvas-button" href="https://accounts.google.com/o/saml2/initsso?idpid=C04abkbep&spid=58097645075&forceauthn=false" role="button" title="Canvas" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/canvas.svg" alt="" aria-hidden="true" class="rounded button-img">
                 </div>
                 <span class="visually-hidden">Canvas</span>
             </a>
-            <a class="btn bg-white p-1 border-0 rounded" id="school-calendar-button" href="https://calendar.google.com/calendar/embed?title=Saint+Peter%27s+Prep+Calendar&height=600&wkst=1&bgcolor=%23FFFFFF&src=144grand@gmail.com&color=%23A32929&src=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&color=%236E6E41&src=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&color=%230D7813&src=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com&color=%2329527A&ctz=America/New_York" role="button" title="School Calendar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="School Calendar">
+            <a class="btn bg-white p-4 border-0 rounded" id="school-calendar-button" href="https://calendar.google.com/calendar/embed?title=Saint+Peter%27s+Prep+Calendar&height=600&wkst=1&bgcolor=%23FFFFFF&src=144grand@gmail.com&color=%23A32929&src=j2u1oqdhka8e0v1o4p5t6avcjk@group.calendar.google.com&color=%236E6E41&src=j62aodeshq58d2u3la7pi9b8os@group.calendar.google.com&color=%230D7813&src=4pjksvuk9if0th7fa6tp1ainoo@group.calendar.google.com&color=%2329527A&ctz=America/New_York" role="button" title="School Calendar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="School Calendar">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/calendar.svg" alt="" aria-hidden="true" class="rounded button-img">
                 </div>
                 <span class="visually-hidden">School Calendar</span>
             </a>
-            <a class="btn bg-white p-1 border-0 rounded" id="google-calendar-button" href="https://calendar.google.com/calendar" role="button" title="Google Calendar" data-bs-toggle="tooltip" data-bs-placement="bottom">
+            <a class="btn bg-white p-4 border-0 rounded" id="google-calendar-button" href="https://calendar.google.com/calendar" role="button" title="Google Calendar" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/google_calendar.svg" alt="" aria-hidden="true" class="rounded button-img">
                 </div>
                 <span class="visually-hidden">Google Calendar</span>
             </a>
-            <a class="btn bg-white p-1 border-0 rounded" id="membean-button" href="https://membean.com/dashboard" role="button" title="Membean" data-bs-toggle="tooltip" data-bs-placement="bottom">
+            <a class="btn bg-white p-4 border-0 rounded" id="membean-button" href="https://membean.com/dashboard" role="button" title="Membean" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/membean.png" alt="" aria-hidden="true" class="rounded button-img">
                 </div>
                 <span class="visually-hidden">Membean</span>
             </a>
-            <a class="btn bg-white p-1 border-0 rounded" id="club-hub-button" href="https://clubhub.co/dashboard" role="button" title="Club Hub" data-bs-toggle="tooltip" data-bs-placement="bottom">
+            <a class="btn bg-white p-4 border-0 rounded" id="club-hub-button" href="https://clubhub.co/dashboard" role="button" title="Club Hub" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 <div class="p-3 bg-white rounded">
                     <img src="./img/icons/club_hub.svg" alt="" aria-hidden="true" class="rounded button-img">
                 </div>
@@ -97,16 +108,16 @@
         </div>
     </div>
 
-    <div class="fixed-bottom" id="changelog-button-tour-target" style="right: 100%; min-width: min-content;">
-        <a class="btn btn-dark rounded-end-pill" role="button" href="changelog.html" target="_blank" id="changelog-button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="What's New">
+    <div class="fixed-bottom text-md" id="changelog-button-tour-target" style="right: 100%; min-width: min-content;">
+        <a class="btn-solid rounded-end-pill" role="button" href="changelog.html" target="_blank" id="changelog-button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="What's New">
             <i class="bi bi-megaphone" aria-hidden="true"></i>
             <span class="visually-hidden">What's New</span>
         </a>
     </div>
 
-    <span data-bs-toggle="modal" data-bs-target="#bell-schedule-modal" hidden>
+    <span class="text-md bell-schedule-button-outer" data-bs-toggle="dialog" data-bs-target="#bell-schedule-non-image-dialog" hidden>
         <div class="fixed-bottom" style="left: unset;" id="bell-schedule-button-tour-target">
-            <a class="btn btn-dark rounded-start-pill fake-link" role="button" href="#" id="bell-schedule-button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Bell Schedule">
+            <a class="btn-solid rounded-start-pill fake-link" role="button" href="#" id="bell-schedule-button" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Bell Schedule">
                 <i class="bi bi-bell" aria-hidden="true"></i>
                 <span class="visually-hidden">Bell Schedule</span>
             </a>
@@ -114,7 +125,7 @@
     </span>
 
     <img class="user-select-none" id="seal" src="./img/resources/seal.svg" alt="Saint Peter's Prep Seal">
-    <div class="toast-container position-fixed bottom-0 end-0 p-3 user-select-none">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3 user-select-none text-md">
         <div id="error-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
             <div class="toast-header">
                 <strong class="me-auto">SPP New Tab</strong>
@@ -144,7 +155,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body" id="migration-toast-content">
-                🎉 Version 4.2.1 is now installed! Check out <a href="changelog.html">what's new in this release</a>.
+                🎉 Version 5.0 is now installed! Check out <a href="changelog.html">what's new in this release</a>.
                 <br>
                 Not sure where to go next? <a href="#" id="migration-toast-tour-link">Click here</a> to start a quick tour.
                 <br>
@@ -152,67 +163,328 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="passcode-modal" tabindex="-1" aria-labelledby="passcode-modal-label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="passcode-modal-label">Enter passcode</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Enter the passcode using the controls below, then press "Check passcode"</p>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control has-icons" id="passcode-modal-input" placeholder="Use these controls 👇" minlength="10" maxlength="10" aria-hidden="true" autocomplete="off" disabled>
-                        <button class="btn btn-outline-secondary" type="button" id="passcode-modal-input-clear" title="Clear the passcode entry box."><i class="bi bi-x-lg" aria-hidden="true"></i> <span>Clear passcode</span></button>
+    <dialog class="dialog dialog-scrollable text-md" id="passcode-dialog">
+        <div class="dialog-header">
+            <h1 class="dialog-title">Enter passcode</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
+        </div>
+        <div class="dialog-body">
+            <p>Enter the passcode using the controls below, then press "Check passcode"</p>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control has-icons" id="passcode-dialog-input" placeholder="Use these controls 👇" minlength="10" maxlength="10" aria-hidden="true" autocomplete="off" disabled>
+                <button class="btn-outline theme-secondary" type="button" id="passcode-dialog-input-clear" title="Clear the passcode entry box."><i class="bi bi-x-lg" aria-hidden="true"></i> <span>Clear passcode</span></button>
+            </div>
+            <img src="./img/resources/nes_controller.svg" class="user-select-none img-fluid" id="controller-image" loading="lazy" alt="Nintendo NES controller" draggable="false" usemap="#controller-image-map">
+            <map name="controller-image-map">
+                <area target="_self" alt="Up" href="#" title="Up" class="controller-button" data-button-code="&#x1F53C;" coords="81,90,121,131" shape="rect">
+                <area target="_self" alt="Down" href="#" title="Down" class="controller-button" data-button-code="&#x1F53D;" coords="81,167,121,208" shape="rect">
+                <area target="_self" alt="Left" href="#" title="Left" class="controller-button" data-button-code="&#x25C0;&#xFE0F;" coords="43,129,83,169" shape="rect">
+                <area target="_self" alt="Right" href="#" title="Right" class="controller-button" data-button-code="&#x25B6;&#xFE0F;" coords="119,129,160,169" shape="rect">
+                <area target="_self" alt="Button B" href="#" title="Button B" class="controller-button" data-button-code="&#x1F171;&#xFE0F;" coords="430,179,29" shape="circle">
+                <area target="_self" alt="Button A" href="#" title="Button A" class="controller-button" data-button-code="&#x1F170;&#xFE0F;" coords="509,179,28" shape="circle">
+                <area target="_self" alt="Start" href="#" title="Start" class="controller-button" data-button-code="&#x1F3C3;&#x200D;&#x27A1;&#xFE0F;" coords="300,170,349,190" shape="rect">
+                <area target="_self" alt="Select" href="#" title="Select" class="controller-button" data-button-code="&#x1F914;" coords="216,170,265,190" shape="rect">
+            </map>
+            <span class="form-text">Image by <a href="https://commons.wikimedia.org/w/index.php?title=User:Fant0men" target="_blank">User:Fant0men on Wikimedia Commons</a>, CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=2378328" target="_blank">https://commons.wikimedia.org/w/index.php?curid=2378328</a></span>
+            <div id="passcode-dialog-alert-wrapper"></div>
+        </div>
+        <div class="dialog-footer">
+            <a href="clear-data.html" role="button" class="btn-solid theme-danger me-auto" id="passcode-dialog-settings-clear" title="Clear all extension data, including secret settings."><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear settings</span></a>
+            <button type="button" class="btn-solid theme-primary" id="passcode-dialog-verify" title="Check the passcode, and continue if it is correct."><i class="bi bi-key" aria-hidden="true"></i> <span>Check passcode</span></button>
+        </div>
+    </dialog>
+    <dialog class="dialog dialog-xl dialog-scrollable text-md" id="bell-schedule-dialog">
+        <div class="dialog-header">
+            <h1 class="dialog-title">Bell Schedule</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
+        </div>
+        <div class="dialog-body">
+            <div class="text-center">
+                <img class="img-fluid" style="max-height: 65vh;" src="./img/resources/bell_schedule.webp" loading="lazy" alt="This is the Bell Schedule. Please see spprep.org for accessible version">
+            </div>
+        </div>
+        <div class="dialog-footer">
+            <a role="button" href="./img/resources/bell_schedule.webp" target="_blank" class="btn-solid theme-secondary me-auto"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> <span>Enlarge image</span></a>
+            <button type="button" class="btn-outline theme-secondary" id="bell-schedule-dialog-switch-button" data-bs-toggle="dialog" data-bs-target="#bell-schedule-non-image-dialog" title="Switch to the new Bell Schedule experience, which doesn't use an image"><i class="bi bi-stars" aria-hidden="true"></i> <span>Use new version</span></button>
+            <button type="button" class="btn-solid theme-primary" data-bs-dismiss="dialog"><i class="bi bi-x-lg" aria-hidden="true"></i> <span>Close</span></button>
+        </div>
+    </dialog>
+    <dialog class="dialog dialog-xl dialog-scrollable text-md" id="bell-schedule-non-image-dialog">
+        <div class="dialog-header">
+            <h1 class="dialog-title">Bell Schedule</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
+        </div>
+        <div class="dialog-body">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col">
+                        <div class="card bg-bell-schedule-card">
+                            <h4 class="mt-2">Regular</h4>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Period</th>
+                                        <th scope="col">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>8:10 - 9:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>9:05 - 9:55</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Community</td>
+                                        <td>9:55 - 10:45</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>10:45 - 11:35</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-bell-schedule-red">Freshmen/Sophs</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-red">4</td>
+                                        <td class="bg-bell-schedule-red">11:40 - 12:30</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-red">Lunch</td>
+                                        <td class="bg-bell-schedule-red">12:30 - 1:05</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-bell-schedule-red-darker">Juniors/Seniors</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-red-darker">Lunch</td>
+                                        <td class="bg-bell-schedule-red-darker">11:35 - 12:10</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-red-darker">4</td>
+                                        <td class="bg-bell-schedule-red-darker">12:10 - 1:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>1:05 - 1:55</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>2:00 - 2:50</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <img src="img/resources/nes_controller.svg" class="user-select-none img-fluid" id="controller-image" loading="lazy" alt="Nintendo NES controller" draggable="false" usemap="#controller-image-map">
-                    <map name="controller-image-map">
-                        <area target="_self" alt="Up" href="#" title="Up" class="controller-button" data-button-code="&#x1F53C;" coords="81,90,121,131" shape="rect">
-                        <area target="_self" alt="Down" href="#" title="Down" class="controller-button" data-button-code="&#x1F53D;" coords="81,167,121,208" shape="rect">
-                        <area target="_self" alt="Left" href="#" title="Left" class="controller-button" data-button-code="&#x25C0;&#xFE0F;" coords="43,129,83,169" shape="rect">
-                        <area target="_self" alt="Right" href="#" title="Right" class="controller-button" data-button-code="&#x25B6;&#xFE0F;" coords="119,129,160,169" shape="rect">
-                        <area target="_self" alt="Button B" href="#" title="Button B" class="controller-button" data-button-code="&#x1F171;&#xFE0F;" coords="430,179,29" shape="circle">
-                        <area target="_self" alt="Button A" href="#" title="Button A" class="controller-button" data-button-code="&#x1F170;&#xFE0F;" coords="509,179,28" shape="circle">
-                        <area target="_self" alt="Start" href="#" title="Start" class="controller-button" data-button-code="&#x1F3C3;&#x200D;&#x27A1;&#xFE0F;" coords="300,170,349,190" shape="rect">
-                        <area target="_self" alt="Select" href="#" title="Select" class="controller-button" data-button-code="&#x1F914;" coords="216,170,265,190" shape="rect">
-                    </map>
-                    <span class="form-text">Image by <a href="https://commons.wikimedia.org/w/index.php?title=User:Fant0men" target="_blank">User:Fant0men on Wikimedia Commons</a>, CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=2378328" target="_blank">https://commons.wikimedia.org/w/index.php?curid=2378328</a></span>
-                    <div id="passcode-modal-alert-wrapper"></div>
-                </div>
-                <div class="modal-footer">
-                    <a href="clear-data.html" role="button" class="btn btn-danger me-auto" id="passcode-modal-settings-clear" title="Clear all extension data, including secret settings."><i class="bi bi-trash3" aria-hidden="true"></i> <span>Clear settings</span></a>
-                    <button type="button" class="btn btn-primary" id="passcode-modal-verify" title="Check the passcode, and continue if it is correct."><i class="bi bi-key" aria-hidden="true"></i> <span>Check passcode</span></button>
+                    <div class="col">
+                        <div class="card bg-bell-schedule-card">
+                            <h4 class="mt-2">Assembly 1</h4>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Period</th>
+                                        <th scope="col">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="bg-bell-schedule-green">Assembly</td>
+                                        <td class="bg-bell-schedule-green">8:10 - 9:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>9:30 - 10:10</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>10:15 - 10:55</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Community</td>
+                                        <td>10:55 - 11:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>11:25 - 12:05</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-bell-schedule-green">Freshmen/Sophs</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-green">4</td>
+                                        <td class="bg-bell-schedule-green">12:10 - 12:50</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-green">Lunch</td>
+                                        <td class="bg-bell-schedule-green">12:50 - 1:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-bell-schedule-green-darker">Juniors/Seniors</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-green-darker">Lunch</td>
+                                        <td class="bg-bell-schedule-green-darker">12:05 - 12:40</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-green-darker">4</td>
+                                        <td class="bg-bell-schedule-green-darker">12:40 - 1:20</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>1:25 - 2:05</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>2:10 - 2:50</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card bg-bell-schedule-card">
+                            <h4 class="mt-2">Assembly 2</h4>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Period</th>
+                                        <th scope="col">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>8:10 - 8:50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>8:55 - 9:35</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Community</td>
+                                        <td>9:35 - 9:45</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>9:45 - 10:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>10:30 - 11:10</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-bell-schedule-orange">Freshmen/Sophs</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-orange">5</td>
+                                        <td class="bg-bell-schedule-orange">11:15 - 11:55</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-orange">Lunch</td>
+                                        <td class="bg-bell-schedule-orange">11:55 - 12:30</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-bell-schedule-orange-darker">Juniors/Seniors</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-orange-darker">Lunch</td>
+                                        <td class="bg-bell-schedule-orange-darker">11:10 - 11:45</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-orange-darker">5</td>
+                                        <td class="bg-bell-schedule-orange-darker">11:45 - 12:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>12:30 - 1:10</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-orange">Assembly</td>
+                                        <td class="bg-bell-schedule-orange">1:10 - 2:50</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card bg-bell-schedule-card">
+                            <h4 class="mt-2">Delayed</h4>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Period</th>
+                                        <th scope="col">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>9:10 - 9:50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>9:55 - 10:35</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Community</td>
+                                        <td>10:35 - 11:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>11:25 - 12:05</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-bell-schedule-cyan">Freshmen/Sophs</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-cyan">4</td>
+                                        <td class="bg-bell-schedule-cyan">12:10 - 12:50</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-cyan">Lunch</td>
+                                        <td class="bg-bell-schedule-cyan">12:50 - 1:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-bell-schedule-cyan-darker">Juniors/Seniors</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-cyan-darker">Lunch</td>
+                                        <td class="bg-bell-schedule-cyan-darker">12:05 - 12:40</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-bell-schedule-cyan-darker">4</td>
+                                        <td class="bg-bell-schedule-cyan-darker">12:40 - 1:20</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>1:25 - 2:05</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>2:10 - 2:50</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="bell-schedule-modal" tabindex="-1" aria-labelledby="bell-schedule-modal-title" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="bell-schedule-modal-title">Bell Schedule</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center">
-                        <img class="img-fluid" style="max-height: 65vh;" src="./img/resources/bell_schedule.webp" loading="lazy" alt="This is the Bell Schedule. Please see spprep.org for accessible version">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a role="button" href="./img/resources/bell_schedule.webp" target="_blank" class="btn btn-secondary me-auto"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> <span>Enlarge image</span></a>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="bi bi-x-lg" aria-hidden="true"></i> <span>Close</span></button>
-                </div>
-            </div>
+        <div class="dialog-footer">
+            <span class="me-auto">Based on revision 09/26</span>
+            <button type="button" class="btn-outline theme-secondary" id="bell-schedule-non-image-dialog-switch-button" data-bs-toggle="dialog" data-bs-target="#bell-schedule-dialog" title="Switch to the classic Bell Schedule experience, which uses an image"><i class="bi bi-door-open" aria-hidden="true"></i> <span>Use classic version</span></button>
+            <button type="button" class="btn-solid theme-primary" data-bs-dismiss="dialog"><i class="bi bi-x-lg" aria-hidden="true"></i> <span>Close</span></button>
         </div>
-    </div>
+    </dialog>
     <template id="custom-link-template">
-        <a class="btn bg-white p-1 border-0 rounded" href="#custom-link" role="button" title="Custom Quick Link" data-bs-toggle="tooltip" data-bs-placement="bottom">
+        <a class="btn bg-white p-4 border-0 rounded" href="#custom-link" role="button" title="Custom Quick Link" data-bs-toggle="tooltip" data-bs-placement="bottom">
             <div class="p-3 bg-white rounded">
                 <img src="./img/icons/globe2.svg" aria-hidden="true" class="rounded button-img">
             </div>
         </a>
     </template>
-    <script src="./js/thirdparty/bootstrap.bundle.min.js"></script>
     <script src="./js/thirdparty/imageMapResizer.min.js"></script>
     <script type="module" src="./js/main.js"></script>
 </body>

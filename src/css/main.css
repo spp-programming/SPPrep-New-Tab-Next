@@ -54,7 +54,3 @@ body {
 #content-element {
 	width: 100vw;
 }
-
-@view-transition {
-    navigation: auto;
-}
