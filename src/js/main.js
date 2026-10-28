@@ -17,7 +17,7 @@ export function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
-import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget, performanceCountersButton } from "./modules/global-constants.js"
+import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget, performanceCountersButton, bellScheduleButtonOuter, bellScheduleDialogSwitchButton, bellScheduleNonImageDialogSwitchButton } from "./modules/global-constants.js"
 import { openPasscodeDialog } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
@@ -63,7 +63,11 @@ const performanceCounters = {
     /**
      * The time, in milliseconds it took for background settings to load
      */
-    loadBackgroundSettings: null
+    loadBackgroundSettings: null,
+    /**
+     * The time, in milliseconds it took for bell schedule settings to load
+     */
+    loadBellScheduleSettings: null
 }
 
 async function loadLetterDay() {
@@ -392,6 +396,33 @@ async function loadBackgroundSettings() {
     }
 }
 
+async function loadBellScheduleSettings() {
+    const bellScheduleVariant = (await chrome.storage.local.get())["settings_bellScheduleVariant"]
+    switch (bellScheduleVariant) {
+        case "classic":
+            Array.from(bellScheduleButtonOuter).forEach(/** @param {HTMLElement} element */ element => {
+                element.dataset.bsTarget = "#bell-schedule-dialog"
+            })
+            break
+        case "non-image":
+            Array.from(bellScheduleButtonOuter).forEach(/** @param {HTMLElement} element */ element => {
+                element.dataset.bsTarget = "#bell-schedule-non-image-dialog"
+            })
+            break
+        default:
+            Array.from(bellScheduleButtonOuter).forEach(/** @param {HTMLElement} element */ element => {
+                element.dataset.bsTarget = "#bell-schedule-dialog"
+            })
+            break
+    }
+    bellScheduleDialogSwitchButton.addEventListener("click", async () => {
+        chrome.storage.local.set({ settings_bellScheduleVariant: "non-image" })
+    })
+    bellScheduleNonImageDialogSwitchButton.addEventListener("click", async () => {
+        chrome.storage.local.set({ settings_bellScheduleVariant: "classic" })
+    })
+}
+
 async function handleClock() {
     try {
         const storedSettingsClockModeSelection = (await chrome.storage.local.get())["settings_clockModeSelection"]
@@ -442,7 +473,8 @@ async function loadStuff() {
     const loadButtonSettingsTask = measureTask("loadButtonSettings", loadButtonSettings())
     const loadFontSettingsTask = measureTask("loadFontSettings", loadFontSettings())
     const loadBackgroundSettingsTask = measureTask("loadBackgroundSettings", loadBackgroundSettings())
-    Promise.allSettled([loadLetterDayTask, applyInternalConfigModeChangesTask, handleClockTask, loadLayoutSettingsTask, loadButtonSettingsTask, loadFontSettingsTask, loadBackgroundSettingsTask]).then(() => {
+    const loadBellScheduleSettingsTask = measureTask("loadBellScheduleSettings", loadBellScheduleSettings())
+    Promise.allSettled([loadLetterDayTask, applyInternalConfigModeChangesTask, handleClockTask, loadLayoutSettingsTask, loadButtonSettingsTask, loadFontSettingsTask, loadBackgroundSettingsTask, loadBellScheduleSettingsTask]).then(() => {
         performanceCounters.everything = Number((performance.now() - everythingTimeStart).toFixed(2))
         console.log(performanceCounters)
     })
