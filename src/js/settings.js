@@ -714,18 +714,21 @@ async function saveCloudSettings() {
 async function saveSettings() {
     try {
         if (isValidURL(settingsCustomLink1URLInput.value) === false && settingsCustomLink1Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
+            settingsCustomLink1URLInput.classList.add("is-invalid")
             settingsCustomLink1URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink1URLInput.select()
             settingsCustomLink1Card.scrollIntoView({ behavior: "smooth" })
             return
         }
         if (isValidURL(settingsCustomLink2URLInput.value) === false && settingsCustomLink2Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
+            settingsCustomLink2URLInput.classList.add("is-invalid")
             settingsCustomLink2URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink2URLInput.select()
             settingsCustomLink2Card.scrollIntoView({ behavior: "smooth" })
             return
         }
         if (isValidURL(settingsCustomLink3URLInput.value) === false && settingsCustomLink3Switch.checked === true && settingsEnableCustomLinksSwitch.checked === true) {
+            settingsCustomLink3URLInput.classList.add("is-invalid")
             settingsCustomLink3URLInputAlertWrapper.innerHTML = `<div class="alert theme-danger mt-7" role="alert"><div><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> <span>Invalid URL! Please make sure that the URL contains <code>http://</code> or <code>https://</code> at the beginning.</span></div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`
             settingsCustomLink3URLInput.select()
             settingsCustomLink3Card.scrollIntoView({ behavior: "smooth" })
