@@ -4,6 +4,7 @@ export const secretSettingsDisabledContent = document.getElementsByClassName("di
 export const secretSettingsLoadingOverlayContent = document.getElementsByClassName("loading-overlay-content")[0]
 export const secretSettingsUnsavedChangesIndicator = document.getElementById("unsaved-changes-indicator")
 export const secretSettingsWhenEnabled = document.getElementById("secret-settings-when-enabled")
+/** @type {HTMLInputElement} */
 export const secretSettingsFontSelection = document.getElementById("font-selection")
 export const secretSettingsBackgroundSelection = document.getElementById("background-selection")
 export const secretSettingsCustomBackgroundSection = document.getElementById("custom-background-section")

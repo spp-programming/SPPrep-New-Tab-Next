@@ -1,32 +1,32 @@
 "use strict"
 
-import { backgroundMscBuilding, backgroundRainbow, backgroundSnow } from "./global-constants.js"
+import { backgroundList } from "./global-constants.js"
 
 /**
- * 
- * @param {number} month The current month, probably from `Temporal.Now.plainDateISO().month`.
- * @param {number} day Day of the month, probably from `Temporal.Now.plainDateISO().day`. Only used to facilitate April Fools functionality.
- * @returns {string} Relative URL that points to this season's background.
+ * Gets the current seasonal background.
+ * @returns {string} Absolute URL that points to this season's background.
  */
-export function getSeasonalBackground(month, day) {
+export function getSeasonalBackground() {
+    const month = Temporal.Now.plainDateISO().month
+    const day = Temporal.Now.plainDateISO().day
     let imageUrl
     if (month == 12 || month <= 2) {
         // WINTER
-        imageUrl = backgroundSnow
+        imageUrl = backgroundList.seasonal.seasons.winter.file
     } else if (month >= 3 && month <= 5) {
         // SPRING
-        imageUrl = backgroundMscBuilding
+        imageUrl = backgroundList.seasonal.seasons.spring.file
     } else if (month >= 6 && month <= 9) {
         // SUMMER
-        imageUrl = backgroundMscBuilding
+        imageUrl = backgroundList.seasonal.seasons.summer.file
     } else {
         // FALL
-        imageUrl = backgroundSnow
+        imageUrl = backgroundList.seasonal.seasons.autumn.file
     }
     // April Fools functionality
     if (month === 4 && day === 1) {
         console.log("rainbow mode activated")
-        imageUrl = backgroundRainbow
+        imageUrl = backgroundList.rainbow.file
     }
     return imageUrl
 }

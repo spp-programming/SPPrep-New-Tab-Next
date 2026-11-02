@@ -4,7 +4,7 @@ import { handleFakeLinks } from "./modules/fake-links.js"
 import { runCloudMigrations, runMigrations } from "./modules/migrations.js"
 import { getSeasonalBackground } from "./modules/seasonal-backgrounds.js"
 import { secretSettingsFontSelection, secretSettingsFontPreview, secretSettingsStaticBackgroundPreview, secretSettingsBackgroundSelection, secretSettingsBackgroundPreviewNotes, secretSettingsGradientSelection, secretSettingsGradientSelectionReset} from "./modules/secret-settings-constants.js"
-import { backgroundBliss, backgroundMissingTexture, backgroundMscBuilding, backgroundOsxLeopard, backgroundOsxLion, backgroundOsxTiger, backgroundOsxYosemite, backgroundRainbow, backgroundSnow, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, selectImageImage, validBackgrounds, validFonts } from "./modules/global-constants.js"
+import { backgroundList, selectImageImage, validFonts } from "./modules/global-constants.js"
 import { getCustomBackgroundData, getCustomBackgroundDataFromURL } from "./modules/background-fetcher.js"
 import * as bootstrap from "./thirdparty/bootstrap.bundle.min.js"
 
@@ -160,7 +160,7 @@ async function loadCloudSecretSettings() {
         const storedFontSelection = (await chrome.storage.sync.get())["secretSettings_fontSelection"]
         const storedGradientSelection = (await chrome.storage.sync.get())["secretSettings_gradientSelection"]
         const storedGradientDisabled = (await chrome.storage.sync.get())["secretSettings_gradientDisabled"]
-        if (validBackgrounds.includes(storedBackgroundSelection) && storedBackgroundSelection !== "custom") {
+        if (Object.values(backgroundList).map(background => background.name).includes(storedBackgroundSelection) === true && storedBackgroundSelection !== "custom") {
             secretSettingsBackgroundSelection.value = storedBackgroundSelection
         }
         if (validFonts.includes(storedFontSelection)) {
@@ -188,7 +188,7 @@ async function loadSecretSettings() {
         const storedFontSelection = (await chrome.storage.local.get())["secretSettings_fontSelection"]
         const storedGradientSelection = (await chrome.storage.local.get())["secretSettings_gradientSelection"]
         const storedGradientDisabled = (await chrome.storage.local.get())["secretSettings_gradientDisabled"]
-        if (validBackgrounds.includes(storedBackgroundSelection)) {
+        if (Object.values(backgroundList).map(background => background.name).includes(storedBackgroundSelection) === true) {
             secretSettingsBackgroundSelection.value = storedBackgroundSelection
         }
         if (storedBackgroundSelection === "custom") {
@@ -314,171 +314,73 @@ async function updateBackgroundPreview() {
     secretSettingsVideoBackgroundPreview.parentElement.hidden = true
     secretSettingsVideoBackgroundPreview.load()
     secretSettingsCustomBackgroundSection.hidden = true
-    switch (secretSettingsBackgroundSelection.value) {
-        case "custom":
-            secretSettingsCustomBackgroundSection.hidden = false
-            secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
-            const storedBackgroundData = await getCustomBackgroundData()
-            if (storedBackgroundData.type === "none") {
-                console.error(`Stored custom background is an invalid type`)
-                if (uploadedCustomBackground === undefined) {
-                    return
+    const backgroundSelection = secretSettingsBackgroundSelection.value
+    if (Object.values(backgroundList).map(background => background.name).includes(backgroundSelection) === true) {
+        switch (secretSettingsBackgroundSelection.value) {
+            case "custom":
+                secretSettingsCustomBackgroundSection.hidden = false
+                secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
+                secretSettingsBackgroundPreviewNotes.innerHTML = "Harrison Green asked for this. Go thank him for that :)"
+                const storedBackgroundData = await getCustomBackgroundData()
+                if (storedBackgroundData.type === "none") {
+                    console.error(`Stored custom background is an invalid type`)
+                    if (uploadedCustomBackground === undefined) {
+                        return
+                    }
                 }
-            }
-            if (uploadedCustomBackground === undefined && storedBackgroundData.type === "image") {
-                secretSettingsStaticBackgroundPreview.setAttribute("src", storedBackgroundData.url)
-            }
-            if (uploadedCustomBackground === undefined && storedBackgroundData.type === "video") {
-                secretSettingsStaticBackgroundPreview.parentElement.hidden = true
-                secretSettingsVideoBackgroundPreview.innerHTML = ""
-                secretSettingsVideoBackgroundPreview.parentElement.hidden = false
-                secretSettingsVideoBackgroundPreview.load()
-                const source = document.createElement("source")
-                source.src = storedBackgroundData.url
-                secretSettingsVideoBackgroundPreview.appendChild(source)
-            }
-            if (uploadedCustomBackground !== undefined) {
-                const uploadedBackgroundData = await getCustomBackgroundDataFromURL(uploadedCustomBackground)
-                if (uploadedBackgroundData.type === "image") {
-                    secretSettingsStaticBackgroundPreview.setAttribute("src", uploadedBackgroundData.url)
-                    return
+                if (uploadedCustomBackground === undefined && storedBackgroundData.type === "image") {
+                    secretSettingsStaticBackgroundPreview.setAttribute("src", storedBackgroundData.url)
                 }
-                if (uploadedBackgroundData.type === "video") {
+                if (uploadedCustomBackground === undefined && storedBackgroundData.type === "video") {
                     secretSettingsStaticBackgroundPreview.parentElement.hidden = true
-                    secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
                     secretSettingsVideoBackgroundPreview.innerHTML = ""
                     secretSettingsVideoBackgroundPreview.parentElement.hidden = false
                     secretSettingsVideoBackgroundPreview.load()
                     const source = document.createElement("source")
-                    source.src = uploadedBackgroundData.url
+                    source.src = storedBackgroundData.url
                     secretSettingsVideoBackgroundPreview.appendChild(source)
-                    return
                 }
-                console.error("Unable to load custom background, probably because of an invalid MIME type.")
-            }
-            break
-        case "seasonal":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", getSeasonalBackground(Temporal.Now.plainDateISO().month, Temporal.Now.plainDateISO().day))
-            secretSettingsBackgroundPreviewNotes.innerHTML = "This background will change automatically based on the seasons. There are only two images we can use, so a given image is actually used for two seasons."
-            break
-        case "bliss":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundBliss)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "I added this in because nostalgia."
-            break
-        case "osx-tiger":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundOsxTiger)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "I added the OS X Leopard one, so there was no reason not to include this one too.<br>Image attribution: &copy; 2024 Apple<br>Source: <a href=\"https://512pixels.net/projects/default-mac-wallpapers-in-5k/\" target=\"_blank\">512pixels.net</a>"
-            break
-        case "osx-leopard":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundOsxLeopard)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "One of the people in the Programming Club Discord server suggested this one.<br>Image attribution: &copy; 2024 Apple<br>Source: <a href=\"https://512pixels.net/projects/default-mac-wallpapers-in-5k/\" target=\"_blank\">512pixels.net</a>"
-            break
-        case "osx-lion":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundOsxLion)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "I think the same guy who suggested the OS X Leopard one would like this one too.<br>Image attribution: &copy; 2024 Apple<br>Source: <a href=\"https://512pixels.net/projects/default-mac-wallpapers-in-5k/\" target=\"_blank\">512pixels.net</a>"
-            break
-        case "osx-yosemite":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundOsxYosemite)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "This one is the most different from the rest of the OS X wallpapers. It's also actually the largest wallpaper (by file size) in here!<br>Image attribution: &copy; 2024 Apple<br>Source: <a href=\"https://512pixels.net/projects/default-mac-wallpapers-in-5k/\" target=\"_blank\">512pixels.net</a>"
-            break
-        case "msc-building":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundMscBuilding)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "This background was brought over from the older version of the extension. There is no higher quality version because I couldn't get AI upscaling to get usable results."
-            break
-        case "snow":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundSnow)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "This background was introduced in version 3.0. It's also AI upscaled, but you can also use the original, low quality version instead if you want."
-            break
-        case "snow-low-quality":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundSnow)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "This background was introduced in version 3.0. This version of the image was shared on the Programming Club Discord server and is included as-is."
-            break
-        case "original-fall-winter":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundStaffStaring)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "Although this background was in the older version of the extension, you never actually saw it because the seasonal background feature wasn't functional at the time."
-            break
-        case "street-view":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundStreetView)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "This is a Google Street View screenshot, dating back to 2012. This version of the background was shared on the Programming Club Discord server and is included as-is.<br>Image attribution: &copy; 2024 Google"
-            break
-        case "street-view-better":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundStreetViewBetter)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "This is a Google Street View screenshot, dating back to 2012. This background has a greater field of view and resolution, compared to the other version.<br>Image attribution: &copy; 2024 Google"
-            break
-        case "rainbow":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundRainbow)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "This background is an SVG. I could've just used CSS to make an animation like this, but the SVG works anywhere images do, which makes this the lazy option."
-            break
-        case "missing-texture":
-            secretSettingsStaticBackgroundPreview.setAttribute("src", backgroundMissingTexture)
-            secretSettingsBackgroundPreviewNotes.innerHTML = "Looks like you forgot to install Counter-Strike: Source. I know that it <a href=\"https://store.steampowered.com/news/app/4000/view/521971443730220876?l=english#:~:text=The%20biggest,content,-%2E\">isn't necessary anymore</a> but I really don't care. Also, does anyone else at this school still play Garry's Mod?"
-            break
-        default:
-            secretSettingsStaticBackgroundPreview.hidden = true
-            secretSettingsBackgroundPreviewNotes.hidden = true
+                if (uploadedCustomBackground !== undefined) {
+                    const uploadedBackgroundData = await getCustomBackgroundDataFromURL(uploadedCustomBackground)
+                    if (uploadedBackgroundData.type === "image") {
+                        secretSettingsStaticBackgroundPreview.setAttribute("src", uploadedBackgroundData.url)
+                        return
+                    }
+                    if (uploadedBackgroundData.type === "video") {
+                        secretSettingsStaticBackgroundPreview.parentElement.hidden = true
+                        secretSettingsStaticBackgroundPreview.setAttribute("src", selectImageImage)
+                        secretSettingsVideoBackgroundPreview.innerHTML = ""
+                        secretSettingsVideoBackgroundPreview.parentElement.hidden = false
+                        secretSettingsVideoBackgroundPreview.load()
+                        const source = document.createElement("source")
+                        source.src = uploadedBackgroundData.url
+                        secretSettingsVideoBackgroundPreview.appendChild(source)
+                        return
+                    }
+                    console.error("Unable to load custom background, probably because of an invalid MIME type.")
+                }
+                break
+            case "seasonal":
+                secretSettingsStaticBackgroundPreview.setAttribute("src", getSeasonalBackground())
+                secretSettingsBackgroundPreviewNotes.innerHTML = backgroundList.seasonal.description
+                break
+            default:
+                secretSettingsStaticBackgroundPreview.setAttribute("src", Object.values(backgroundList).filter(background => background.name === backgroundSelection)[0].file)
+                secretSettingsBackgroundPreviewNotes.innerHTML = Object.values(backgroundList).filter(background => background.name === backgroundSelection)[0].description
+        }
+    } else {
+        secretSettingsStaticBackgroundPreview.hidden = true
+        secretSettingsBackgroundPreviewNotes.hidden = true
     }
 }
 
 function updateFontPreview() {
-    secretSettingsFontPreview.classList.remove.apply(secretSettingsFontPreview.classList, Array.from(secretSettingsFontPreview.classList).filter(v=>v.startsWith("font-"))) // Stolen from https://stackoverflow.com/a/53002208
-    switch (secretSettingsFontSelection.value) {
-        case "azeret-mono":
-            secretSettingsFontPreview.classList.add("font-azeret-mono")
-            break
-        case "sans-serif":
-            secretSettingsFontPreview.classList.add("font-sans-serif")
-            break
-        case "comic-relief":
-            secretSettingsFontPreview.classList.add("font-comic-relief")
-            break
-        case "ibm-plex-sans":
-            secretSettingsFontPreview.classList.add("font-ibm-plex-sans")
-            break
-        case "inconsolata":
-            secretSettingsFontPreview.classList.add("font-inconsolata")
-            break
-        case "inter":
-            secretSettingsFontPreview.classList.add("font-inter")
-            break
-        case "jetbrains-mono":
-            secretSettingsFontPreview.classList.add("font-jetbrains-mono")
-            break
-        case "lato":
-            secretSettingsFontPreview.classList.add("font-lato")
-            break
-        case "lexend":
-            secretSettingsFontPreview.classList.add("font-lexend")
-            break
-        case "montserrat":
-            secretSettingsFontPreview.classList.add("font-montserrat")
-            break
-        case "nunito":
-            secretSettingsFontPreview.classList.add("font-nunito")
-            break
-        case "poppins":
-            secretSettingsFontPreview.classList.add("font-poppins")
-            break
-        case "raleway":
-            secretSettingsFontPreview.classList.add("font-raleway")
-            break
-        case "roboto-mono":
-            secretSettingsFontPreview.classList.add("font-roboto-mono")
-            break
-        case "rubik":
-            secretSettingsFontPreview.classList.add("font-rubik")
-            break
-        case "source-code-pro":
-            secretSettingsFontPreview.classList.add("font-source-code-pro")
-            break
-        case "space-grotesk":
-            secretSettingsFontPreview.classList.add("font-space-grotesk")
-            break
-        case "ubuntu":
-            secretSettingsFontPreview.classList.add("font-ubuntu")
-            break
-        default:
-            secretSettingsFontPreview.classList.add("font-azeret-mono")
+    secretSettingsFontPreview.classList.remove(...validFonts.map(name => `font-${name}`))
+    const fontSelection = secretSettingsFontSelection.value.trim()
+    if (validFonts.includes(fontSelection) === true) {
+        secretSettingsFontPreview.classList.add(`font-${fontSelection}`)
+    } else {
+        secretSettingsFontPreview.classList.add("font-azeret-mono")
     }
 }
 

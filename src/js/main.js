@@ -17,7 +17,7 @@ export function setPopoverText(triggerElement, content) {
 import { getTodaysEvents, dateString, getCurrentDateString } from "./modules/calendar-api.js"
 import { getLetterDay } from "./modules/letter-day-extractor.js"
 import { updateTime12hour, updateTime24hour, updateTimeAmPm } from "./modules/clock-manager.js"
-import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, backgroundBliss, backgroundOsxLeopard, backgroundOsxTiger, backgroundOsxLion, backgroundOsxYosemite, backgroundMscBuilding, backgroundSnow, backgroundSnowLowQuality, backgroundStaffStaring, backgroundStreetView, backgroundStreetViewBetter, backgroundRainbow, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, backgroundMissingTexture, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget, performanceCountersButton, bellScheduleButtonOuter, bellScheduleDialogSwitchButton, bellScheduleNonImageDialogSwitchButton } from "./modules/global-constants.js"
+import { letterDayElement, sealElement, errorToast, currentTimeZone, errorToastContent, powerSchoolButton, powerSchoolTeacherURL, powerSchoolStudentURL, validFonts, schoolCalendarButton, customLinkTemplate, buttonContainer, previewLayoutToastSelected, previewLayoutToast, clubHubButton, clockElement, contentElement, backgroundElement, backgroundOverlay, videoBackgroundToggleButton, bellScheduleOldButtonTourTarget, bellScheduleButtonTourTarget, performanceCountersButton, bellScheduleButtonOuter, bellScheduleDialogSwitchButton, bellScheduleNonImageDialogSwitchButton, backgroundList } from "./modules/global-constants.js"
 import { openPasscodeDialog } from "./modules/passcode-modal.js"
 import { handleFakeLinks } from "./modules/fake-links.js"
 import { runMigrations } from "./modules/migrations.js"
@@ -271,115 +271,67 @@ async function loadBackgroundSettings() {
         staticBackground.id = "static-background"
         staticBackground.alt = ""
         staticBackground.ariaHidden = true
-        switch (storedSecretSettingsBackgroundSelection) {
-            case "custom":
-                const backgroundData = await getCustomBackgroundData()
-                if (backgroundData.type !== "none") {
-                    try {
-                        if (backgroundData.type === "image") {
-                            staticBackground.src = backgroundData.url
-                            backgroundElement.appendChild(staticBackground)
-                        }
-                        if (backgroundData.type === "video") {
-                            const videoBackground = document.createElement("video")
-                            const videoBackgroundPosition = (await chrome.storage.local.get())["secretSettings_customBackgroundVideoPosition"]
-                            videoBackground.id = "video-background"
-                            if (typeof videoBackgroundPosition === "number") {
-                                videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-play-circle\" aria-hidden=\"true\"></i> Unpause video background</a>"
-                                videoBackground.currentTime = videoBackgroundPosition
-                            } else {
-                                videoBackground.autoplay = true
+        if (Object.values(backgroundList).map(background => background.name).includes(storedSecretSettingsBackgroundSelection) === true) {
+            switch (storedSecretSettingsBackgroundSelection) {
+                case "custom":
+                    const backgroundData = await getCustomBackgroundData()
+                    if (backgroundData.type !== "none") {
+                        try {
+                            if (backgroundData.type === "image") {
+                                staticBackground.src = backgroundData.url
+                                backgroundElement.appendChild(staticBackground)
                             }
-                            videoBackground.muted = true
-                            videoBackground.loop = true
-                            videoBackground.playsInline = true
-                            videoBackground.tabIndex = -1
-                            videoBackground.ariaHidden = true
-                            const videoBackgroundSource = document.createElement("source")
-                            videoBackgroundSource.src = backgroundData.url
-                            videoBackground.appendChild(videoBackgroundSource)
-                            backgroundElement.appendChild(videoBackground)
-                            videoBackgroundToggleButton.parentElement.hidden = false
-                            videoBackgroundToggleButton.addEventListener("click", (event) => {
-                                event.preventDefault()
-                                if (videoBackground.paused === false) {
-                                    videoBackground.pause()
+                            if (backgroundData.type === "video") {
+                                const videoBackground = document.createElement("video")
+                                const videoBackgroundPosition = (await chrome.storage.local.get())["secretSettings_customBackgroundVideoPosition"]
+                                videoBackground.id = "video-background"
+                                if (typeof videoBackgroundPosition === "number") {
                                     videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-play-circle\" aria-hidden=\"true\"></i> Unpause video background</a>"
-                                    chrome.storage.local.set({ secretSettings_customBackgroundVideoPosition: videoBackground.currentTime })
+                                    videoBackground.currentTime = videoBackgroundPosition
                                 } else {
                                     videoBackground.autoplay = true
-                                    videoBackground.play()
-                                    videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-pause-circle\" aria-hidden=\"true\"></i> Pause video background</a>"
-                                    chrome.storage.local.remove(["secretSettings_customBackgroundVideoPosition"])
                                 }
-                            })
+                                videoBackground.muted = true
+                                videoBackground.loop = true
+                                videoBackground.playsInline = true
+                                videoBackground.tabIndex = -1
+                                videoBackground.ariaHidden = true
+                                const videoBackgroundSource = document.createElement("source")
+                                videoBackgroundSource.src = backgroundData.url
+                                videoBackground.appendChild(videoBackgroundSource)
+                                backgroundElement.appendChild(videoBackground)
+                                videoBackgroundToggleButton.parentElement.hidden = false
+                                videoBackgroundToggleButton.addEventListener("click", (event) => {
+                                    event.preventDefault()
+                                    if (videoBackground.paused === false) {
+                                        videoBackground.pause()
+                                        videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-play-circle\" aria-hidden=\"true\"></i> Unpause video background</a>"
+                                        chrome.storage.local.set({ secretSettings_customBackgroundVideoPosition: videoBackground.currentTime })
+                                    } else {
+                                        videoBackground.autoplay = true
+                                        videoBackground.play()
+                                        videoBackgroundToggleButton.innerHTML = "<i class=\"bi bi-pause-circle\" aria-hidden=\"true\"></i> Pause video background</a>"
+                                        chrome.storage.local.remove(["secretSettings_customBackgroundVideoPosition"])
+                                    }
+                                })
+                            }
+                        } catch (error) {
+                            // If fetch() fails for whatever reason (for example, on an invalid data URL), just log the error but move on with the rest of the function.
+                            console.error(error)
                         }
-                    } catch (error) {
-                        // If fetch() fails for whatever reason (for example, on an invalid data URL), just log the error but move on with the rest of the function.
-                        console.error(error)
                     }
-                }
-                break
-            // Yes, the extra dot in the URL is intentional. This shit is so stupid
-            case "seasonal":
-                staticBackground.src = `.${getSeasonalBackground(Temporal.Now.plainDateISO().month, Temporal.Now.plainDateISO().day)}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "bliss":
-                staticBackground.src = `.${backgroundBliss}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "osx-tiger":
-                staticBackground.src = `.${backgroundOsxTiger}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "osx-leopard":
-                staticBackground.src = `.${backgroundOsxLeopard}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "osx-lion":
-                staticBackground.src = `.${backgroundOsxLion}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "osx-yosemite":
-                staticBackground.src = `.${backgroundOsxYosemite}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "msc-building":
-                staticBackground.src = `.${backgroundMscBuilding}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "snow":
-                staticBackground.src = `.${backgroundSnow}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "snow-low-quality":
-                staticBackground.src = `.${backgroundSnowLowQuality}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "original-fall-winter":
-                staticBackground.src = `.${backgroundStaffStaring}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "street-view":
-                staticBackground.src = `.${backgroundStreetView}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "street-view-better":
-                staticBackground.src = `.${backgroundStreetViewBetter}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "rainbow":
-                staticBackground.src = `.${backgroundRainbow}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            case "missing-texture":
-                staticBackground.src = `.${backgroundMissingTexture}`
-                backgroundElement.appendChild(staticBackground)
-                break
-            default:
-                staticBackground.src = `.${getSeasonalBackground(Temporal.Now.plainDateISO().month, Temporal.Now.plainDateISO().day)}`
-                backgroundElement.appendChild(staticBackground)
+                    break
+                case "seasonal":
+                    staticBackground.src = getSeasonalBackground()
+                    backgroundElement.appendChild(staticBackground)
+                    break
+                default:
+                    staticBackground.src = Object.values(backgroundList).filter(background => background.name === storedSecretSettingsBackgroundSelection)[0].file
+                    backgroundElement.appendChild(staticBackground)
+            }
+        } else {
+            staticBackground.src = getSeasonalBackground()
+            backgroundElement.appendChild(staticBackground)
         }
         if (/^#[0-9A-F]{6}$/i.test(storedSecretSettingsGradientSelection)) {
             document.documentElement.style.setProperty("--gradient-color", storedSecretSettingsGradientSelection)
