@@ -119,8 +119,8 @@ export async function runCloudMigrations() {
         }
         if (isNewerVersion(migrationVersion, storedMigrationVersion)) {
             console.log(`🕒 cloud migrationVersion "${migrationVersion}" is newer than storedMigrationVersion "${storedMigrationVersion}", going to run migrations...`)
-        }
-        if (isNewerVersion(storedMigrationVersion, migrationVersion)) {
+        } else {
+            // TODO: Do some further testing (see issue #39)
             console.error(`🕒 cloud migrationVersion "${migrationVersion}" is older than storedMigrationVersion "${storedMigrationVersion}", going to bail out!`)
             return
         }
