@@ -23,6 +23,7 @@ async function clearCloudData() {
     try {
         await chrome.storage.sync.clear()
         console.log("cleared sync storage!")
+        alert("Your cloud data has been cleared successfully. It might take a few minutes for the changes to propagate to your other devices.")
     } catch (error) {
         console.error(error)
         alert(`Oops, something went wrong while clearing extension data. This is not supposed to be happening! If you can reproduce this issue, report it here: https://github.com/spp-programming/SPPrep-New-Tab-Next/issues\n\n${error}`)
