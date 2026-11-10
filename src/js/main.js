@@ -433,6 +433,39 @@ async function loadStuff() {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerElement => new bootstrap.Tooltip(tooltipTriggerElement))
     handleTourButton()
+    try {
+        switch (`${Temporal.Now.plainDateISO().month}/${Temporal.Now.plainDateISO().day}`) {
+            // Yes there are good reasons why I chose these specific dates.
+            case "10/31":
+                if ((await chrome.storage.local.get())["holidayFeature_halloweenYear"] === Temporal.Now.plainDateISO().year) {
+                    break
+                }
+                chrome.storage.local.set({ holidayFeature_halloweenYear: Temporal.Now.plainDateISO().year })
+                holidayToastMessage.innerHTML = "🎃 Happy Halloween from the Programming Club!<br>Going out? Please remember to stay safe!"
+                bootstrap.Toast.getOrCreateInstance(holidayToast).show()
+                break
+            case "12/25":
+                if ((await chrome.storage.local.get())["holidayFeature_christmasYear"] === Temporal.Now.plainDateISO().year) {
+                    break
+                }
+                chrome.storage.local.set({ holidayFeature_christmasYear: Temporal.Now.plainDateISO().year })
+                holidayToastMessage.innerHTML = "🎄 Merry Christmas from the Programming Club!"
+                bootstrap.Toast.getOrCreateInstance(holidayToast).show()
+                break
+            case "1/1":
+                if ((await chrome.storage.local.get())["holidayFeature_newYearYear"] === Temporal.Now.plainDateISO().year) {
+                    break
+                }
+                chrome.storage.local.set({ holidayFeature_newYearYear: Temporal.Now.plainDateISO().year })
+                holidayToastMessage.innerHTML = "🥳 Happy New Year from the Programming Club!"
+                bootstrap.Toast.getOrCreateInstance(holidayToast).show()
+                break
+        }
+    } catch (error) {
+        // This isn't a critical feature and we don't want potential errors from breaking other extension functionality,
+        // so catch any errors and print them to the console without stopping the rest of the scripts
+        console.error(error)
+    }
 }
 
 /**
