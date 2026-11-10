@@ -1,6 +1,6 @@
 "use strict"
 import * as bootstrap from "../thirdparty/bootstrap.bundle.min.js"
-import { passcodeDialog, passcodeDialogInput, passcodeDialogInputClearButton, passcodeDialogControllerButtons, passcodeDialogVerifyButton, passcodeDialogPasscode, passcodeDialogTitle, passcodeDialogBody, passcodeDialogAlertWrapper } from "./global-constants.js"
+import { passcodeDialog, passcodeDialogInput, passcodeDialogInputClearButton, passcodeDialogControllerButtons, passcodeDialogVerifyButton, passcodeDialogPasscode, passcodeDialogTitle, passcodeDialogBody, passcodeDialogAlertWrapper, passcodeDialogOpenAudio } from "./global-constants.js"
 const passcodeDialogBS = new bootstrap.Dialog(passcodeDialog)
 
 export async function openPasscodeDialog() {
@@ -42,6 +42,8 @@ passcodeDialogVerifyButton.addEventListener("click", () => {
         console.log("passcode verified!")
         enableSecretSettings()
         showSecretSettingsContent()
+        passcodeDialogOpenAudio.muted = false
+        passcodeDialogOpenAudio.play()
     } else {
         console.log("passcode NOT verified!")
         passcodeDialogAlertWrapper.innerHTML = '<div class="alert theme-danger mt-5 mb-0" role="alert"><span><h4 class="alert-heading"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> Incorrect passcode</h4><p>You can try entering the passcode again.</p></span><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>'

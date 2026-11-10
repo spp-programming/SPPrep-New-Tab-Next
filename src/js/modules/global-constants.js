@@ -50,6 +50,7 @@ export const passcodeDialogVerifyButton = document.getElementById("passcode-dial
 export const passcodeDialogInput = document.getElementById("passcode-dialog-input")
 export const passcodeDialogInputClearButton = document.getElementById("passcode-dialog-input-clear")
 export const passcodeDialogAlertWrapper = document.getElementById("passcode-dialog-alert-wrapper")
+export const passcodeDialogOpenAudio = document.getElementById("passcode-dialog-open-audio")
 export const passcodeDialogControllerButtons = document.getElementsByClassName("controller-button")
 export const passcodeDialogPasscode = "\u{1F53C} \u{1F53C} \u{1F53D} \u{1F53D} \u{25C0}\u{FE0F} \u{25B6}\u{FE0F} \u{25C0}\u{FE0F} \u{25B6}\u{FE0F} \u{1F171}\u{FE0F} \u{1F170}\u{FE0F} \u{1F3C3}\u{200D}\u{27A1}\u{FE0F} " // The Unicode-escaped emoji sequence representing the passcode. The spaces in between and at the end are very important.
 export const selectImageImage = "./img/resources/select_image.svg"
