@@ -142,6 +142,22 @@
     --bs-body-font-family: "Comic Relief", sans-serif;
 }
 
+.font-comic-relief#font-preview span {
+    display: block;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.font-comic-relief#font-preview::after {
+    content: "For legal reasons I can't include the real Comic Sans font"
+}
+
 .font-ibm-plex-sans {
     font-family: "IBM Plex Sans", sans-serif;
     --bs-body-font-family: "IBM Plex Sans", sans-serif;
